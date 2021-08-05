@@ -497,17 +497,16 @@
 <h3 id="数学期望："><a href="#数学期望：" class="headerlink" title="数学期望："></a>数学期望：</h3><p>在概率论和统计学中，数学期望(mean)(或均值，亦简称期望(Expectation, or expected value))是试验中每次可能结果的概率乘以其结果的总和，是最基本的数学特征之一。它反映随机变量平均取值的大小。 期望值是该变量输出值的平均数。期望值并不一定包含于变量的输出值集合里。</p>
 <p>大数定律规定，随着重复次数接近无穷大，数值的算术平均值几乎肯定地收敛于期望值。</p>
 <h3 id="方差："><a href="#方差：" class="headerlink" title="方差："></a>方差：</h3><p>方差(Variance)是在概率论和统计方差衡量随机变量或一组数据时离散程度的度量。概率论中方差用来度量随机变量和其数学期望(即均值)之间的偏离程度。统计中的方差(样本方差)是每个样本值与全体样本值的平均数之差的平方值的平均数。</p>
-<p>设 <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]"> 为随机变量， 如果 <img src="https://www.zhihu.com/equation?tex=%5Cmathrm%7BE%7D%5BX%5D" alt="[公式]"> 是随机变量 <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]"> 的期望值(平均数 <img src="https://www.zhihu.com/equation?tex=%5Cmu=%5Cmathrm%7BE%7D%5BX%5D" alt="[公式]"> )，则随机变量 <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]"> 的方差为：</p>
-<p><img src="https://www.zhihu.com/equation?tex=%5Cmathrm%7BVar%7D%5Cleft(X%5Cright)=%5Cmathrm%7BE%7D%5Cleft%5B%5Cleft(X-%5Cmu%5Cright)%5E%7B2%7D%5Cright%5D" alt="[公式]"></p>
-<p>方差也记为 <img src="https://www.zhihu.com/equation?tex=%5Csigma_%7BX%7D%5E%7B2%7D" alt="[公式]"> 。</p>
+<p>设$X$为随机变量， 如果$\mathrm{E}[X]$，则随机变量$X$的方差为：<br>$$<br>\mu=\mathrm{E}[X]<br>$$</p>
+<p>方差也记为 $\sigma_{X}^{2}$。</p>
 <p>样本方差计算公式：</p>
-<p><img src="https://www.zhihu.com/equation?tex=S%5E%7B2%7D=%5CSigma%5Cleft(X-%5Coverline%7BX%7D%5Cright)%5E%7B2%7D/%5Cleft(n-1%5Cright)" alt="[公式]"></p>
+<p>$$<br>S^{2}=\Sigma\left(X-\overline{X}\right)^{2}/\left(n-1\right)<br>$$</p>
 <p>其中， <img src="https://www.zhihu.com/equation?tex=S%5E%7B2%7D" alt="[公式]"> 为样本方差， <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]"> 为变量， <img src="https://www.zhihu.com/equation?tex=%5Coverline%7BX%7D" alt="[公式]"> 为样本均值， <img src="https://www.zhihu.com/equation?tex=n" alt="[公式]"> 为样本例数。如果要了解为什么要除以 <img src="https://www.zhihu.com/equation?tex=n-1" alt="[公式]"> ，请看<a href="https://link.zhihu.com/?target=https://www.visiondummy.com/2014/03/divide-variance-n-1/">这篇文章</a>。</p>
 <h3 id="标准差："><a href="#标准差：" class="headerlink" title="标准差："></a>标准差：</h3><p>标准差(Standard Deviation)是离均差平方的算术平均数(即：方差)的算术平方根，用 <img src="https://www.zhihu.com/equation?tex=%5Csigma" alt="[公式]"> 表示。标准差也被称为标准偏差，或者实验标准差，在概率统计中最常使用作为统计分布程度上的测量依据。 见下图：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-37e04458baf17d09c914981b5dbae140_720w.jpg" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-37e04458baf17d09c914981b5dbae140_720w.jpg" alt="[]"></p>
 <p>标准差是方差的算术平方根。标准差能反映一个数据集的离散程度。平均数相同的两组数据，标准差未必相同。</p>
 <h3 id="协方差："><a href="#协方差：" class="headerlink" title="协方差："></a>协方差：</h3><p><strong>协方差(Covariance)在概率论和统计学中用于衡量两个变量的总体误差。而方差是协方差的一种特殊情况，即当两个变量是相同的情况。</strong></p>
-<p>期望值分别为 <img src="https://www.zhihu.com/equation?tex=E%5BX%5D" alt="[公式]"> 与 <img src="https://www.zhihu.com/equation?tex=E%5BY%5D" alt="[公式]"> 的两个实随机变量 <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]"> 与 <img src="https://www.zhihu.com/equation?tex=Y" alt="[公式]"> 之间的协方差 <img src="https://www.zhihu.com/equation?tex=%5Cmathrm%7BCov%7D(X,Y)" alt="[公式]"> ) 定义为：</p>
+<p>期望值分别为 <img src="https://www.zhihu.com/equation?tex=E%5BX%5D" alt="[]"> 与 <img src="https://www.zhihu.com/equation?tex=E%5BY%5D" alt="[公式]"> 的两个实随机变量 <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]"> 与 <img src="https://www.zhihu.com/equation?tex=Y" alt="[公式]"> 之间的协方差 <img src="https://www.zhihu.com/equation?tex=%5Cmathrm%7BCov%7D(X,Y)" alt="[公式]"> ) 定义为：</p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cmathrm%7BCov%7D(X,Y)=%5Cmathrm%7BE%7D%5Cleft%5B%5Cleft(X-%5Cmathrm%7BE%7D%5Cleft%5BX%5Cright%5D%5Cright)%5Cleft(Y-%5Cmathrm%7BE%7D%5Cleft%5BY%5Cright%5D%5Cright)%5Cright%5D" alt="[公式]"></p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cqquad%5Cqquad%5Cqquad=%5Cmathrm%7BE%7D%5Cleft%5BXY%5Cright%5D-2%5Cmathrm%7BE%7D%5Cleft%5BY%5Cright%5D%5Cmathrm%7BE%7D%5Cleft%5BX%5Cright%5D+%5Cmathrm%7BE%7D%5Cleft%5BX%5Cright%5D%5Cmathrm%7BE%7D%5Cleft%5BY%5Cright%5D" alt="[公式]"></p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cqquad%5Cqquad%5Cqquad=%5Cmathrm%7BE%7D%5Cleft%5BXY%5Cright%5D-%5Cmathrm%7BE%7D%5Cleft%5BX%5Cright%5D%5Cmathrm%7BE%7D%5Cleft%5BY%5Cright%5D" alt="[公式]"> <img src="https://www.zhihu.com/equation?tex==%5Cmathrm%7BE%7D%5Cleft%5BXY%5Cright%5D-%5Cmathrm%7BE%7D%5Cleft%5BX%5Cright%5D%5Cmathrm%7BE%7D%5Cleft%5BY%5Cright%5D" alt="[公式]"></p>
@@ -879,13 +878,6 @@
 
 </main>
 
-
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
 
 
 

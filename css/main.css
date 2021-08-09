@@ -357,7 +357,7 @@ img[lazyload] {
   --post-link-color: #ffc0cb;
   --link-hover-color: #dda0dd;
   --link-hover-bg-color: #f8f9fa;
-  --navbar-bg-color: #a9a9a9;
+  --navbar-bg-color: #d8afe4;
   --navbar-text-color: #fff;
 }
 @media (prefers-color-scheme: dark) {

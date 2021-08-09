@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>Eckark_young定理</title>
+    <link href="/2021/08/09/Eckark-young/"/>
+    <url>/2021/08/09/Eckark-young/</url>
+    
+    <content type="html"><![CDATA[<p>最佳低秩逼近和奇异值的关系(<em>Eckart</em>-<em>Young定理</em>)</p><h3 id="定理"><a href="#定理" class="headerlink" title="定理"></a>定理</h3><p>Suppose a matrix $A\in \mathbb{R}^{m\times n}$has an SVD-decomposition$A=U\Sigma V^T$. Let $k &lt; r= \mathsf{rank}(A)$and truncated matrix<br>$$<br>A_k = \sum_{i=1}^k \sigma_i \mathbf u_i \mathbf v_i^T,<br>$$<br>then, for any matrix B of rank k , the minimal error is achieved with $A_k$:<br>$$<br>\min_{\mathsf{rank}(B)=k}||A-B||<em>2 = || A - A_k||<em>2 = \sigma</em>{k+1}.<br>$$<br>The same holds for Frobenius norm as well<br>$$<br>\min</em>{\mathsf{rank}(B)=k}||A-B||_F = || A - A_k||<em>F = \sqrt{\sigma</em>{k+1}^2 + \cdots + \sigma_p^2}.<br>$$</p><h3 id="证明-2-norm-case"><a href="#证明-2-norm-case" class="headerlink" title="证明 (2-norm case)"></a>证明 (2-norm case)</h3><p>Since $U^\ A_k V = \mathrm{diag}(\sigma_1,\ldots, \sigma_k,0,\ldots,0)$ it means that $A_k$ is rank K. Moreover, $U^T (A-A_k) V =  \mathrm{diag}(0,\ldots, 0,\sigma_{k+1},\ldots, \sigma_p)$with the largest singular value is $\sigma_{k+1}$ and thus $||A-A_k||<em>2 = \sigma</em>{k+1}$.</p><h3 id="证明-Frobenius-norm-case"><a href="#证明-Frobenius-norm-case" class="headerlink" title="证明 (Frobenius norm case)"></a>证明 (Frobenius norm case)</h3><blockquote><p>Lemma: If $A,B \in \mathbb{R}^{m\times n}$ , with B having rank K , then $\sigma_{k+i}(A) \le \sigma_i(A-B) \text{ for all }; i.$</p></blockquote><p>To prove the lemma, first consider the case i=1, we have proved that $\sigma_{k+1}(A) \le \sigma_1(A-B) = ||A-B||_2$in the 2-norm case. Then we do the general case:</p>$$\begin{aligned} \sigma_i(A-B) = &amp; \sigma_i(A-B) + \sigma_1(B-B_k)\qquad\text{since } B=B_k\\ =&amp; \sigma_1(A-B - (A-B)_{i-1}) + \sigma_1(B-B_k)\qquad\\ \ge &amp; \sigma_1(A-B - (A-B)_{i-1}+B-B_k)   \\ =&amp; \sigma_1(A  - (A-B)_{i-1} -B_k)\\ \ge &amp; \sigma_1(A - A_{k+i-1})\\ =&amp; \sigma_{k+i}(A)   \end{aligned} $$<blockquote><p><a href="https://zhuanlan.zhihu.com/p/361938622">https://zhuanlan.zhihu.com/p/361938622</a></p><p><a href="https://zhuanlan.zhihu.com/p/75283604">https://zhuanlan.zhihu.com/p/75283604</a></p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>math</category>
+      
+      <category>线代</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>math</tag>
+      
+      <tag>线代</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>低秩逼近的思考</title>
+    <link href="/2021/08/06/low-rank-app/"/>
+    <url>/2021/08/06/low-rank-app/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>阅读文章<strong>Semi-orthogonal Embedding for Effificient Unsupervised Anomaly Segmentation</strong>时出现一个概念–<strong>Low-rank approximation</strong> ，就此进行相关讨论。</p></blockquote><h3 id="低秩（Low-Rank）"><a href="#低秩（Low-Rank）" class="headerlink" title="低秩（Low-Rank）"></a>低秩（Low-Rank）</h3><p>如果X是一个m行n列的数值矩阵，rank(X)是X的秩，假如rank (X)远小于m和n，则我们称X是低秩矩阵。低秩矩阵每行或每列都可以用其他的行或列线性表出，可见它包含大量的冗余信息。利用这种冗余信息，可以对缺失数据进行恢复，也可以对数据进行特征提取。</p><p>图像处理中，<em>rank可以理解为图像所包含的信息的丰富程度</em>，在显示生活中，一张图片中大部分成分是相似的。比如给一张大草原的图片</p><p><img src="https://pic1.zhimg.com/50/ce29981e00f4d519ff547e986bf8a5d6_720w.jpg?source=1940ef5c"></p><p>草原是由很多草组成的，而草是相似的，所以如果全是草，那么这张图所包含的信息量是很少的的，因为可以理解为草是草的复制品。而上图的蒙古包，人，马之类的则可以理解为图片所包含的信息，实际上，相对于只有草的草原图片和有草和蒙古包的草原图片，后者的秩是较高的。也就是说，图片中比较突兀的成分，比如蒙古包，比如人像照片中的红眼亮点，会增加图像矩阵的秩。而现实生活中一张不错的图片的秩其实是比较低的，如果图像的秩比较高，往往是因为图像中的噪声比较严重。比如拍照的时候ISO感光度设置过高造成噪点太过泛滥之类的。所以，<em>图像处理的低秩性其实可以拿来去除照片中的噪点</em>。</p><h3 id="低秩和稀疏"><a href="#低秩和稀疏" class="headerlink" title="低秩和稀疏"></a>低秩和稀疏</h3><p>我们认为图像有一些公共的模式，所有图像都由这些基本的模式组成。例如，如果图像是一个叉，可以看成是一个正斜线和反斜线的叠加。<strong>只要我们找到了所有的基底（称作字典</strong>，就是上面说的正斜线和反斜线之类的东西）<strong>，就能通过基底的线性组合表示出所有的图像。</strong>这就好像学画画，先学会基本的画正方体、球体、圆柱体等等，就可以组合出各种各样的复杂形状。</p><p><strong>在很多情形下，基底的数量是很少的</strong>，比如一张照片拍的是一面砖墙，那么它显然具有周期重复的特点，换句话说低秩。即使整个图不低秩，往往也能找出一些相似的块，这些块是低秩的。再退一步，就算这也做不到，往往也可以把已有的数据看成一组低维的结果加上噪声，也即原来的数据<strong>可以被低秩矩阵很好的逼近</strong>。<strong>稀疏性</strong>的意思是（以稀疏表示为例），任给一个图像，<strong>字典可能是过完备的</strong>，从而用字典里的基向量表出这幅图有很多种不同的方案。我们希望<strong>选取使用基底数量最少的那种方案</strong>，</p><p>应用：</p><p><em><strong>1）矩阵填充(Matrix Completion)</strong></em></p><p><em><strong>2）鲁棒PCA</strong></em></p><p><em><strong>3）背景建模</strong></em></p><p><em><strong>4）变换不变低秩纹理（TILT）</strong></em></p><blockquote><p>参考</p><p> <a href="https://www.zhihu.com/question/28630628">https://www.zhihu.com/question/28630628</a></p><p><a href="https://blog.csdn.net/zouxy09/article/details/24972869">https://blog.csdn.net/zouxy09/article/details/24972869</a></p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>math</category>
+      
+      <category>线性代数</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>math</tag>
+      
+      <tag>线性代数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>子模块为空的解决方案</title>
     <link href="/2021/08/06/git-submodule/"/>
     <url>/2021/08/06/git-submodule/</url>

@@ -18,7 +18,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>Eckark_young定理 - 待时</title>
+  <title>leetcode-offer10 斐波那契数列 - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Eckark_young定理">
+            <span class="h2" id="subtitle" title="leetcode-offer10 斐波那契数列">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-09 10:57" pubdate>
-        2021年8月9日 上午
+      <time datetime="2021-08-10 11:55" pubdate>
+        2021年8月10日 中午
       </time>
     </span>
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      319 字
+      358 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      4
        分钟
     </span>
   
@@ -227,42 +227,39 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Eckark_young定理</h1>
+            <h1 style="display: none">leetcode-offer10 斐波那契数列</h1>
             
             <div class="markdown-body">
-              <p>最佳低秩逼近和奇异值的关系(<em>Eckart</em>-<em>Young定理</em>)</p>
-<h3 id="定理"><a href="#定理" class="headerlink" title="定理"></a>定理</h3><p>Suppose a matrix $A\in \mathbb{R}^{m\times n}$has an SVD-decomposition$A=U\Sigma V^T$. Let $k &lt; r= \mathsf{rank}(A)$and truncated matrix<br>$$<br>A_k = \sum_{i=1}^k \sigma_i \mathbf u_i \mathbf v_i^T,<br>$$<br>then, for any matrix B of rank k , the minimal error is achieved with $A_k$:</p>
-
-$$
-\min_{\mathsf{rank}(B)=k}||A-B||_2 = || A - A_k||_2 = \sigma_{k+1}.
-$$
-
-
-<p>The same holds for Frobenius norm as well</p>
-
-$$
-\min_{\mathsf{rank}(B)=k}||A-B||_F = || A - A_k||_F = \sqrt{\sigma_{k+1}^2 + \cdots + \sigma_p^2}.
-$$
-
-
-
-<h3 id="证明-2-norm-case"><a href="#证明-2-norm-case" class="headerlink" title="证明 (2-norm case)"></a>证明 (2-norm case)</h3><p>Since $U^\ A_k V = \mathrm{diag}(\sigma_1,\ldots, \sigma_k,0,\ldots,0)$ it means that $A_k$ is rank K. Moreover, $U^T (A-A_k) V =  \mathrm{diag}(0,\ldots, 0,\sigma_{k+1},\ldots, \sigma_p)$with the largest singular value is $\sigma_{k+1}$ and thus $||A-A_k||_2 = \sigma_{k+1}$.</p>
-<h3 id="证明-Frobenius-norm-case"><a href="#证明-Frobenius-norm-case" class="headerlink" title="证明 (Frobenius norm case)"></a>证明 (Frobenius norm case)</h3><blockquote>
-<p>Lemma: If $A,B \in \mathbb{R}^{m\times n}$ , with B having rank K , then $\sigma_{k+i}(A) \le \sigma_i(A-B) \text{ for all }; i.$</p>
+              <blockquote>
+<p>斐波那契数列</p>
 </blockquote>
-<p>To prove the lemma, first consider the case i=1, we have proved that $\sigma_{k+1}(A) \le \sigma_1(A-B) = ||A-B||_2$in the 2-norm case. Then we do the general case:</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）。斐波那契数列的定义如下：</p>
+<p>$$<br>F(0) = 0,   F(1) = 1 \\<br>F(N) = F(N - 1) + F(N - 2), 其中 N &gt; 1.<br>$$<br>斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight excel"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">输入：<span class="hljs-built_in">n</span> = <span class="hljs-number">2</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure>
 
-$$
-\begin{aligned} 	\sigma_i(A-B) = &amp; \sigma_i(A-B) + \sigma_1(B-B_k)\qquad\text{since } B=B_k\\ 	=&amp; \sigma_1(A-B - (A-B)_{i-1}) + \sigma_1(B-B_k)\qquad\\ 	\ge &amp; \sigma_1(A-B - (A-B)_{i-1}+B-B_k)   \\ 	=&amp; \sigma_1(A  - (A-B)_{i-1} -B_k)\\ 	\ge &amp; \sigma_1(A - A_{k+i-1})\\ 	=&amp; \sigma_{k+i}(A)   \end{aligned} 
-$$
+<h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight excel"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">输入：<span class="hljs-built_in">n</span> = <span class="hljs-number">5</span><br>输出：<span class="hljs-number">5</span><br></code></pre></td></tr></tbody></table></figure>
 
+<h5 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h5><ul>
+<li>0 &lt;= n &lt;= 100</li>
+</ul>
+<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>有三种方向：</p>
+<ul>
+<li><p>使用递归</p>
+<p>大量重复计算，时间超时。</p>
+</li>
+<li><p>使用数组存储</p>
+<p>新建长度为n的数组，在递归基础上，存储计算的结果，后直接取用。但是占用了额外的空间$O(n)$</p>
+</li>
+<li><p>使用动态规划</p>
+<p>==以其公式$F(N) = F(N - 1) + F(N - 2)$为转移方程。==</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fib</span>(<span class="hljs-params">self, n: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        a,b = <span class="hljs-number">0</span>,<span class="hljs-number">1</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>            a,b = b,a+b <span class="hljs-comment">#sum = a+b a = b b = sum a相当于f(i) b相当于f(i+1)</span><br>        <span class="hljs-keyword">return</span> a%<span class="hljs-number">1000000007</span><br>    <span class="hljs-comment"># def fib(self, n: int) -&gt; int:</span><br>    <span class="hljs-comment">#     if(n==0): return 0</span><br>    <span class="hljs-comment">#     if(n==1): return 1</span><br>    <span class="hljs-comment">#     return (self.fib(n-1)+self.fib(n-2))%1000000007 #超时 递归时间复杂度大</span><br></code></pre></td></tr></tbody></table></figure>
 
-
-
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/361938622">https://zhuanlan.zhihu.com/p/361938622</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/75283604">https://zhuanlan.zhihu.com/p/75283604</a></p>
-</blockquote>
+<p>循环n次</p>
+<p>注意==a,b = b,a+b== 相当于sum = a+b ；a = b； b = sum ；</p>
+<p>第i轮中 a相当于f(i)，b相当于f(i+1) 。因此最后返回a</p>
 
             </div>
             <hr>
@@ -272,9 +269,7 @@ $$
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/math/">math</a>
-                    
-                      <a class="hover-with-bg" href="/categories/math/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">线性代数</a>
+                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
                     
                   </div>
                 
@@ -282,9 +277,9 @@ $$
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/math/">math</a>
+                      <a class="hover-with-bg" href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">线性代数</a>
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
                     
                   </div>
                 
@@ -301,18 +296,12 @@ $$
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/08/09/Mahalanobis-distance/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Mahalanobis_distance</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/06/low-rank-app/">
-                        <span class="hidden-mobile">低秩逼近的思考</span>
+                      <a href="/2021/08/10/leetcode/leetcode-offer09/">
+                        <span class="hidden-mobile">剑指offer09 用两个栈实现队列</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -334,8 +323,8 @@ $$
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2021/08/09/Eckark-young/';
-          this.page.identifier = '/2021/08/09/Eckark-young/';
+          this.page.url = 'https://fanmeilin.github.io/2021/08/10/leetcode/leetcode-offer10/';
+          this.page.identifier = '/2021/08/10/leetcode/leetcode-offer10/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');

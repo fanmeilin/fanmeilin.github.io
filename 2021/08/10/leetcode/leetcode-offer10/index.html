@@ -252,13 +252,13 @@
 <p>新建长度为n的数组，在递归基础上，存储计算的结果，后直接取用。但是占用了额外的空间$O(n)$</p>
 </li>
 <li><p>使用动态规划</p>
-<p><u>以其公式$F(N) = F(N - 1) + F(N - 2)$为转移方程。</u></p>
+<p><code>以其公式$F(N) = F(N - 1) + F(N - 2)$为转移方程。</code></p>
 </li>
 </ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fib</span>(<span class="hljs-params">self, n: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        a,b = <span class="hljs-number">0</span>,<span class="hljs-number">1</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>            a,b = b,a+b <span class="hljs-comment">#sum = a+b a = b b = sum a相当于f(i) b相当于f(i+1)</span><br>        <span class="hljs-keyword">return</span> a%<span class="hljs-number">1000000007</span><br>    <span class="hljs-comment"># def fib(self, n: int) -&gt; int:</span><br>    <span class="hljs-comment">#     if(n==0): return 0</span><br>    <span class="hljs-comment">#     if(n==1): return 1</span><br>    <span class="hljs-comment">#     return (self.fib(n-1)+self.fib(n-2))%1000000007 #超时 递归时间复杂度大</span><br></code></pre></td></tr></tbody></table></figure>
 
 <p>循环n次</p>
-<p>注意<u>a,b = b,a+b</u> 相当于sum = a+b ；a = b； b = sum ；</p>
+<p>注意<code>a,b = b,a+b</code> 相当于sum = a+b ；a = b； b = sum ；</p>
 <p>第i轮中 a相当于f(i)，b相当于f(i+1) 。因此最后返回a</p>
 
             </div>

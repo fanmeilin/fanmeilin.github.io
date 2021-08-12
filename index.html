@@ -185,7 +185,7 @@
       <h1 class="index-header">
         
         <a href="/2021/08/12/gradient-clip/" target="_self">
-          剑指offergradient_clip
+          梯度裁剪
         </a>
       </h1>
 
@@ -196,17 +196,11 @@
             
           
           
+阅读代码 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))，就此探究一下grap_clip。他的作用是梯度裁剪，为了防止梯度爆炸。其中max_norm是最大梯度阈值，norm_type是指定的范数类型。
 
-题目示例 1：1
+梯度爆炸梯度爆炸就是在梯度更新的时候偏导数很大，导致更新参数无法收敛到最值（总是跳到其他不好的地方）。
 
-示例 2：1
-
-提示：
-
-
-题解1
-
-
+$$
         </a>
       </p>
 
@@ -223,7 +217,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
             
           </div>
         
@@ -231,7 +225,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%8C%E6%A2%AF%E5%BA%A6/">深度学习，梯度</a>
             
           </div>
         

@@ -4,23 +4,23 @@
   
   
   <entry>
-    <title>剑指offergradient_clip</title>
+    <title>梯度裁剪</title>
     <link href="/2021/08/12/gradient-clip/"/>
     <url>/2021/08/12/gradient-clip/</url>
     
-    <content type="html"><![CDATA[<blockquote></blockquote><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></tbody></table></figure><h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></tbody></table></figure><h5 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h5><ul><li></li></ul><h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><br></code></pre></td></tr></tbody></table></figure>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>阅读代码 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))，就此探究一下grap_clip。他的作用是梯度裁剪，为了防止梯度爆炸。其中max_norm是最大梯度阈值，norm_type是指定的范数类型。</p></blockquote><h2 id="梯度爆炸"><a href="#梯度爆炸" class="headerlink" title="梯度爆炸"></a>梯度爆炸</h2><p>梯度爆炸就是在梯度更新的时候偏导数很大，导致更新参数无法收敛到最值（总是跳到其他不好的地方）。</p>$$w_1=w_1− \alpha \frac{∂J(w)}{∂w1} \\w_2=w_2− \alpha \frac{∂J(w)}{∂w2}$$<p><img src="https://img-blog.csdn.net/20180313201807699?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L2d1b2xpbmRvbmdnbGQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="梯度很大时"></p><p>这里介绍梯度裁剪（Gradient Clipping）的方法，对梯度进行裁剪，论文提出对梯度的L2范数进行裁剪，也就是所有参数偏导数的平方和再开方。</p>$$g_1=\frac{∂J(w)}{∂w1} \\g_2=\frac{∂J(w)}{∂w2} \\$$<p>设定裁剪阈值为 C = max_norm，$\Vert g\Vert_2= \sqrt{g^2_1+g^2_2}$</p><p>当$\Vert g\Vert_2$大于c时：</p><p>$$<br>g = \frac{c}{\Vert g \Vert_2} \cdot g<br>$$<br>当$\Vert g\Vert_2$小于等于C时：g不变。</p><p>其中，$\frac{c}{\Vert g \Vert_2}$是一个标量</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>训练模型出现Loss值出现跳动，一直不收敛时，除了设小学习率之外，梯度裁剪也是一个好方法。</p><p>然而效果不佳时，那这就跟学习率和梯度爆炸没啥关系了。因此，<strong>学习率</strong>的设定和<strong>梯度裁剪</strong>的阈值并不能提高模型的准确率</p>]]></content>
     
     
     <categories>
       
-      <category>剑指</category>
+      <category>深度学习</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>剑指</tag>
+      <tag>深度学习，梯度</tag>
       
     </tags>
     

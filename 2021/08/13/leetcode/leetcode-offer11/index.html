@@ -234,11 +234,11 @@
 <p>旋转数组的最小数字</p>
 </blockquote>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。</p>
-<h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[3,4,5,1,2]</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[3,4,5,1,2]</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure>
 
-<h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[2,2,2,0,1]</span><br>输出：<span class="hljs-number">0</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h3><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[2,2,2,0,1]</span><br>输出：<span class="hljs-number">0</span><br></code></pre></td></tr></tbody></table></figure>
 
-<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>将数组遍历一遍，遇到第一个非增序的元素即为最小值。复杂度为线性级别。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>将数组遍历一遍，遇到第一个非增序的元素即为最小值。复杂度为线性级别。</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span>(numbers):<span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>        minitem = numbers[<span class="hljs-number">0</span>]<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(numbers)):<br>            <span class="hljs-keyword">if</span> numbers[i]&lt;numbers[i-<span class="hljs-number">1</span>]:<br>                <span class="hljs-keyword">return</span> <span class="hljs-built_in">min</span>(minitem,numbers[i])<br>        <span class="hljs-keyword">return</span> minitem<br></code></pre></td></tr></tbody></table></figure>
 
 <p>还可以使用二分法，将线性级别的复杂度降低到对数级别。</p>
@@ -272,6 +272,8 @@
                       <a class="hover-with-bg" href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
                     
                       <a class="hover-with-bg" href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
+                    
+                      <a class="hover-with-bg" href="/tags/idea/">idea</a>
                     
                   </div>
                 

@@ -236,14 +236,14 @@
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）。斐波那契数列的定义如下：</p>
 <p>$$<br>F(0) = 0,   F(1) = 1 \\<br>F(N) = F(N - 1) + F(N - 2), 其中 N &gt; 1.<br>$$<br>斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。</p>
 <p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
-<h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight excel"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">输入：<span class="hljs-built_in">n</span> = <span class="hljs-number">2</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight excel"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">输入：<span class="hljs-built_in">n</span> = <span class="hljs-number">2</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure>
 
-<h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight excel"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">输入：<span class="hljs-built_in">n</span> = <span class="hljs-number">5</span><br>输出：<span class="hljs-number">5</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h3><figure class="highlight excel"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">输入：<span class="hljs-built_in">n</span> = <span class="hljs-number">5</span><br>输出：<span class="hljs-number">5</span><br></code></pre></td></tr></tbody></table></figure>
 
-<h5 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h5><ul>
+<h3 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h3><ul>
 <li>0 &lt;= n &lt;= 100</li>
 </ul>
-<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>有三种方向：</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>有三种方向：</p>
 <ul>
 <li><p>使用递归</p>
 <p>大量重复计算，时间超时。</p>

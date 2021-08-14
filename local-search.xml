@@ -4,9 +4,121 @@
   
   
   <entry>
+    <title>Sobel算子</title>
+    <link href="/2021/08/14/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/sobel/"/>
+    <url>/2021/08/14/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/sobel/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文主要介绍Sobel算子，主要用于边缘检测；由于该算子引入了局部平均，对噪声有平滑作用，因此还可以消除噪声。</p></blockquote><h3 id="图像边缘与梯度"><a href="#图像边缘与梯度" class="headerlink" title="图像边缘与梯度"></a>图像边缘与梯度</h3><p>在图像边缘，灰度值的变化较大，因此图像在此处的梯度值也较大。一般情况，图像梯度时计算图像的边缘信息。图像梯度严格来说时需要求导数，但是在图像计算上时使用像素值的差得到梯度的近似值。<br>图像强度的显著变化可分为：</p><ul><li>阶跃变化函数，即图像强度在不连续处的两边的像素灰度值有着显著的差异；</li><li>线条（屋顶）变化函数，即图像强度突然从一个值变化到另一个值，保持一较小行程后又回到原来的值。</li></ul><p><img src="https://img-blog.csdn.net/20150424093909667"></p><p>（a）（b）分别是阶跃函数和屋顶函数的二维图像；（c）（d）是阶跃和屋顶函数的函数图象；（e）（f）对应一阶倒数；（g）（h）是二阶倒数。</p><h3 id="Sobel算子"><a href="#Sobel算子" class="headerlink" title="Sobel算子"></a>Sobel算子</h3><p>常用如下两个模板进行边缘检测，将Gx，Gy与图像卷积，即可得到横向和纵向的亮度差分近似值。</p>$$G_x = \begin{bmatrix} -1 &amp; 0 &amp; 1 \\ -2 &amp; 0 &amp; 2\\-1 &amp; 0 &amp; 1\end{bmatrix} \qquad G_y = \begin{bmatrix} 1 &amp; 2 &amp; 1 \\ 0 &amp; 0 &amp; 0\\-1 &amp; -2 &amp; -1\end{bmatrix}$$<p>图像每一个像素的梯度可以使用$G = \sqrt{G^2_x+G^2_y}$来表示，梯度的方向使用$\Theta = arctan(\frac{G_y}{G_x})$。</p><p>还有另外一个比<code>Sobel</code>函数的近似效果更好的 <code>Scharr</code>函数，其内核矩阵如下:</p><p>$$<br>G_x = \begin{bmatrix} -3 &amp; 0 &amp; 3 \ -10 &amp; 0 &amp; 10\-3 &amp; 0 &amp; 3\end{bmatrix} \qquad G_y = \begin{bmatrix} -3 &amp; -10 &amp; -3 \ 0 &amp; 0 &amp; 0\3 &amp; 10 &amp; 3\end{bmatrix}<br>$$</p><h4 id="代码使用"><a href="#代码使用" class="headerlink" title="代码使用"></a>代码使用</h4><h4 id="cv2-Sobel"><a href="#cv2-Sobel" class="headerlink" title="cv2.Sobel()"></a>cv2.Sobel()</h4><p>Sobel算子依然是一种过滤器，只是其是带有方向的</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">dst = cv2.Sobel(src, ddepth, dx, dy[,ksize[, scale[, delta[, borderType]]]])<br></code></pre></td></tr></tbody></table></figure><ul><li>dst代表目标函数</li><li> src代表原始图像</li><li> ddpeth代表输出图像的深度 ，-1表示采用的是与原图像相同的深度。目标图像的深度必须大于等于原图像的深度；</li><li>  dx代表x方向上的求导阶数 ，0表示这个方向上没有求导，一般为0、1、2。</li><li>  dy代表y方向上的求导阶数，0表示这个方向上没有求导，一般为0、1、2。</li><li>  ksize代表Sobel核的大小，该值为-1时，则会使用Scharr算子进行运算,一般选择为1、3、5、7</li><li>  scale代表计算导数时所采用的缩放因子，默认为1，无缩放</li><li> delta代表加在目标图像dst上的值，该值是可选的，默认为0</li><li> borderType代表边界样式，这个参数默认值为cv2.BORDER_DEFAULT。</li></ul><blockquote><p>其中ddepth设计图像深度的概念：<br>图像深度是指存储每个像素值所用的位数，例如cv2.CV_8U，指的是8位无符号数，取值范围为0~255，超出范围则会被截断（截断指的是，当数值大于255保留为255，当数值小于0保留为0，其余不变）。</p><p>具体还有：CV_16S（16位无符号数），CV_16U（16位有符号数），CV_32F（32位浮点数），CV_64F（64位浮点数）等.</p></blockquote><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> cv2<br><span class="hljs-comment">#载入原图，图像深度为CV_8U</span><br>img_original=cv2.imread(<span class="hljs-string">'E:\ShannonT\\notebook workspace\\images\\4.28.9.jpg'</span>,<span class="hljs-number">0</span>)<br><span class="hljs-comment">#求X方向梯度，并且输出图像一个为CV_8U,一个为CV_64F</span><br>img_gradient_X_8U=cv2.Sobel(img_original,-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)<br>img_gradient_X_64F=cv2.Sobel(img_original,cv2.CV_64F,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)<br><span class="hljs-comment">#将图像深度改为CV_8U</span><br>img_gradient_X_64Fto8U=cv2.convertScaleAbs(img_gradient_X_64F)<br><span class="hljs-comment">#图像显示</span><br>cv2.imshow(<span class="hljs-string">'X_gradient_8U'</span>,img_gradient_X)<br>cv2.imshow(<span class="hljs-string">'X_gradient_64Fto8U'</span>,img_gradient_X_64Fto8U)<br>cv2.waitKey()<br>cv2.destroyAllWindows()<br></code></pre></td></tr></tbody></table></figure><p><img src="https://img-blog.csdnimg.cn/20191103142600352.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0MzQxNDIz,size_16,color_FFFFFF,t_70"></p><p><code>cv2.imshow()</code>的默认显示为8位无符号数，即[0,255]，因此在显示<code>CV_64F</code>的图像前使用了函数<code>cv2.convertScaleAbs()</code>将图像深度为<code>CV_64F</code>的梯度图像重新转化为<code>CV_8U</code>。</p><h4 id="cv2-convertScaleAbs"><a href="#cv2-convertScaleAbs" class="headerlink" title="cv2.convertScaleAbs()"></a>cv2.convertScaleAbs()</h4><figure class="highlight reasonml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">cv2.convert<span class="hljs-constructor">ScaleAbs(<span class="hljs-params">src</span>[,<span class="hljs-params">alpha</span>[,<span class="hljs-params">beta</span>]])</span><br></code></pre></td></tr></tbody></table></figure><p>先计算数组绝对值，后转化为8位无符号数</p><ul><li>src:输入图像（多维数组）</li><li>alpha:比例因子</li><li>beta:保存新图像（数组）前可以增加的值</li></ul><h4 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a>归一化</h4><p>防止梯度大小被截断最简单的方法就是先将输入图像归一化（实际归一化的过程就已经实现了图像深度的转变）。在使用深度大于8U的格式之前将灰度先归一化，就不用<code>convertScaleAbs</code>转换了。</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> cv2<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-comment">#载入灰度原图，图像深度为CV_8U</span><br>img_original=cv2.imread(<span class="hljs-string">'E:\ShannonT\\notebook workspace\\images\\4.28.9.jpg'</span>,<span class="hljs-number">0</span>)<br><span class="hljs-comment">#原图归一化,实际图像深度已经变为CV_64F</span><br>img_standard=img_original/<span class="hljs-number">255</span><br><span class="hljs-comment">#采用灰度原图求X方向梯度</span><br>original_gradient_X_64F=cv2.Sobel(img_original,cv2.CV_64F,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)<br>original_gradient_X_64Fto8U=cv2.convertScaleAbs(original_gradient_X_64F)<br><span class="hljs-comment">#采用归一化的图像求X方向梯度</span><br>standard_gradient_X=cv2.Sobel(img_standard,-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)<br><span class="hljs-comment">#图像显示</span><br>cv2.imshow(<span class="hljs-string">'original'</span>,img_original)<br>cv2.imshow(<span class="hljs-string">'original_X'</span>,original_gradient_X_64Fto8U)<br>cv2.imshow(<span class="hljs-string">'standard_X'</span>,standard_gradient_X)<br>cv2.waitKey()<br>cv2.destroyAllWindows()<br></code></pre></td></tr></tbody></table></figure><p><img src="https://img-blog.csdnimg.cn/20191103144005627.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0MzQxNDIz,size_16,color_FFFFFF,t_70"></p><h4 id="cv2-addWeighted"><a href="#cv2-addWeighted" class="headerlink" title="cv2.addWeighted()"></a>cv2.addWeighted()</h4><figure class="highlight reasonml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">cv2.add<span class="hljs-constructor">Weighted(<span class="hljs-params">src1</span>, <span class="hljs-params">alpha</span>, <span class="hljs-params">src2</span>, <span class="hljs-params">beta</span>, <span class="hljs-params">gamma</span>[, <span class="hljs-params">dst</span>[, <span class="hljs-params">dtype</span>]])</span> → dst<br></code></pre></td></tr></tbody></table></figure><ul><li>src1 输入的第一个数组</li><li>alpha 第一个数组的权重</li><li>src2 输入的第二个数组（与第一个数组有相同的shape）</li><li>beta 第二个数组的权重</li><li>dst 输出的数组名称</li><li>gamma 计算和时所采用的缩放因子，默认为1，无缩放</li><li>dtype 输出图像的深度，-1表示和input相同</li><li><blockquote><p>dst = src1 * alpha + src2 * beta + gamma;</p></blockquote></li></ul><p>注意：由参数说明可以看出，被叠加的两幅图像必须是尺寸相同、类型相同的；并且，当输出图像array的深度为CV_32S时，这个函数就不适用了，这时候就会内存溢出或者算出的结果压根不对。</p><h4 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h4><p>通过cv2.Sobel()我们可以轻松计算出X,Y方向的梯度大小，根据公式</p><p>$$<br>G = \sqrt{G^2_x+G^2_y}<br>$$<br>可以求出梯度图像，实际操作时，为了简化运算，我们使用公式</p><p>$$<br>G = \vert{G_x}\vert+\vert{G_y}\vert<br>$$</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> cv2<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-comment">#载入灰度原图，并且归一化</span><br>img_original=cv2.imread(<span class="hljs-string">'E:\ShannonT\\notebook workspace\\images\\4.28.9.jpg'</span>,<span class="hljs-number">0</span>)/<span class="hljs-number">255</span><br><span class="hljs-comment">#分别求X,Y方向的梯度</span><br>grad_X=cv2.Sobel(img_original,-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)<br>grad_Y=cv2.Sobel(img_original,-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>)<br><span class="hljs-comment">#求梯度图像</span><br>grad=cv2.addWeighted(grad_X,<span class="hljs-number">0.5</span>,grad_Y,<span class="hljs-number">0.5</span>,<span class="hljs-number">0</span>)<br>cv2.imshow(<span class="hljs-string">'gradient'</span>,grad)<br></code></pre></td></tr></tbody></table></figure><div class="row">    <embed src="http://qxrol67de.hn-bkt.clouddn.com/An%20Isotropic%203x3%20Image%20Gradient%20Operator.pdf" width="100%" height="550" type="application/pdf"></div>]]></content>
+    
+    
+    <categories>
+      
+      <category>图像处理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>图像处理</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>剑指offer06 从尾到头打印链表</title>
+    <link href="/2021/08/14/leetcode/leetcode-offer06/"/>
+    <url>/2021/08/14/leetcode/leetcode-offer06/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>从尾到头打印链表</p></blockquote><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p><h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight inform7"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：head = <span class="hljs-comment">[1,3,2]</span><br>输出：<span class="hljs-comment">[2,3,1]</span><br></code></pre></td></tr></tbody></table></figure><h5 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h5><ul><li>0 &lt;= 链表长度 &lt;= 10000</li></ul><h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>遍历链表，直接插入到头位置。就可以直接输出了。或者采用递归，超级简洁，值得借鉴。注意if的条件和对应结果。（递归就从中间普适的节点开始考虑 然后补充边界细节）</p><p><font color="orange">return self.reversePrint( head.next ) + [ head.val ] if head else []</font></p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Definition for singly-linked list.</span><br><span class="hljs-comment"># class ListNode(object):</span><br><span class="hljs-comment">#     def __init__(self, x):</span><br><span class="hljs-comment">#         self.val = x</span><br><span class="hljs-comment">#         self.next = None</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reversePrint</span>(<span class="hljs-params">self, head</span>):</span><br>        <span class="hljs-string">"""</span><br><span class="hljs-string">        :type head: ListNode</span><br><span class="hljs-string">        :rtype: List[int]</span><br><span class="hljs-string">        """</span><br>        p=head<br>        result = []<br>        <span class="hljs-keyword">while</span>(p):<br>            result = [p.val]+result <span class="hljs-comment">#直接添加到前面</span><br>            p = p.<span class="hljs-built_in">next</span><br>        <span class="hljs-keyword">return</span> result<br>        <span class="hljs-comment">#使用递归一条语句超级简洁 递归后一个元素+当前元素 如果当前为空则+【】 也是终止未知</span><br>        <span class="hljs-comment">#return self.reversePrint(head.next) + [head.val] if head else []</span><br></code></pre></td></tr></tbody></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>剑指</category>
+      
+      <category>链表</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>剑指</tag>
+      
+      <tag>链表</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>剑指offer12 矩阵中的路径</title>
+    <link href="/2021/08/14/leetcode/leetcode-offer12/"/>
+    <url>/2021/08/14/leetcode/leetcode-offer12/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>矩阵中的路径</p></blockquote><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。</p><p>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p><p>例如，在下面的 3×4 的矩阵中包含单词 “ABCCED”（单词中的字母已标出）。</p><p><img src="https://assets.leetcode.com/uploads/2020/11/04/word2.jpg" alt="img"></p><h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight prolog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs prolog">输入：board = [[<span class="hljs-string">"A"</span>,<span class="hljs-string">"B"</span>,<span class="hljs-string">"C"</span>,<span class="hljs-string">"E"</span>],[<span class="hljs-string">"S"</span>,<span class="hljs-string">"F"</span>,<span class="hljs-string">"C"</span>,<span class="hljs-string">"S"</span>],[<span class="hljs-string">"A"</span>,<span class="hljs-string">"D"</span>,<span class="hljs-string">"E"</span>,<span class="hljs-string">"E"</span>]], word = <span class="hljs-string">"ABCCED"</span><br>输出：true<br></code></pre></td></tr></tbody></table></figure><h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight nix"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">board</span> = [[<span class="hljs-string">"a"</span>,<span class="hljs-string">"b"</span>],[<span class="hljs-string">"c"</span>,<span class="hljs-string">"d"</span>]], <span class="hljs-attr">word</span> = <span class="hljs-string">"abcd"</span><br>输出：<span class="hljs-literal">false</span><br></code></pre></td></tr></tbody></table></figure><h5 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h5><ul><li><code>1 &lt;= board.length &lt;= 200</code></li><li><code>1 &lt;= board[i].length &lt;= 200</code></li><li><code>board</code> 和 <code>word</code> 仅由大小写英文字母组成</li></ul><h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>循环遍历二维数组，以此为起点判断是否存在连续的字符串。在dfs中首先进行边界范围判断，以及此点是否满足要求，如果不满足要求直接返回假，为真则继续word判断之后的字符。如果以及是最后的字符就可以直接返回结果。<font color="purple">注意在判断k+1之前需要先mask掉自身的值，防止后续“路线返回”</font>font&gt;</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">exist</span>(<span class="hljs-params">self, board, word</span>):</span><br>        <span class="hljs-string">"""</span><br><span class="hljs-string">        :type board: List[List[str]]</span><br><span class="hljs-string">        :type word: str</span><br><span class="hljs-string">        :rtype: bool</span><br><span class="hljs-string">        """</span><br>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span>(<span class="hljs-params">i,j,k</span>):</span><br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">not</span> <span class="hljs-built_in">len</span>(board)&gt;i&gt;=<span class="hljs-number">0</span>) <span class="hljs-keyword">or</span> (<span class="hljs-keyword">not</span> <span class="hljs-built_in">len</span>(board[<span class="hljs-number">0</span>])&gt;j&gt;=<span class="hljs-number">0</span>) <span class="hljs-keyword">or</span> board[i][j]!=word[k]: <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span> <br>            <span class="hljs-comment">#不匹配的情况</span><br>            <span class="hljs-keyword">if</span> k == <span class="hljs-built_in">len</span>(word)-<span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span> <span class="hljs-comment">#不用继续判断</span><br>            board[i][j] = <span class="hljs-string">' '</span><br>            <span class="hljs-comment"># #注意不能直接返回 因为在处理邻近的内容会判断到自身，这是不允许的，所以先mask</span><br>            <span class="hljs-comment"># return dfs(i+1,j,k+1) or dfs(i-1,j,k+1) or dfs(i,j+1,k+1) or dfs(i,j-1,k+1) </span><br>            res = dfs(i+<span class="hljs-number">1</span>,j,k+<span class="hljs-number">1</span>) <span class="hljs-keyword">or</span> dfs(i-<span class="hljs-number">1</span>,j,k+<span class="hljs-number">1</span>) <span class="hljs-keyword">or</span> dfs(i,j+<span class="hljs-number">1</span>,k+<span class="hljs-number">1</span>) <span class="hljs-keyword">or</span> dfs(i,j-<span class="hljs-number">1</span>,k+<span class="hljs-number">1</span>) <br>            board[i][j] = word[k]<br>            <span class="hljs-keyword">return</span> res<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(board)):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(board[<span class="hljs-number">0</span>])):<br>                <span class="hljs-keyword">if</span> dfs(i,j,<span class="hljs-number">0</span>): <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span> <span class="hljs-comment">#如果从ij开始找0之后的字符串找到则为真</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br></code></pre></td></tr></tbody></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>剑指</category>
+      
+      <category>DFS</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>剑指</tag>
+      
+      <tag>DFS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>剑指offer11 旋转数组的最小数字</title>
+    <link href="/2021/08/13/leetcode/leetcode-offer11/"/>
+    <url>/2021/08/13/leetcode/leetcode-offer11/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>旋转数组的最小数字</p></blockquote><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。</p><h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[3,4,5,1,2]</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure><h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[2,2,2,0,1]</span><br>输出：<span class="hljs-number">0</span><br></code></pre></td></tr></tbody></table></figure><h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>将数组遍历一遍，遇到第一个非增序的元素即为最小值。复杂度为线性级别。</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span>(numbers):<span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>        minitem = numbers[<span class="hljs-number">0</span>]<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(numbers)):<br>            <span class="hljs-keyword">if</span> numbers[i]&lt;numbers[i-<span class="hljs-number">1</span>]:<br>                <span class="hljs-keyword">return</span> <span class="hljs-built_in">min</span>(minitem,numbers[i])<br>        <span class="hljs-keyword">return</span> minitem<br></code></pre></td></tr></tbody></table></figure><p>还可以使用二分法，将线性级别的复杂度降低到对数级别。</p><p><img src="https://pic.leetcode-cn.com/1599404042-JMvjtL-Picture1.png" alt="Picture1.png"></p><p>最低点有特性：左边的所有元素都要比右边所有元素大。利用这个特性可以逐渐缩小范围。</p><p>中间元素和某个边界元素比较大小，来确定范围，<u>但是要注意两者相等时就没有确切的判断了</u>。可以直接用线性比较来替代。</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: [<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(numbers) - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">while</span> i &lt; j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> numbers[m] &gt; numbers[j]: i = m + <span class="hljs-number">1</span><br>            <span class="hljs-keyword">elif</span> numbers[m] &lt; numbers[j]: j = m<br>            <span class="hljs-keyword">else</span>: j -= <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> numbers[i]<br></code></pre></td></tr></tbody></table></figure><p>实际上，当出现 nums[m] = nums[j] 时，一定有区间[i,m]内所有元素相等 或 区间 [m,j] 内所有元素相等（或两者皆满足）。对于寻找此类数组的最小值问题，可直接放弃二分查找，而使用线性查找替代。</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: [<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(numbers) - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">while</span> i &lt; j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> numbers[m] &gt; numbers[j]: i = m + <span class="hljs-number">1</span><br>            <span class="hljs-keyword">elif</span> numbers[m] &lt; numbers[j]: j = m<br>            <span class="hljs-keyword">else</span>: <span class="hljs-keyword">return</span> <span class="hljs-built_in">min</span>(numbers[i:j])<br>        <span class="hljs-keyword">return</span> numbers[i]<br></code></pre></td></tr></tbody></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>剑指</category>
+      
+      <category>数组</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>剑指</tag>
+      
+      <tag>数组</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>文献整理笔记</title>
-    <link href="/2021/08/13/page-site/"/>
-    <url>/2021/08/13/page-site/</url>
+    <link href="/2021/08/13/deep_learning/paper-site/"/>
+    <url>/2021/08/13/deep_learning/paper-site/</url>
     
     <content type="html"><![CDATA[<blockquote><p>查找文献的网站<br><a href="https://www.thecvf.com/">https://www.thecvf.com/</a><br><a href="https://arxiv.org/list/cs/recent">https://arxiv.org/list/cs/recent</a></p></blockquote><h3 id="微调技巧"><a href="#微调技巧" class="headerlink" title="微调技巧"></a>微调技巧</h3><p><a href="http://qxrol67de.hn-bkt.clouddn.com/Accurate%2C%20Large%20Minibatch%20SGD%20Training%20ImageNet%20in%201%20Hour.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:MibpfCuStpYUbfD8qs8aMC3U2y0="><strong>Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/BITGeneral%20Visual%20Representation%20Learning.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:m9ZxInQumMS8DO8NwtI9HvuyxCY="><strong>BIT : General Visual Representation Learning.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/Co-Tuning%20for%20Transfer%20Learning.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:zKqFz-uPhbE5o_oUWYs8uAT9aXc="><strong>Co-Tuning for Transfer Learning.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/EfficientNet%20Rethinking%20Model%20Scaling%20for%20Convolutional%20Neural%20Networks.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:K_nkiBpr-4L07Xa_VRoN4xsRNU4="><strong>EfficientNet Rethinking Model Scaling for Convolutional Neural Networks.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/He_Bag_of_Tricks_for_Image_Classification_with_Convolutional_Neural_Networks_CVPR_2019_paper.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:38vBt7XcdylOUC5C_pFcevVpXas="><strong>He_Bag_of_Tricks_for_Image_Classification_with_Convolutional_Neural_Networks_CVPR_2019_paper.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/Simple%20Copy-Paste%20is%20a%20Strong%20Data%20Augmentation%20Method.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:NRT0zKN1hdhwyUU8KzKb6aGBC1M="><strong>Simple Copy-Paste is a Strong Data Augmentation Method.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/Discriminative%20Feature%20Alignment%20Improving%20Transferability%20of.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:mU7vMQVsm3DEXt7QHTqtzDNaogg="><strong>Discriminative Feature Alignment Improving Transferability of.pdf</strong></a><br><a href="http://qxrol67de.hn-bkt.clouddn.com/Movement%20Pruning%20adaptive%20sparsity%20by%20fine-tuning.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:UFJJB_PWAAbWqCS7RZUwswuBNTM="><strong>Movement Pruning adaptive sparsity by fine-tuning.pdf</strong></a></p><h3 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h3><p><a href="http://qxrol67de.hn-bkt.clouddn.com/attention%20is%20all%20you%20need1706.03762.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:2eZzguYiYMcXj1n-OLDZwUFwGYU="><strong>Attention Is All You Need</strong></a> (讲解Attention机制)</p><p> <a href="http://qxrol67de.hn-bkt.clouddn.com/AN%20IMAGE%20IS%20WORTH%2016X16%20WORDS.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:NUSVTIvWzrJf2Zv031E5YW2RlFA="><strong>AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT</strong></a>（将transformer应用于图像分类）</p><p><a href="http://qxrol67de.hn-bkt.clouddn.com/transformer%20%E6%80%BB%E7%BB%93.pdf?e=1628844027&amp;token=XOjUoKvaLFMqS1LkRGv-hKeP9QfGCl4I7Lq18FO5:WSUaru3yoQne8yY-qSfnsfNChL4="><strong>A Survey of Transformers</strong></a>（Transformer的总结）</p>]]></content>
     
@@ -92,6 +204,8 @@
       
       <category>剑指</category>
       
+      <category>字符串</category>
+      
     </categories>
     
     
@@ -119,6 +233,8 @@
       
       <category>剑指</category>
       
+      <category>数组</category>
+      
     </categories>
     
     
@@ -145,6 +261,8 @@
     <categories>
       
       <category>剑指</category>
+      
+      <category>数组</category>
       
     </categories>
     
@@ -254,6 +372,8 @@
       
       <category>剑指</category>
       
+      <category>动态规划</category>
+      
     </categories>
     
     
@@ -283,6 +403,8 @@
       
       <category>剑指</category>
       
+      <category>动态规划</category>
+      
     </categories>
     
     
@@ -311,6 +433,8 @@
     <categories>
       
       <category>剑指</category>
+      
+      <category>栈</category>
       
     </categories>
     

@@ -18,7 +18,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>剑指offer04 二维数组中的查找 - 待时</title>
+  <title>剑指offer11 旋转数组的最小数字 - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="剑指offer04 二维数组中的查找">
+            <span class="h2" id="subtitle" title="剑指offer11 旋转数组的最小数字">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-11 18:07" pubdate>
-        2021年8月11日 晚上
+      <time datetime="2021-08-13 17:40" pubdate>
+        2021年8月13日 下午
       </time>
     </span>
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      596 字
+      480 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      6
        分钟
     </span>
   
@@ -227,28 +227,28 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">剑指offer04 二维数组中的查找</h1>
+            <h1 style="display: none">剑指offer11 旋转数组的最小数字</h1>
             
             <div class="markdown-body">
               <blockquote>
-<p>二维数组中的查找</p>
+<p>旋转数组的最小数字</p>
 </blockquote>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><p>现有矩阵 matrix 如下：</p>
-<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json">[<br>  [<span class="hljs-number">1</span>,   <span class="hljs-number">4</span>,  <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">15</span>],<br>  [<span class="hljs-number">2</span>,   <span class="hljs-number">5</span>,  <span class="hljs-number">8</span>, <span class="hljs-number">12</span>, <span class="hljs-number">19</span>],<br>  [<span class="hljs-number">3</span>,   <span class="hljs-number">6</span>,  <span class="hljs-number">9</span>, <span class="hljs-number">16</span>, <span class="hljs-number">22</span>],<br>  [<span class="hljs-number">10</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">17</span>, <span class="hljs-number">24</span>],<br>  [<span class="hljs-number">18</span>, <span class="hljs-number">21</span>, <span class="hljs-number">23</span>, <span class="hljs-number">26</span>, <span class="hljs-number">30</span>]<br>]<br></code></pre></td></tr></tbody></table></figure>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。</p>
+<h4 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h4><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[3,4,5,1,2]</span><br>输出：<span class="hljs-number">1</span><br></code></pre></td></tr></tbody></table></figure>
 
-<p>给定 target = <code>5</code>，返回 <code>true</code>。</p>
-<p>给定 target = <code>20</code>，返回 <code>false</code>。</p>
-<h5 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h5><ul>
-<li>0 &lt;= n &lt;= 1000</li>
-<li>0 &lt;= m &lt;= 1000</li>
-</ul>
-<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>当开始想要采用二分法的思想进行判断。但是发现二分只能考虑到左上和右下块的内容。右上和左下的内容无法判断其大小划分。所以会有视觉盲区无法二分缩小区域。</p>
-<p><font color="purple">二维数组无法用二分法，因为其“二分”是分为4份，无法充分涵盖进行判断，会出现错误。</font></p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findNumberIn2DArray</span>(<span class="hljs-params">self, matrix: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">bool</span>:</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span>(matrix): <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>        si,sj = <span class="hljs-number">0</span>,<span class="hljs-number">0</span><br>        ei,ej = <span class="hljs-built_in">len</span>(matrix)-<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(matrix[<span class="hljs-number">0</span>])-<span class="hljs-number">1</span><br>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">isExit</span>(<span class="hljs-params">matrix: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]], si, sj, ei, ej, target: <span class="hljs-built_in">int</span></span>):</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (si&lt;=ei <span class="hljs-keyword">and</span> sj&lt;=ej): <span class="hljs-comment">#先判断范围</span><br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>            <span class="hljs-keyword">if</span>(target&lt;matrix[si][sj] <span class="hljs-keyword">or</span> target&gt;matrix[ei][ej]): <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>            <span class="hljs-keyword">if</span>(target==matrix[si][sj] <span class="hljs-keyword">or</span> target==matrix[ei][ej]): <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>            mi,mj = <span class="hljs-built_in">int</span>((si+ei)/<span class="hljs-number">2</span>),<span class="hljs-built_in">int</span>((sj+ej)/<span class="hljs-number">2</span>)<br>            <span class="hljs-keyword">if</span>(target==matrix[mi][mj]):<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>            <span class="hljs-keyword">elif</span> (target&gt;matrix[mi][mj]):<br>                <span class="hljs-keyword">return</span> isExit(matrix,mi+<span class="hljs-number">1</span>,mj,ei,ej,target) <span class="hljs-keyword">or</span> isExit(matrix,mi,mj+<span class="hljs-number">1</span>,ei,ej,target)<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">return</span> isExit(matrix,si,sj,mi-<span class="hljs-number">1</span>,mj,target) <span class="hljs-keyword">or</span> isExit(matrix,si,sj,mi,mj-<span class="hljs-number">1</span>,target)<br>        <span class="hljs-keyword">return</span> isExit(matrix,si,sj,ei,ej,target)<br></code></pre></td></tr></tbody></table></figure>
-<p>使用线性查找的方法，可以使得复杂度从暴力的O(n*m)到O(n+m)<br>思想是选取左下角或者右上角，周围不均衡的点开始进行判断，这样才知道应该向哪个方向缩小区域.</p>
-<p><font color="hotpink">例如此处是选取左下角作为初始，向上此列逐渐变小，向右此行逐渐变大。因此target如果比此点小，就向上移动查找，如果比此点大，就向右查找。</font></p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findNumberIn2DArray</span>(<span class="hljs-params">self, matrix: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">bool</span>:</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span>(matrix): <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>        i,j = <span class="hljs-built_in">len</span>(matrix)-<span class="hljs-number">1</span>,<span class="hljs-number">0</span><br>        <span class="hljs-keyword">while</span>(i&gt;=<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> j&lt;=<span class="hljs-built_in">len</span>(matrix[<span class="hljs-number">0</span>])-<span class="hljs-number">1</span>):<br>            <span class="hljs-keyword">if</span>(target==matrix[i][j]):<span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>            <span class="hljs-keyword">elif</span>(target&gt;matrix[i][j]):j += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">else</span>:i -= <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br></code></pre></td></tr></tbody></table></figure>
+<h4 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h4><figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：<span class="hljs-string">[2,2,2,0,1]</span><br>输出：<span class="hljs-number">0</span><br></code></pre></td></tr></tbody></table></figure>
+
+<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>将数组遍历一遍，遇到第一个非增序的元素即为最小值。复杂度为线性级别。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span>(numbers):<span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>        minitem = numbers[<span class="hljs-number">0</span>]<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(numbers)):<br>            <span class="hljs-keyword">if</span> numbers[i]&lt;numbers[i-<span class="hljs-number">1</span>]:<br>                <span class="hljs-keyword">return</span> <span class="hljs-built_in">min</span>(minitem,numbers[i])<br>        <span class="hljs-keyword">return</span> minitem<br></code></pre></td></tr></tbody></table></figure>
+
+<p>还可以使用二分法，将线性级别的复杂度降低到对数级别。</p>
+<p><img src="https://pic.leetcode-cn.com/1599404042-JMvjtL-Picture1.png" srcset="/img/loading.gif" lazyload alt="Picture1.png"></p>
+<p>最低点有特性：左边的所有元素都要比右边所有元素大。利用这个特性可以逐渐缩小范围。</p>
+<p>中间元素和某个边界元素比较大小，来确定范围，<u>但是要注意两者相等时就没有确切的判断了</u>。可以直接用线性比较来替代。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: [<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(numbers) - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">while</span> i &lt; j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> numbers[m] &gt; numbers[j]: i = m + <span class="hljs-number">1</span><br>            <span class="hljs-keyword">elif</span> numbers[m] &lt; numbers[j]: j = m<br>            <span class="hljs-keyword">else</span>: j -= <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> numbers[i]<br></code></pre></td></tr></tbody></table></figure>
+
+<p>实际上，当出现 nums[m] = nums[j] 时，一定有区间[i,m]内所有元素相等 或 区间 [m,j] 内所有元素相等（或两者皆满足）。对于寻找此类数组的最小值问题，可直接放弃二分查找，而使用线性查找替代。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minArray</span>(<span class="hljs-params">self, numbers: [<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(numbers) - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">while</span> i &lt; j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> numbers[m] &gt; numbers[j]: i = m + <span class="hljs-number">1</span><br>            <span class="hljs-keyword">elif</span> numbers[m] &lt; numbers[j]: j = m<br>            <span class="hljs-keyword">else</span>: <span class="hljs-keyword">return</span> <span class="hljs-built_in">min</span>(numbers[i:j])<br>        <span class="hljs-keyword">return</span> numbers[i]<br></code></pre></td></tr></tbody></table></figure>
 
 
             </div>
@@ -271,7 +271,7 @@
                     
                       <a class="hover-with-bg" href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E7%BB%84%E6%9F%A5%E6%89%BE/">数组查找</a>
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
                     
                   </div>
                 
@@ -288,9 +288,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/08/11/leetcode/leetcode-offer05/">
+                      <a href="/2021/08/14/leetcode/leetcode-offer12/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">剑指offer05 替换空格</span>
+                        <span class="hidden-mobile">剑指offer12 矩阵中的路径</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -298,8 +298,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/11/leetcode/leetcode-offer03/">
-                        <span class="hidden-mobile">剑指offer03 数组中重复的数字</span>
+                      <a href="/2021/08/13/deep_learning/paper-site/">
+                        <span class="hidden-mobile">文献整理笔记</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -321,8 +321,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2021/08/11/leetcode/leetcode-offer04/';
-          this.page.identifier = '/2021/08/11/leetcode/leetcode-offer04/';
+          this.page.url = 'https://fanmeilin.github.io/2021/08/13/leetcode/leetcode-offer11/';
+          this.page.identifier = '/2021/08/13/leetcode/leetcode-offer11/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');

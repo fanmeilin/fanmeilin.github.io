@@ -296,10 +296,24 @@
 <h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><h3 id="像素二阶导数"><a href="#像素二阶导数" class="headerlink" title="像素二阶导数"></a>像素二阶导数</h3><p>二阶导数的计算方法：<br>$$<br>\nabla^2f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}<br>$$<br>分别沿着X和Y方向有二阶偏导数均可借用差分计算：<br>$$<br>\frac{\partial^2 f}{\partial x^2} = f(x+1,y)+f(x-1,y)-2f(x,y)<br>$$</p>
 <p>$$<br>\frac{\partial^2 f}{\partial y^2} = f(x,y+1)+f(x,y-1)-2f(x,y)<br>$$</p>
 <p>那么可以得到<br>$$<br>\nabla^2f = f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)<br>$$</p>
-<h3 id="模板卷积"><a href="#模板卷积" class="headerlink" title="模板卷积"></a>模板卷积</h3><p>对应的模板卷积即为<br>$$<br>\begin{bmatrix} 0 &amp; 1 &amp; 0\ 1 &amp; -4 &amp;1 \0 &amp; 1 &amp; 0\end{bmatrix} 或者\begin{bmatrix} 0 &amp; -1 &amp; 0\ -1 &amp; 4 &amp; -1 \0 &amp; -1 &amp; 0\end{bmatrix}<br>$$<br>前者是mask中心为负数，后者是mask中心为正数；他们的目的和效果是一致的，只是表现形式稍有不同，前者在卷积后，在边缘的亮处为负数，在边缘暗处为正数。后者相反。</p>
-<p>mask为负数时，也就是$\begin{bmatrix} 0 &amp; 1 &amp; 0\ 1 &amp; -4 &amp;1 \0 &amp; 1 &amp; 0\end{bmatrix}$在边缘的亮处为负数，在边缘暗处为正数。可以参见下图：</p>
+<h3 id="模板卷积"><a href="#模板卷积" class="headerlink" title="模板卷积"></a>模板卷积</h3><p>对应的模板卷积即为</p>
+
+$$
+\begin{bmatrix} 0 &amp; 1 &amp; 0\\ 1 &amp; -4 &amp; 1 \\ 0 &amp; 1 &amp; 0 \end{bmatrix} 或者\begin{bmatrix} 0 &amp; -1 &amp; 0 \\ -1 &amp; 4 &amp; -1 \\ 0 &amp; -1 &amp; 0 \end{bmatrix}
+$$
+
+
+<p>前者是mask中心为负数，后者是mask中心为正数；他们的目的和效果是一致的，只是表现形式稍有不同，前者在卷积后，在边缘的亮处为负数，在边缘暗处为正数。后者相反。</p>
+<p>mask为负数时，在边缘的亮处为负数，在边缘暗处为正数。可以参见下图：</p>
 <p><img src="https://picture.mulindya.com/laplace-pic3.png" srcset="/img/loading.gif" lazyload></p>
-<p>上述是考虑中心像素4邻域，类似还有考虑8邻域，此时中心点区8或-8，周围为-1或1<br>$$<br>\begin{bmatrix} 1 &amp; 1 &amp; 1\ 1 &amp; -8 &amp;1 \1 &amp; 1 &amp; 1\end{bmatrix} 或者\begin{bmatrix} -1 &amp; -1 &amp; -1\ -1 &amp; 8 &amp; -1 \-1 &amp; -1 &amp; -1\end{bmatrix}<br>$$</p>
+<p>上述是考虑中心像素4邻域，类似还有考虑8邻域，此时中心点区8或-8，周围为-1或1。</p>
+
+$$
+\begin{bmatrix} 1 &amp; 1 &amp; 1 \\ 1 &amp; -8 &amp; 1 \\ 1 &amp; 1 &amp; 1 \end{bmatrix} 或者\begin{bmatrix} -1 &amp; -1 &amp; -1 \\ -1 &amp; 8 &amp; -1 \\ -1 &amp; -1 &amp; -1 \end{bmatrix}
+$$
+
+
+
 <h2 id="图像锐化"><a href="#图像锐化" class="headerlink" title="图像锐化"></a>图像锐化</h2><p>锐化处理可选择拉普拉斯算子对原图像进行处理，产生描述灰度突变的图像，再将拉普拉斯图像与原始图像叠加而产生锐化图像。拉普拉斯锐化的基本方法可以由下式表示：<br>$$<br>g(x,y) = \begin{cases} f(x,y) - \nabla^2f(x,y) &amp; \text{mask中心为负数}\f(x,y) + \nabla^2f(x,y) &amp; \text{mask中心为正数} \end{cases}<br>$$</p>
 <p>这种简单的锐化方法既可以产生拉普拉斯锐化处理的效果，同时又能保留背景信息，将原始图像叠加到拉普拉斯变换的处理结果中去，可以使图像中的各灰度值得到保留，使灰度突变处的对比度得到增强，<strong>最终结果是在保留图像背景的前提下，突现出图像中小的细节信息</strong>。</p>
 <p>缺点是没有了边缘的方向信息；双倍加强了噪声的影响。</p>

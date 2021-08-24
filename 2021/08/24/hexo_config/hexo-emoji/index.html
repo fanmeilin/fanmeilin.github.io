@@ -19,7 +19,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>剑指offer20 表示数值的字符串 - 待时</title>
+  <title>博客中的emoji - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -221,7 +221,7 @@
 
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="剑指offer20 表示数值的字符串">
+            <span class="h2" id="subtitle" title="博客中的emoji">
               
             </span>
 
@@ -231,8 +231,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-19 09:30" pubdate>
-        2021年8月19日 上午
+      <time datetime="2021-08-24 15:00" pubdate>
+        2021年8月24日 下午
       </time>
     </span>
   
@@ -243,7 +243,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      865 字
+      180 字
     </span>
   
 
@@ -253,7 +253,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      2
        分钟
     </span>
   
@@ -283,99 +283,24 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">剑指offer20 表示数值的字符串</h1>
+            <h1 style="display: none">博客中的emoji</h1>
             
             <div class="markdown-body">
               <blockquote>
-<p>表示数值的字符串</p>
+<p>在博客中使用emoji，可可爱爱小表情😍</p>
 </blockquote>
-<h2 id="题目">题目</h2>
-<p>请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。</p>
-<p><strong>数值</strong>（按顺序）可以分成以下几个部分：</p>
-<ol>
-<li>若干空格</li>
-<li>一个&nbsp;小数&nbsp;或者&nbsp;整数</li>
-<li>（可选）一个&nbsp;‘e’&nbsp;或&nbsp;‘E’&nbsp;，后面跟着一个&nbsp;整数</li>
-<li>若干空格</li>
-</ol>
-<p><strong>小数</strong>（按顺序）可以分成以下几个部分：</p>
-<ol>
-<li>
-<p>（可选）一个符号字符（‘+’ 或 ‘-’）</p>
-</li>
-<li>
-<p>下述格式之一：</p>
-<ol>
-<li>至少一位数字，后面跟着一个点 ‘.’</li>
-<li>至少一位数字，后面跟着一个点 ‘.’ ，后面再跟着至少一位数字</li>
-<li>一个点 ‘.’ ，后面跟着至少一位数字</li>
-</ol>
-</li>
-</ol>
-<p><strong>整数</strong>（按顺序）可以分成以下几个部分：</p>
-<ol>
-<li>（可选）一个符号字符（‘+’ 或 ‘-’）</li>
-<li>至少一位数字</li>
-</ol>
-<p>部分<strong>数值</strong>列举如下：</p>
-<ul>
-<li>[“+100”, “5e2”, “-123”, “3.1416”, “-1E-16”, “0123”]</li>
-</ul>
-<p>部分非数值列举如下：</p>
-<ul>
-<li>[“12e”, “1a3.14”, “1.2.3”, “±5”, “12e+5.4”]</li>
-</ul>
-<h3 id="示例-1：">示例 1：</h3>
-<figure class="highlight nix"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">s</span> = <span class="hljs-string">"0"</span><br>输出：<span class="hljs-literal">true</span><br><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="示例-2：">示例 2：</h3>
-<figure class="highlight nix"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">s</span> = <span class="hljs-string">"e"</span><br>输出：<span class="hljs-literal">false</span><br><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="示例-3：">示例 3：</h3>
-<figure class="highlight nix"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">s</span> = <span class="hljs-string">"."</span><br>输出：<span class="hljs-literal">false</span><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="示例-4：">示例 4：</h3>
-<figure class="highlight nix"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nix">输入：<span class="hljs-attr">s</span> = <span class="hljs-string">"    .1  "</span><br>输出：<span class="hljs-literal">true</span><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="提示：">提示：</h3>
-<ul>
-<li>1 &lt;= s.length &lt;= 20</li>
-<li>s 仅含英文字母（大写和小写），数字（0-9），加号 ‘+’ ，减号 ‘-’ ，空格 ’ ’ 或者点 ‘.’ 。</li>
-</ul>
-<h2 id="题解">题解</h2>
-<h3 id="解题思路">解题思路</h3>
-<p>本题解决方案是有限状态自动机。根据字符类型和合法数值的特点，定义状态，再画出状态转移图。</p>
-<h4 id="字符类型">字符类型</h4>
-<p>空格:’ ‘，数字:d，正负号:s，小数点:’.'，幂符号：e</p>
-<h4 id="状态定义">状态定义</h4>
-<p>从左到右可以定义为</p>
-<p>0.左边的<code>空格</code></p>
-<ol>
-<li>E之前的<code>正负号</code></li>
-<li>小数点前的<code>数字</code></li>
-<li>小数点，小数点之后的<code>数字</code></li>
-<li>小数点前为空格，<code>小数点</code>，小数点后为数字</li>
-<li><code>幂符号</code></li>
-<li>幂符号之后的<code>正负号</code></li>
-<li>幂符号之后的<code>数字</code></li>
-<li>结尾的<code>空格</code></li>
-</ol>
-<p><img src="https://picture.mulindya.com/leetcode-offer20-pic1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h4 id="结束状态">结束状态</h4>
-<p>正常的结束状态有2，3，7，8</p>
-<h3 id="算法流程">算法流程</h3>
-<h4 id="初始化">初始化</h4>
-<h5 id="1，状态转移表status">1，状态转移表status</h5>
-<p>$states[i]$表示所处的状态，$i$为所处的状态表示，$states[i]$使用哈希表存储从i状态到可转移的状态；使用键值对来表示$(key,value)$：若输入$key$，可从状态$i$转移至状态$value$.</p>
-<p>当前状态p：初始状态为0</p>
-<h5 id="2，转移循环">2，转移循环</h5>
-<p>还需要<strong>记录字符类型</strong>t，遍历字符串的每个字符c</p>
-<ul>
-<li>当 c 为正负号时，执行 t = ‘s’ ;</li>
-<li>当 c 为数字时，执行 t = ‘d’ ;</li>
-<li>当 c 为 e , E 时，执行 t = ‘e’ ;</li>
-<li>当 c 为 . , 空格 时，执行 t = c （即用字符本身表示字符类型）;</li>
-<li>否则，执行 t = ‘?’ ，代表为不属于判断范围的非法字符，后续直接返回 false。</li>
-</ul>
-<p><strong>终止条件</strong>： 若字符类型 t不在哈希表  $states[p]$ 中，说明无法转移至下一状态，因此直接返回 False 。<br>
-<strong>状态转移</strong>： 状态 p 转移至 $states[p][t]$。</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">isNumber</span>(<span class="hljs-params">self, s: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">bool</span>:</span><br>        states = [<br>            { <span class="hljs-string">' '</span>: <span class="hljs-number">0</span>, <span class="hljs-string">'s'</span>: <span class="hljs-number">1</span>, <span class="hljs-string">'d'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'.'</span>: <span class="hljs-number">4</span> }, <span class="hljs-comment"># 0. start with 'blank'</span><br>            { <span class="hljs-string">'d'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'.'</span>: <span class="hljs-number">4</span> } ,                <span class="hljs-comment"># 1. 'sign' before 'e'</span><br>            { <span class="hljs-string">'d'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'.'</span>: <span class="hljs-number">3</span>, <span class="hljs-string">'e'</span>: <span class="hljs-number">5</span>, <span class="hljs-string">' '</span>: <span class="hljs-number">8</span> }, <span class="hljs-comment"># 2. 'digit' before 'dot'</span><br>            { <span class="hljs-string">'d'</span>: <span class="hljs-number">3</span>, <span class="hljs-string">'e'</span>: <span class="hljs-number">5</span>, <span class="hljs-string">' '</span>: <span class="hljs-number">8</span> },         <span class="hljs-comment"># 3. 'digit' after 'dot'</span><br>            { <span class="hljs-string">'d'</span>: <span class="hljs-number">3</span> },                         <span class="hljs-comment"># 4. 'digit' after 'dot' (‘blank’ before 'dot')</span><br>            { <span class="hljs-string">'s'</span>: <span class="hljs-number">6</span>, <span class="hljs-string">'d'</span>: <span class="hljs-number">7</span> },                 <span class="hljs-comment"># 5. 'e'</span><br>            { <span class="hljs-string">'d'</span>: <span class="hljs-number">7</span> },                         <span class="hljs-comment"># 6. 'sign' after 'e'</span><br>            { <span class="hljs-string">'d'</span>: <span class="hljs-number">7</span>, <span class="hljs-string">' '</span>: <span class="hljs-number">8</span> },                 <span class="hljs-comment"># 7. 'digit' after 'e'</span><br>            { <span class="hljs-string">' '</span>: <span class="hljs-number">8</span> }                          <span class="hljs-comment"># 8. end with 'blank'</span><br>        ]<br>        p = <span class="hljs-number">0</span>                           <span class="hljs-comment"># start with state 0</span><br>        <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> s:<br>            <span class="hljs-keyword">if</span> <span class="hljs-string">'0'</span> &lt;= c &lt;= <span class="hljs-string">'9'</span>: t = <span class="hljs-string">'d'</span> <span class="hljs-comment"># digit</span><br>            <span class="hljs-keyword">elif</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">"+-"</span>: t = <span class="hljs-string">'s'</span>     <span class="hljs-comment"># sign</span><br>            <span class="hljs-keyword">elif</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">"eE"</span>: t = <span class="hljs-string">'e'</span>     <span class="hljs-comment"># e or E</span><br>            <span class="hljs-keyword">elif</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">". "</span>: t = c       <span class="hljs-comment"># dot, blank</span><br>            <span class="hljs-keyword">else</span>: t = <span class="hljs-string">'?'</span>               <span class="hljs-comment"># unknown</span><br>            <span class="hljs-keyword">if</span> t <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> states[p]: <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>            p = states[p][t]<br>        <span class="hljs-keyword">return</span> p <span class="hljs-keyword">in</span> (<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>)<br><br></code></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>相关配置参见这个博客哟 <a target="_blank" rel="noopener" href="https://www.zywvvd.com/2021/08/23/hexo/19%20hexo-emoji/hexo-emoji/">Hexo -19- 添加emoji表情</a><br>
+可以在这两个网站看看有哪些小表情<br>
+<a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">https://www.webfx.com/tools/emoji-cheat-sheet/</a><br>
+<a target="_blank" rel="noopener" href="https://www.zywvvd.com/2021/08/13/git/git-emoji/git-emoji/">https://www.zywvvd.com/2021/08/13/git/git-emoji/git-emoji/</a></p>
+</blockquote>
+<h2 id="安装渲染器">安装渲染器</h2>
+<figure class="highlight applescript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">npm un hexo-renderer-marked <span class="hljs-comment">--save</span><br>npm i hexo-renderer-markdown-<span class="hljs-keyword">it</span> <span class="hljs-comment">--save</span><br></code></pre></td></tr></tbody></table></figure>
+<h2 id="修改配置文件">修改配置文件</h2>
+<p>在_config.yml文件尾部添加下段代码</p>
+<figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Markdown-it config</span><br><span class="hljs-comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki</span><br><span class="hljs-attr">markdown:</span><br>  <span class="hljs-attr">render:</span><br>    <span class="hljs-attr">html:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">xhtmlOut:</span> <span class="hljs-literal">false</span><br>    <span class="hljs-attr">breaks:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">linkify:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">typographer:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-attr">quotes:</span> <span class="hljs-string">'“”‘’'</span><br>  <span class="hljs-attr">plugins:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-abbr</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-footnote</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-ins</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-sub</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-sup</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">markdown-it-emoji</span>  <span class="hljs-comment"># add emoji</span><br></code></pre></td></tr></tbody></table></figure>
+<p>使用的时候就直接在md文件中用两个引号中间填写emoji的名称即可啦 :happy:</p>
 
             </div>
             <hr>
@@ -385,9 +310,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+                      <a class="hover-with-bg" href="/categories/%E9%85%8D%E7%BD%AE/">配置</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/">有限状态机</a>
+                      <a class="hover-with-bg" href="/categories/%E9%85%8D%E7%BD%AE/hexo/">hexo</a>
                     
                   </div>
                 
@@ -395,11 +320,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-                    
-                      <a class="hover-with-bg" href="/tags/idea/">idea</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/">有限状态机</a>
+                      <a class="hover-with-bg" href="/tags/emoji/">emoji</a>
                     
                   </div>
                 
@@ -416,18 +337,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/08/19/leetcode/leetcode-offer15/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">剑指offer15 二进制中1的个数</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/18/leetcode/leetcode-offer21/">
-                        <span class="hidden-mobile">剑指offer21 调整数组顺序使奇数位于偶数前面</span>
+                      <a href="/2021/08/21/deep_learning/yolo/">
+                        <span class="hidden-mobile">YOLO学习</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -449,8 +364,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2021/08/19/leetcode/leetcode-offer20/';
-          this.page.identifier = '/2021/08/19/leetcode/leetcode-offer20/';
+          this.page.url = 'https://fanmeilin.github.io/2021/08/24/hexo_config/hexo-emoji/';
+          this.page.identifier = '/2021/08/24/hexo_config/hexo-emoji/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -628,45 +543,6 @@
 
 
 
-
-  
-
-  
-    <!-- MathJax -->
-    <script>
-      MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']]
-        },
-        options: {
-          renderActions: {
-            findScript: [10, doc => {
-              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-                const display = !!node.type.match(/; *mode=display/);
-                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-                const text = document.createTextNode('');
-                node.parentNode.replaceChild(text, node);
-                math.start = { node: text, delim: '', n: 0 };
-                math.end = { node: text, delim: '', n: 0 };
-                doc.math.push(math);
-              });
-            }, '', false],
-            insertedScript: [200, () => {
-              document.querySelectorAll('mjx-container').forEach(node => {
-                let target = node.parentNode;
-                if (target.nodeName.toLowerCase() === 'li') {
-                  target.parentNode.classList.add('has-jax');
-                }
-              });
-            }, '', false]
-          }
-        }
-      };
-    </script>
-
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
-
-  
 
 
 

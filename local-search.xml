@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>随机数的总结</title>
+    <link href="/2021/09/09/package_usage/random-summarize/"/>
+    <url>/2021/09/09/package_usage/random-summarize/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>经常会用到随机数，在此，对numpy包中的随机数相关函数进行总结。</p></blockquote><ul><li><p>numpy.random.rand(d0, d1, …, dn)<br>该函数可以指定shape，返回服从0~1均匀分布的随机样本值。</p></li><li><p>numpy.random.randint(low, high=None, size=None, dtype=‘l’)<br>该函数返回随机的整数，可以指定随机数组范围和大小；在这里low是包含，high不包含;默认数据类型是long。</p></li><li><p>numpy.random.randn(d0, d1, …, dn)<br>该函数与rand类似，但是分布不同，这里是返回服从标准正态分布的随机样本值。</p></li><li><p>numpy.random.uniform(low=0.0, high=1.0, size=None)<br>该函数与randint类似，可以指定范围和大小，但是这里返回的随机数服从区间的均匀分布。</p></li><li><p>numpy.random.choice(a, size=None, replace=True, p=None)<br>该函数的作用是在给定的数据点中（一维数组）随机不重复的抽取大小为size的样本数据。</p></li><li><p>numpy.random.random_sample(size=None)<br>该函数是在[0,1)的范围随机返回指定大小的浮点数。也就是说与numpy.random.rand()类似，但是这里是需要输入size，而rand直接输入维度即可。</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>包的使用</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>numpy</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>获取两个向量角度</title>
     <link href="/2021/09/08/img_process/getAngle/"/>
     <url>/2021/09/08/img_process/getAngle/</url>
@@ -917,9 +942,9 @@
       
       <tag>剑指</tag>
       
-      <tag>数组</tag>
-      
       <tag>idea</tag>
+      
+      <tag>数组</tag>
       
     </tags>
     
@@ -1054,9 +1079,9 @@
       
       <tag>剑指</tag>
       
-      <tag>idea</tag>
-      
       <tag>数组查找</tag>
+      
+      <tag>idea</tag>
       
     </tags>
     
@@ -1085,9 +1110,9 @@
       
       <tag>剑指</tag>
       
-      <tag>数组</tag>
-      
       <tag>idea</tag>
+      
+      <tag>数组</tag>
       
     </tags>
     
@@ -1398,11 +1423,11 @@
     
     <tags>
       
+      <tag>配置</tag>
+      
       <tag>hexo</tag>
       
       <tag>fluid</tag>
-      
-      <tag>配置</tag>
       
     </tags>
     

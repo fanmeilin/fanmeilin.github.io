@@ -19,7 +19,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>python-embeded打包文件生成exe - 待时</title>
+  <title>剑指offer57-2 和为s的连续正数序列 - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -221,7 +221,7 @@
 
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="python-embeded打包文件生成exe">
+            <span class="h2" id="subtitle" title="剑指offer57-2 和为s的连续正数序列">
               
             </span>
 
@@ -231,8 +231,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-12-29 09:58" pubdate>
-        2021年12月29日 上午
+      <time datetime="2021-12-30 13:08" pubdate>
+        2021年12月30日 下午
       </time>
     </span>
   
@@ -243,7 +243,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      903 字
+      493 字
     </span>
   
 
@@ -253,7 +253,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12
+      6
        分钟
     </span>
   
@@ -283,64 +283,36 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">python-embeded打包文件生成exe</h1>
+            <h1 style="display: none">剑指offer57-2 和为s的连续正数序列</h1>
             
             <div class="markdown-body">
               <blockquote>
-<p>使用pyinstaller打包的文件太大了！！所以！所以！学到了另一招，将所需的环境配置到python-embeded中，然后使用c来调用py的启动文件，再gcc生成exe文件，酱紫工程文件就会小很多；实践证明，pyinstaller打包5.2G，采用这种方式后降低到1.5G哦~ 这种方式主要就是使用python-embeded来配置环境。</p>
+<p>和为s的连续正数序列</p>
 </blockquote>
-<h2 id="下载embeded版本">下载embeded版本</h2>
+<h2 id="题目">题目</h2>
+<p>输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。</p>
+<p>序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。</p>
+<h3 id="示例-1：">示例 1：</h3>
+<figure class="highlight lua"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">输入：target = <span class="hljs-number">9</span><br>输出：<span class="hljs-string">[[2,3,4],[4,5]]</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="示例-2：">示例 2：</h3>
+<figure class="highlight lua"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">输入：target = <span class="hljs-number">15</span><br>输出：<span class="hljs-string">[[1,2,3,4,5],[4,5,6],[7,8]]</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="提示：">提示：</h3>
 <ul>
-<li>python37的<a href="https://link.zhihu.com/?target=https%3A//www.python.org/downloads/release/python-373/">embedded版本</a></li>
-<li>下载zip文件解压到某处，比如<code>E:\python_embeded\</code></li>
+<li>1 &lt;= target &lt;= 10^5</li>
 </ul>
-<p><img src="https://picture.mulindya.com/python-embeded1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h2 id="安装pip">安装pip</h2>
+<h2 id="题解">题解</h2>
+<h3 id="遍历解法">遍历解法</h3>
+<p>从1到<code>target//2</code>为首遍历是否存在连续的序列为target。使用两层循环，外层循环确定首元素，内层循环确定尾元素，如果遍历到的和大于target就终止；</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findContinuousSequence</span>(<span class="hljs-params">self, target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]]:</span><br>        limit = <span class="hljs-built_in">int</span>(target/<span class="hljs-number">2</span>)<br>        result = []<br>        <span class="hljs-keyword">for</span> head <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,limit+<span class="hljs-number">1</span>):<br>            temp,t,sumt = [head],head+<span class="hljs-number">1</span>,head<br>            <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>                sumt += t<br>                temp.append(t)  <br>                <span class="hljs-keyword">if</span> sumt==target:<br>                    result.append(temp)<br>                    <span class="hljs-keyword">break</span><br>                <span class="hljs-keyword">if</span> sumt&gt;target: <span class="hljs-keyword">break</span><br>                <span class="hljs-keyword">if</span> sumt&lt;target: t += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> result<br><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="滑动窗口">滑动窗口</h3>
+<p>使用滑动窗口来确定序列首尾位置；<br>
+在这里i，j分别表示首尾元素；</p>
 <ul>
-<li>
-<p>去<a href="https://link.zhihu.com/?target=https%3A//pip.pypa.io/en/stable/installing/%23id7">官网</a><a target="_blank" rel="noopener" href="http://xn--get-pip-nw3k7779b.py">下载get-pip.py</a></p>
-</li>
-<li>
-<p>点击installation,下载<a target="_blank" rel="noopener" href="https://bootstrap.pypa.io/get-pip.py.">get-pip.py</a>文件到<code>E:\python_embeded\</code></p>
-</li>
-<li>
-<p>运行该文件。注意使用emdeded版本的python来运行配置要<strong>带路径</strong>哦！</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apl">#打开cmd,cd到相应的目录下（E:\python_embeded\），运行下载的文件<br>E:\python_embeded\python.exe  get-pip.py<br></code></pre></td></tr></tbody></table></figure>
-</li>
+<li>序列元素和sumt小于target，就右移j；</li>
+<li>序列元素和大于target，就右移i；</li>
 </ul>
-<h2 id="配置相关环境">配置相关环境</h2>
-<p>常规配置pytorch时，使用以下代码</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#cpu 版本</span><br>pip install torch==<span class="hljs-number">1.8</span><span class="hljs-number">.1</span> torchvision==<span class="hljs-number">0.9</span><span class="hljs-number">.1</span> torchaudio==<span class="hljs-number">0.8</span><span class="hljs-number">.1</span><br><br><span class="hljs-comment"># CUDA 10.2</span><br>conda install pytorch==<span class="hljs-number">1.8</span><span class="hljs-number">.1</span> torchvision==<span class="hljs-number">0.9</span><span class="hljs-number">.1</span> torchaudio==<span class="hljs-number">0.8</span><span class="hljs-number">.1</span> cudatoolkit=<span class="hljs-number">10.2</span> -c pytorch<br><br><span class="hljs-comment"># CUDA 10.2</span><br>pip install torch==<span class="hljs-number">1.8</span><span class="hljs-number">.1</span>+cu102 torchvision==<span class="hljs-number">0.9</span><span class="hljs-number">.1</span>+cu102 torchaudio==<span class="hljs-number">0.8</span><span class="hljs-number">.1</span> -f https://download.pytorch.org/whl/torch_stable.html<br></code></pre></td></tr></tbody></table></figure>
-<p>在python-embeded中，要带上路径哦！</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#打开cmd,cd到相应的目录下（E:\python_embeded\），运行下载的文件</span><br>这里使用cpu的torch版本，够用了并且文件更小。<br>E:\python_embeded\Scripts\pip.exe  install 相关配置(torch==<span class="hljs-number">1.8</span><span class="hljs-number">.1</span> torchvision==<span class="hljs-number">0.9</span><span class="hljs-number">.1</span> torchaudio==<span class="hljs-number">0.8</span><span class="hljs-number">.1</span> )<br>    <br>E:\python_embeded\Scripts\pip.exe  install -r requirements.txt <span class="hljs-comment">#一样的操作</span><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="配置tkinter">配置tkinter</h3>
-<p>如果项目使用tkinter的话，就单独配置。由于python embedable是不带tkinter的，而且无法通过pip来安装，解决方法：下载一个与python embedable版本相同的python安装包，安装时不要加入环境变量（如果你电脑上已经有anaconda的话），然后将安装路径下的一些文件复制到python embedable的路径下</p>
-<blockquote>
-<p>/tcl 拷贝到 /</p>
-<p>/Lib/tkinter 拷贝到 /Lib/site-packages/</p>
-<p>/DLLs/_tkinter.pyd 拷贝到 /</p>
-<p>/DLLs/tcl86t.dll 拷贝到 /</p>
-<p>/DLLs/tk86t.dll 拷贝到 /</p>
-</blockquote>
-<h3 id="打包">打包</h3>
-<p>然后！把这个配置好的embeded文件直接放进项目文件夹中。把启动程序的py文件头中加入以下代码，它的作用是写入环境变量中，这样如果有自定义的包调用才可以找得到哟。</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br>cwd=os.getcwd()<br><span class="hljs-keyword">import</span> sys<br>sys.path.append(cwd)<br></code></pre></td></tr></tbody></table></figure>
-<h4 id="新建-bat文件">新建.bat文件</h4>
-<p>上面是取消黑框命令行，下面是调用启动程序！双击即可运行！</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apl">@echo off <br>if "%1" == "h" goto begin <br>mshta vbscript:createobject("wscript.shell").run("%~nx0 h",0)(window.close)&amp;&amp;exit <br>:begin <br><br>%CD%\python_embeded\python.exe footprint.py <br></code></pre></td></tr></tbody></table></figure>
-<h4 id="新建-c文件">新建.c文件</h4>
-<p>使用system来用c调用bat文件，后续把c编译为exe文件大功告成啦！</p>
-<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>{<br>    system(<span class="hljs-string">"footprint.bat"</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
-<h4 id="新建-rc文件（可选）">新建.rc文件（可选）</h4>
-<p>这个文件指定exe的icon和exe文件的详细信息</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs apl">2 ICON "icon.ico"<br>1 VERSIONINFO<br>	FILEVERSION     2,3,3,3<br>	PRODUCTVERSION  2,3,3,3<br>	FILEOS 0x4L<br>	BEGIN<br>	BLOCK "StringFileInfo"<br>	BEGIN<br>		BLOCK "080404E4"<br>		BEGIN<br>		VALUE "CompanyName", "hust"<br>		VALUE "FileDescription", "Project General Launcher"<br>		VALUE "FileVersion", "1.0"<br>		VALUE "InternalName", "Launcher on Windows"<br>		VALUE "LegalCopyright", "GPLv2"<br>		VALUE "OriginalFilename", "足迹矫正"<br>		VALUE "ProductName", "足迹矫正与标注"<br>		VALUE "ProductVersion", "2.3.3 build 42"<br>		VALUE "Comments", "足迹矫正"<br>		END<br>	END<br>	<br>	BLOCK "VarFileInfo"<br>	BEGIN<br>		VALUE "Translation", 0x0804, 1252<br>	END<br>	END<br></code></pre></td></tr></tbody></table></figure>
-<h3 id="编译成exe">编译成exe</h3>
-<p>上面命令会生成demo.o目标文件，链接的时候加上这个目标文件编译出来的exe文件就有图标了呀！okk！结束啦~真是艰辛…</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apl">windres -i "demo.rc" -o "demo.o"<br>gcc main.c demo.o -o demo.exe<br></code></pre></td></tr></tbody></table></figure>
-<h4 id="安装gcc">安装gcc</h4>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apl">gcc -v<br></code></pre></td></tr></tbody></table></figure>
-<p>如果没有gcc的话，参考这边博客https://zhuanlan.zhihu.com/p/47935258<br>
-简单来说就是安装Mingw，然后添加minge32-gcc-g++,点击apply change就可以下载</p>
+<p>这里不存在左移的情况，不左移i好理解，因为i是从头开始查找的嘛，左移不是重复了嘛，何况还要保证首元素的顺序；那么不左移j的原因是什么呢。也是同样的道理，这个窗口只是负责尾节点右移扩大和首节点右移缩小，是可以遍历所有的情况哒。比如<code>1,2,3,4,5...</code>,target为5，开始就会到<code>1,2,3</code>,然后再到<code>2,3</code>;即尾节点只负责增大序列和，首节点只负责缩小序列和。😉</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findContinuousSequence</span>(<span class="hljs-params">self, target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]]:</span><br>        <span class="hljs-comment">#滑动窗口</span><br>        i,j,sumt,result = <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,[]<br>        <span class="hljs-keyword">while</span>(i&lt;=target//<span class="hljs-number">2</span>):<br>            <span class="hljs-keyword">if</span>(sumt&lt;target):<br>                j += <span class="hljs-number">1</span><br>                sumt += j<br>                <span class="hljs-keyword">continue</span><br>            <span class="hljs-keyword">if</span>(sumt==target):result.append(<span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(i,j+<span class="hljs-number">1</span>))) <span class="hljs-comment">#需要list转换</span><br>            sumt -= i<br>            i += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> result<br></code></pre></td></tr></tbody></table></figure>
 
             </div>
             <hr>
@@ -350,9 +322,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%B7%A5%E5%85%B7/python-embeded/">python-embeded</a>
+                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a>
                     
                   </div>
                 
@@ -360,7 +332,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
+                      <a class="hover-with-bg" href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a>
                     
                   </div>
                 
@@ -377,18 +351,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/12/29/project_summary/footprint-summary/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">足迹检测项目的总结</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/12/28/leetcode/leetcode-offer45/">
-                        <span class="hidden-mobile">剑指offer45 把数组排成最小的数</span>
+                      <a href="/2021/12/29/project_summary/footprint-summary/">
+                        <span class="hidden-mobile">足迹检测项目的总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -410,8 +378,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2021/12/29/project_tool/usePyembeded/';
-          this.page.identifier = '/2021/12/29/project_tool/usePyembeded/';
+          this.page.url = 'https://fanmeilin.github.io/2021/12/30/leetcode/leetcode-offer57-2/';
+          this.page.identifier = '/2021/12/30/leetcode/leetcode-offer57-2/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');

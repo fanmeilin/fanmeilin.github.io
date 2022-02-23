@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+<html lang="zh-CN" data-default-color-scheme=auto>
 <script type="text/javascript" src="/js/jquery.js"></script>
 
 
@@ -50,8 +51,16 @@
 </head>
 
 
-<body>
-
+<body>	
+	<div>
+		<div class='real_mask'></div>
+		<div id="banner_video_insert">
+		</div>	
+		<div id='vvd_banner_img'>
+		</div>
+	</div>
+	<div id="banner"></div>
+    
   <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
@@ -145,80 +154,86 @@
   </div>
 </nav>
 
-		<div class="banner" id="banner" parallax=true
-			 style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
-			   background-size: cover;">
-
-      <div class="full-bg-img" >
-
+	
+	<!-- <div class="banner" id="banner" parallax=true
+		style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
+		background-size: cover;"> -->
+        <div class="banner" id='banner' >
+		<div class="full-bg-img" >
 		
-		<div id="banner_video_insert">
-		</div>
-		<script>
-						
-			var ua = navigator.userAgent;
-			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-				isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-				isAndroid = ua.match(/(Android)\s+([\d.]+)/),
-				isMobile = isIphone || isAndroid;
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
 
-			function set_video_attr(id){
-				
-				var height = document.body.children[0].clientHeight
+					function set_video_attr(id){
 
-				var width = document.body.children[0].clientWidth
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
 
-				var video_item = document.getElementById(id);
-
-				if (height / width < 0.56){
-					video_item.setAttribute('width','100%' ); <!--'100%'-->
-					video_item.setAttribute('height', 'auto');
-				} else {
-					video_item.setAttribute('height', '100%'); <!--'100%'-->
-					video_item.setAttribute('width', 'auto');
-				}
-			}
-
-			$.getJSON('/js/video_url.json', function(data){
-				if (true){ <!--!isMobile-->
-					var video_list_length = data.length
-					var seed = Math.random()
-					index = Math.floor(seed * video_list_length)
-					
-					video_url = data[index]
-					video_html_res = "<video id='video_item' style='position: absolute;' muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
-
-					document.getElementById("banner_video_insert").innerHTML = video_html_res;
-					set_video_attr('video_item')
-				}
-
-			});
-
-			if (true){
-				window.onresize = function(){
-					set_video_attr('video_item')
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
 					}
-				}
-			</script>
 
-		
+					$.getJSON('/js/video_url.json', function(data){
+						if (!isMobile){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
 
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
-              
-            </span>
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
 
-            
-          </div>
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
-        </div>
-      </div>
+							video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+							document.getElementById("banner_video_insert").innerHTML = video_html_res;
+
+							set_video_attr('video_item')
+							set_video_attr('banner_img_item')
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+
+			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
+            <div class="mask flex-center">
+			  <div class="page-header text-center fade-in-up">
+				<span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
+				  
+				</span>
+
+				
+			  </div>
+
+			  
+				<div class="scroll-down-bar">
+				  <i class="iconfont icon-arrowdown"></i>
+				</div>
+			  
+			</div>
+		</div>
     </div>
   </header>
 
@@ -240,27 +255,23 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/06/python/file/delete-file/" target="_self">
-          使用python删除文件和文件夹
+        <a href="/2021/12/16/python/pyqt/pyqt-grabwindow/" target="_self">
+          pyqt截取窗口
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/06/python/file/delete-file/" target="_self">
+        <a href="/2021/12/16/python/pyqt/pyqt-grabwindow/" target="_self">
           
           
             
           
           
-总结删除文件和文件夹的相关操作和函数。
+在painter画笔进行绘制之后，需要保存画布图像。一种方法是使用Qpainter p(pixmap)，在指定的map上绘制后保存，可是此方法我保存图片时还是只有原始图片。绘制的图形无法保存；另一种方法时截取窗口保存图片。
 
-删除单个文件
-12os.remove(path)# 如果path是一个目录，抛出OSError错误，如果文件不在或者路径错误，会抛出错误
-删除文件夹
-空文件夹
-123os.rmdir(dirName)os.removedirs(dirName)# 删除目录 dirName，要求dirName必须是个空目录，否则抛出OSError错误
-递归删除文件夹
-非空
+介绍QScreen的方法
+代码如下：
+123pqscreen  = QGuiApplication.primaryScreen()pixmap2 = pqscreen.gr
         </a>
       </p>
 
@@ -268,8 +279,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-06 15:33" pubdate>
-              2021-10-06
+            <time datetime="2021-12-16 10:49" pubdate>
+              2021-12-16
             </time>
           </div>
         
@@ -279,7 +290,7 @@
             
               <a href="/categories/python/">python</a>
             
-              <a href="/categories/python/%E6%96%87%E4%BB%B6/">文件</a>
+              <a href="/categories/python/pyqt/">pyqt</a>
             
           </div>
         
@@ -289,7 +300,7 @@
             
               <a href="/tags/python/">python</a>
             
-              <a href="/tags/%E6%96%87%E4%BB%B6/">文件</a>
+              <a href="/tags/pyqt/">pyqt</a>
             
           </div>
         
@@ -303,29 +314,25 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/06/leetcode/leetcode-offer42/" target="_self">
-          剑指offer42 连续子数组最大和
+        <a href="/2021/12/15/python/re/re-bracket/" target="_self">
+          正则表达式中的括号
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/06/leetcode/leetcode-offer42/" target="_self">
+        <a href="/2021/12/15/python/re/re-bracket/" target="_self">
           
           
             
           
           
-连续子数组最大和
+总结正则表达式中的各种括号，主要是小括号，方括号，大括号的区别。
 
-题目
-输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
-要求时间复杂度为O(n)。
-示例 1：
-123输入: nums = [-2,1,-3,4,-1,2,1,-5,4]输出: 6解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-提示：
-
-1 &lt;= arr.length &lt;= 10^5
--100 &lt;= arr
+小括号
+小括号（）：多个匹配，将括号中的内容作为一组来处理，限制多选的范围。譬如*.(png|jpg)可标识末尾为png，jpg结尾的字符串，只能是png或者jpg，将括号中内容作为一组。
+方括号
+方括号【】：方括号是单个匹配，比如[abc]的含义是匹配abc其中的一个字符，并不是作为一组；
+常见的用法：[a-zA-Z0-9]可
         </a>
       </p>
 
@@ -333,8 +340,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-06 14:54" pubdate>
-              2021-10-06
+            <time datetime="2021-12-15 10:31" pubdate>
+              2021-12-15
             </time>
           </div>
         
@@ -342,9 +349,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/python/">python</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+              <a href="/categories/python/re/">re</a>
             
           </div>
         
@@ -352,9 +359,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/tags/python/">python</a>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+              <a href="/tags/re/">re</a>
             
           </div>
         
@@ -368,25 +375,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/06/python/img/FPDF/" target="_self">
-          python将图片存进PDF中
+        <a href="/2021/12/10/python/img/imageTodocx/" target="_self">
+          将图像保存至Word中
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/06/python/img/FPDF/" target="_self">
+        <a href="/2021/12/10/python/img/imageTodocx/" target="_self">
           
           
             
           
           
-在公安部足迹项目中，需要将矫正的足迹图片打印出来，所有首先转成pdf文件中再进行打印。就涉及到将图片存入pdf中，这里使用的工具是FPDF。FPDF是一个pdf文件的处理库，我们可以个性化创建和规范设定pdf文件。
+利用python，向Word中保存信息，这里主要是记录对图像的保存；
 
-安装
-1pip install fpdf
-具体内容
-实现代码
-12345678910111213from fpdf import FPDFimport globdef images
+按照python-docx
+python-docx is a Python library for creating and updating Microsoft Word (.docx) files.
+1pip install python-docx
+文档相关操作
+插入图片
+12345678910111213141516#
         </a>
       </p>
 
@@ -394,8 +402,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-06 10:43" pubdate>
-              2021-10-06
+            <time datetime="2021-12-10 13:20" pubdate>
+              2021-12-10
             </time>
           </div>
         
@@ -429,207 +437,32 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/09/29/project_tool/pyinstaller-spec-problem/" target="_self">
-          pyinstaller打包问题
+        <a href="/2021/12/09/leetcode/leetcode-offer2-085/" target="_self">
+          剑指offer2_085 生成匹配的括号
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/09/29/project_tool/pyinstaller-spec-problem/" target="_self">
+        <a href="/2021/12/09/leetcode/leetcode-offer2-085/" target="_self">
           
           
             
           
           
-在使用pyinstaller打包的过程中的坑点，记录一下
-参考大佬：https://blog.csdn.net/u012219045/article/details/115397646
-
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-29 15:41" pubdate>
-              2021-09-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-            
-              <a href="/categories/%E5%B7%A5%E5%85%B7/pyinstaller/">pyinstaller</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/28/project_tool/spec/" target="_self">
-          利用spec文件打包
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/09/28/project_tool/spec/" target="_self">
-          
-          
-            
-          
-          
-pyinstaller打包方式一般可以分为直接输入指令和利用spec文件进行打包两种方式，直接输入指令就是根据指令生成spec文件，再根据spec文件的内容进行打包操作，因此spec文件就是核心部分，在此对其内容的相关配置进行归纳。
-
-spec文件参数
-spec文件参数：a，pyz，exe，coll，block_cipher;
-
-
-
-变量
-含义
-
-
-
-
-a
-Analysis类的实例,要求传入各种
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-28 14:09" pubdate>
-              2021-09-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-            
-              <a href="/categories/%E5%B7%A5%E5%85%B7/pyinstaller/">pyinstaller</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/26/project_tool/pyinstaller/" target="_self">
-          pyinstaller打包exe
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/09/26/project_tool/pyinstaller/" target="_self">
-          
-          
-            
-          
-          
-pyinstaller的作用是可以将python应用程序打包为独立的可执行文件，相对与同类工具而言，其优势在于可以和python配合使用，构建较小的可执行文件并且完全多平台，完全兼容性。
-
-
-pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinstaller会将所有的外部包继承在pyinstaller本身中。
-
-安装
-直接从pypi安装pyinstaller：
-1pip in
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-26 20:11" pubdate>
-              2021-09-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-            
-              <a href="/categories/%E5%B7%A5%E5%85%B7/pyinstaller/">pyinstaller</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/17/leetcode/leetcode-offer30/" target="_self">
-          剑指offer30 包含min函数的栈
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/09/17/leetcode/leetcode-offer30/" target="_self">
-          
-          
-            
-          
-          
-包含min函数的栈
+生成匹配的括号
 
 题目
-定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
+正整数 n 代表生成括号的对数，请设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
 示例 1：
-12345678MinStack minStack = new MinStack();minStack.push(-2);minStack.push(0);minStack.push(-3);minStack
+12输入：n = 3输出：["((()))","(()())","(())()","()(())","()()()"]
+示例 2：
+12输入：n = 1输出：["()"]
+提示：
+
+1 &lt;= n &lt;= 8
+
+题解
+巧妙的深度优先算法，记录生成当前的字符串
         </a>
       </p>
 
@@ -637,8 +470,8 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-17 17:07" pubdate>
-              2021-09-17
+            <time datetime="2021-12-09 15:46" pubdate>
+              2021-12-09
             </time>
           </div>
         
@@ -648,7 +481,7 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
             
               <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%88/">栈</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%91/">树</a>
             
           </div>
         
@@ -658,7 +491,9 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
             
               <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/tags/%E6%A0%88/">栈</a>
+              <a href="/tags/idea/">idea</a>
+            
+              <a href="/tags/%E6%A0%91/">树</a>
             
           </div>
         
@@ -672,24 +507,33 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/09/16/leetcode/leetcode-offer35/" target="_self">
-          剑指offer35 复杂链表的复制
+        <a href="/2021/12/08/leetcode/leetcode-offer56-2/" target="_self">
+          剑指offer56-2 数组中数字出现的次数Ⅱ
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/09/16/leetcode/leetcode-offer35/" target="_self">
+        <a href="/2021/12/08/leetcode/leetcode-offer56-2/" target="_self">
           
           
             
           
           
-复杂链表的复制
+数组中数字出现的次数Ⅱ
 
 题目
-请实现 copyRandomList 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。
+在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。
 示例 1：
-123输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]输出：[[7,null],[13,0],[11,4],[10,2],[
+12输入：nums = [3,4,3,3]输出：4
+示例 2：
+12输入：nums = [9,1,7,9,7,9,7]输出：1
+提示：
+
+
+1 &lt;= nums.length &lt;= 10000
+
+
+1 &lt;= nums[i] &lt; 2
         </a>
       </p>
 
@@ -697,8 +541,8 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-16 16:50" pubdate>
-              2021-09-16
+            <time datetime="2021-12-08 13:43" pubdate>
+              2021-12-08
             </time>
           </div>
         
@@ -708,6 +552,8 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
             
               <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%95%B0%E7%BB%84/">数组</a>
+            
           </div>
         
         
@@ -716,65 +562,7 @@ pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinst
             
               <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/09/package_usage/random-summarize/" target="_self">
-          随机数的总结
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/09/09/package_usage/random-summarize/" target="_self">
-          
-          
-            
-          
-          
-经常会用到随机数，在此，对numpy包中的随机数相关函数进行总结。
-
-
-
-numpy.random.rand(d0, d1, …, dn)
-该函数可以指定shape，返回服从0~1均匀分布的随机样本值。
-
-
-numpy.random.randint(low, high=None, size=None, dtype=‘l’)
-该函数返回随机的整数，可以指定随机数组范围和大小；在这里low是包含，h
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-09 20:48" pubdate>
-              2021-09-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/">包的使用</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/numpy/">numpy</a>
+              <a href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
             
           </div>
         
@@ -788,27 +576,29 @@ numpy.random.randint(low, high=None, size=None, dtype=‘l’)
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/09/08/img_process/getAngle/" target="_self">
-          获取两个向量角度
+        <a href="/2021/12/07/leetcode/leetcode53-1/" target="_self">
+          剑指53-1 数组中数字出现的次数
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/09/08/img_process/getAngle/" target="_self">
+        <a href="/2021/12/07/leetcode/leetcode53-1/" target="_self">
           
           
             
           
           
-获取两个向量的夹角
+数组中数字出现的次数
 
+题目
+一个整型数组 nums 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
+示例 1：
+12输入：nums = [4,1,4,6]输出：[1,6] 或 [6,1]
+示例 2：
+12输入：nums = [1,2,10,4,1,4,3,3]输出：[2,10] 或 [10,2]
+提示：
 
-比如AB向量表示为[1,-3,5,-1],前两位是A的坐标，后两位是B的坐标。
-直接计算出每个向量与x正轴的夹角，然后相减即可；核心的部分使用atan2函数（atan和atan2优先使用atan2）。
-
-atan与atan2的区别：
-atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 point(x2,y2);
-那么这两个点形成的斜率
+2 &lt
         </a>
       </p>
 
@@ -816,8 +606,8 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-08 16:46" pubdate>
-              2021-09-08
+            <time datetime="2021-12-07 18:12" pubdate>
+              2021-12-07
             </time>
           </div>
         
@@ -825,7 +615,9 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%95%B0%E7%BB%84/">数组</a>
             
           </div>
         
@@ -833,7 +625,264 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%EF%BC%8C%E8%A7%92%E5%BA%A6/">图像处理，角度</a>
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/06/leetcode/leetcode-offer34/" target="_self">
+          剑指offer34 二叉树中和为某一值的路径
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/06/leetcode/leetcode-offer34/" target="_self">
+          
+          
+            
+          
+          
+二叉树中和为某一值的路径
+
+题目
+给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。
+叶子节点 是指没有子节点的节点。
+示例 1：
+
+12输入：root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22输出：[[5,4,11,2],[5,8,4,5]]
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-06 16:50" pubdate>
+              2021-12-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%91/">树</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/tags/%E6%A0%91/">树</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/05/leetcode/leetcode-offer372/" target="_self">
+          剑指offer372 超级次方
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/05/leetcode/leetcode-offer372/" target="_self">
+          
+          
+            
+          
+          
+超级次方
+
+题目
+你的任务是计算 ab 对 1337 取模，a 是一个正整数，b 是一个非常大的正整数且会以数组形式给出。
+示例 1：
+12输入：a = 2, b = [3]输出：8
+示例 2：
+12输入：a = 2, b = [1,0]输出：1024
+示例 3：
+12输入：a = 1, b = [4,3,3,8,5,2]输出：1
+示例 4：
+12输入：a = 2147483647, b = [
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-05 21:29" pubdate>
+              2021-12-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%95%B0%E7%BB%84/">数组</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/04/leetcode/leetcode-offer33/" target="_self">
+          剑指offer33
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/04/leetcode/leetcode-offer33/" target="_self">
+          
+          
+            
+          
+          
+二叉搜索树的后续遍历序列
+
+题目
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。如果是则返回 true，否则返回 false。假设输入的数组的任意两个数字都互不相同。
+参考以下这颗二叉搜索树
+12345    5   / \  2   6 / \1   3
+示例 1：
+12输入: [1,6,3,2,5]输出: false
+示例 2：
+12输入: [1,3,2,6,5]输出: tr
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-04 21:59" pubdate>
+              2021-12-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%91/">树</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/tags/%E6%A0%91/">树</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/11/26/python/img/dcm2nii/" target="_self">
+          dcm文件转换为3D的nii文件
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/26/python/img/dcm2nii/" target="_self">
+          
+          
+            
+          
+          
+记录dcm文件转换为nii文件的代码
+
+前言
+NIfTI 中的图像原始数据一般被存储成了三维图像，而dicom存储为二维图层，所以相对于DICOM文件，NIFTI文件更加易用于机器学习，因为NIfTI 是三维图像，处理一个单独的NIfTI 文件要比处理成百上千个DICOM文件更加容易一些。
+医学图像格式
+DICOM 和 NIFTI 是最常用的格式，下面对其进行简单介绍。
+DICOM
+DICOM 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-26 11:09" pubdate>
+              2021-11-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/python/">python</a>
+            
+              <a href="/categories/python/%E5%9B%BE%E5%83%8F/">图像</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/python/">python</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%83%8F/">图像</a>
             
           </div>
         
@@ -845,7 +894,7 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/5/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/7/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/5/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/#board">15</a><a class="extend next" rel="next" href="/page/7/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -859,7 +908,7 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -895,8 +944,6 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
   <div class="footer-content">
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
-  <!-- <a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">鄂ICP备2021014492-1号</a>
-  <a href="http://www.beian.miit.gov.cn/"  style="color:blue" target="_blank">http://www.beian.miit.gov.cn/</a> -->
   
   <div class="statistics">
     
@@ -920,6 +967,10 @@ atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 p
           </span>
       
     
+  </div>
+  <div class="statistics">
+    <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;"  id="hitokoto"></span></a>
+ <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
   </div>
 
 

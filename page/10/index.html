@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+<html lang="zh-CN" data-default-color-scheme=auto>
 <script type="text/javascript" src="/js/jquery.js"></script>
 
 
@@ -50,8 +51,16 @@
 </head>
 
 
-<body>
-
+<body>	
+	<div>
+		<div class='real_mask'></div>
+		<div id="banner_video_insert">
+		</div>	
+		<div id='vvd_banner_img'>
+		</div>
+	</div>
+	<div id="banner"></div>
+    
   <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
@@ -145,80 +154,86 @@
   </div>
 </nav>
 
-		<div class="banner" id="banner" parallax=true
-			 style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
-			   background-size: cover;">
-
-      <div class="full-bg-img" >
-
+	
+	<!-- <div class="banner" id="banner" parallax=true
+		style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
+		background-size: cover;"> -->
+        <div class="banner" id='banner' >
+		<div class="full-bg-img" >
 		
-		<div id="banner_video_insert">
-		</div>
-		<script>
-						
-			var ua = navigator.userAgent;
-			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-				isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-				isAndroid = ua.match(/(Android)\s+([\d.]+)/),
-				isMobile = isIphone || isAndroid;
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
 
-			function set_video_attr(id){
-				
-				var height = document.body.children[0].clientHeight
+					function set_video_attr(id){
 
-				var width = document.body.children[0].clientWidth
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
 
-				var video_item = document.getElementById(id);
-
-				if (height / width < 0.56){
-					video_item.setAttribute('width','100%' ); <!--'100%'-->
-					video_item.setAttribute('height', 'auto');
-				} else {
-					video_item.setAttribute('height', '100%'); <!--'100%'-->
-					video_item.setAttribute('width', 'auto');
-				}
-			}
-
-			$.getJSON('/js/video_url.json', function(data){
-				if (true){ <!--!isMobile-->
-					var video_list_length = data.length
-					var seed = Math.random()
-					index = Math.floor(seed * video_list_length)
-					
-					video_url = data[index]
-					video_html_res = "<video id='video_item' style='position: absolute;' muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
-
-					document.getElementById("banner_video_insert").innerHTML = video_html_res;
-					set_video_attr('video_item')
-				}
-
-			});
-
-			if (true){
-				window.onresize = function(){
-					set_video_attr('video_item')
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
 					}
-				}
-			</script>
 
-		
+					$.getJSON('/js/video_url.json', function(data){
+						if (!isMobile){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
 
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
-              
-            </span>
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
 
-            
-          </div>
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
-        </div>
-      </div>
+							video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+							document.getElementById("banner_video_insert").innerHTML = video_html_res;
+
+							set_video_attr('video_item')
+							set_video_attr('banner_img_item')
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+
+			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
+            <div class="mask flex-center">
+			  <div class="page-header text-center fade-in-up">
+				<span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
+				  
+				</span>
+
+				
+			  </div>
+
+			  
+				<div class="scroll-down-bar">
+				  <i class="iconfont icon-arrowdown"></i>
+				</div>
+			  
+			</div>
+		</div>
     </div>
   </header>
 
@@ -240,28 +255,24 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/13/leetcode/leetcode-offer11/" target="_self">
-          剑指offer11 旋转数组的最小数字
+        <a href="/2021/09/17/leetcode/leetcode-offer30/" target="_self">
+          剑指offer30 包含min函数的栈
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/13/leetcode/leetcode-offer11/" target="_self">
+        <a href="/2021/09/17/leetcode/leetcode-offer30/" target="_self">
           
           
             
           
           
-旋转数组的最小数字
+包含min函数的栈
 
 题目
-把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。
+定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
 示例 1：
-12输入：[3,4,5,1,2]输出：1
-示例 2：
-12输入：[2,2,2,0,1]输出：0
-题解
-将数组遍历一遍，遇到第一个非增序的
+12345678MinStack minStack = new MinStack();minStack.push(-2);minStack.push(0);minStack.push(-3);minStack
         </a>
       </p>
 
@@ -269,8 +280,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-13 17:40" pubdate>
-              2021-08-13
+            <time datetime="2021-09-17 17:07" pubdate>
+              2021-09-17
             </time>
           </div>
         
@@ -280,7 +291,7 @@
             
               <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%95%B0%E7%BB%84/">数组</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%88/">栈</a>
             
           </div>
         
@@ -290,9 +301,7 @@
             
               <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
-            
-              <a href="/tags/idea/">idea</a>
+              <a href="/tags/%E6%A0%88/">栈</a>
             
           </div>
         
@@ -306,30 +315,24 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/13/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/paper-site/" target="_self">
-          文献整理笔记
+        <a href="/2021/09/16/leetcode/leetcode-offer35/" target="_self">
+          剑指offer35 复杂链表的复制
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/13/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/paper-site/" target="_self">
+        <a href="/2021/09/16/leetcode/leetcode-offer35/" target="_self">
           
           
             
           
           
-查找文献的网站
-https://www.thecvf.com/
-https://arxiv.org/list/cs/recent
-https://www.researchgate.net/
+复杂链表的复制
 
-
-超宝藏博主： 科技猛兽
-宝藏公众号： 极市平台
-系列学习： VIT学习
-
-微调技巧
-Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
+题目
+请实现 copyRandomList 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。
+示例 1：
+123输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]输出：[[7,null],[13,0],[11,4],[10,2],[
         </a>
       </p>
 
@@ -337,8 +340,8 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-13 15:18" pubdate>
-              2021-08-13
+            <time datetime="2021-09-16 16:50" pubdate>
+              2021-09-16
             </time>
           </div>
         
@@ -346,7 +349,7 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%96%87%E7%8C%AE/">文献</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
           </div>
         
@@ -354,7 +357,7 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%96%87%E7%8C%AE/">文献</a>
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
           </div>
         
@@ -368,25 +371,28 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/13/deep_learning/fine-tuning/" target="_self">
-          fine-tuning的方法
+        <a href="/2021/09/09/package_usage/random-summarize/" target="_self">
+          随机数的总结
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/13/deep_learning/fine-tuning/" target="_self">
+        <a href="/2021/09/09/package_usage/random-summarize/" target="_self">
           
           
             
           
           
-收集关于深度学习的调参的相关笔记，主要用于网络训练的微调。
+经常会用到随机数，在此，对numpy包中的随机数相关函数进行总结。
 
-训练技巧
-1.要做梯度归一化,即算出来的梯度除以minibatch size
-2.clip c(梯度裁剪): 限制最大梯度,其实是value = sqrt(w1^2 +w2^2….),如果value超过了阈值,就算一个衰减系数,让value的值等于阈值: 5,10,15
-3.防止过拟合
-​	一般常用的防止过拟合方法有使用L1正则项、L
+
+
+numpy.random.rand(d0, d1, …, dn)
+该函数可以指定shape，返回服从0~1均匀分布的随机样本值。
+
+
+numpy.random.randint(low, high=None, size=None, dtype=‘l’)
+该函数返回随机的整数，可以指定随机数组范围和大小；在这里low是包含，h
         </a>
       </p>
 
@@ -394,8 +400,121 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-13 14:28" pubdate>
-              2021-08-13
+            <time datetime="2021-09-09 20:48" pubdate>
+              2021-09-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/">包的使用</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/numpy/">numpy</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/08/img_process/getAngle/" target="_self">
+          获取两个向量角度
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/08/img_process/getAngle/" target="_self">
+          
+          
+            
+          
+          
+获取两个向量的夹角
+
+
+比如AB向量表示为[1,-3,5,-1],前两位是A的坐标，后两位是B的坐标。
+直接计算出每个向量与x正轴的夹角，然后相减即可；核心的部分使用atan2函数（atan和atan2优先使用atan2）。
+
+atan与atan2的区别：
+atan 和 atan2 都是求反正切函数，如：有两个点 point(x1,y1), 和 point(x2,y2);
+那么这两个点形成的斜率
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-08 16:46" pubdate>
+              2021-09-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%EF%BC%8C%E8%A7%92%E5%BA%A6/">图像处理，角度</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/27/deep_learning/yolov2/" target="_self">
+          YOLOv2
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/27/deep_learning/yolov2/" target="_self">
+          
+          
+            
+          
+          YOLOv2
+综述
+论文地址：https://arxiv.org/abs/1612.08242
+Yolov2与Yolov1在保持速度的基础上，对预测效果的准确度，耗费时间，鲁棒性三个方面进行了改进，检测能力提高到9000种不同对象。文章提出了一种新的训练方法–联合训练方法。这种算法可以将两种数据集混合到一起，使用一种分层的观点进行分类，用大型的分类数据集扩充检测的数据集。也成为YOLO9000.
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-27 10:57" pubdate>
+              2021-08-27
             </time>
           </div>
         
@@ -404,6 +523,8 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
             
           </div>
         
@@ -413,7 +534,9 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
             
               <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
             
-              <a href="/tags/%E5%BE%AE%E8%B0%83/">微调</a>
+              <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
+            
+              <a href="/tags/yolo/">yolo</a>
             
           </div>
         
@@ -427,23 +550,25 @@ Accurate, Large Minibatch SGD Training ImageNet in 1 Hour.pd
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/12/deep_learning/gradient-clip/" target="_self">
-          梯度裁剪
+        <a href="/2021/08/25/config/pdf-config/" target="_self">
+          在博客中显示pdf&amp;折叠
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/12/deep_learning/gradient-clip/" target="_self">
+        <a href="/2021/08/25/config/pdf-config/" target="_self">
           
           
             
           
           
-阅读代码 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))，就此探究一下grap_clip。他的作用是梯度裁剪，为了防止梯度爆炸。其中max_norm是最大梯度阈值，norm_type是指定的范数类型。
+参考师兄的方法配置
+https://www.zywvvd.com/2021/08/15/hexo-theme/fluid/fluid-pdf/fluid-pdf/
 
-梯度爆炸
-梯度爆炸就是在梯度更新的时候偏导数很大，导致更新参数无法收敛到最值（总是跳到其他不好的地方）。
-$$
+配置
+pdf.js 是用于解析和呈现 PDF 的基于 Web 标准平台的通用解决方案，功能强大。
+官方网站：https://mozilla.github.io/pdf.js/
+由于我的浏览器的版本可能不高，考虑到兼容性下载旧版的文件
         </a>
       </p>
 
@@ -451,8 +576,71 @@ $$
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-12 10:20" pubdate>
-              2021-08-12
+            <time datetime="2021-08-25 16:29" pubdate>
+              2021-08-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%85%8D%E7%BD%AE/">配置</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>
+            
+              <a href="/tags/pdf/">pdf</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/25/deep_learning/swin/" target="_self">
+          swin网络
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/25/deep_learning/swin/" target="_self">
+          
+          
+            
+          
+          
+swin_transformer的结构和代码实现部分，在此基础上添加freeze的相关操作，记录如下。
+
+论文中的架构
+
+论文笔记
+
+Swin Transformer:Hierarchical Vision Transformer using Shifted Windows
+
+
+model架构
+123456789101112131415161718192021222324252627282930
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-25 11:27" pubdate>
+              2021-08-25
             </time>
           </div>
         
@@ -462,13 +650,17 @@ $$
             
               <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
             
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/">网络架构</a>
+            
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%8C%E6%A2%AF%E5%BA%A6/">深度学习，梯度</a>
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/swin/">swin</a>
             
           </div>
         
@@ -482,31 +674,29 @@ $$
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/11/leetcode/leetcode-offer05/" target="_self">
-          剑指offer05 替换空格
+        <a href="/2021/08/24/leetcode/leetcode-offer40/" target="_self">
+          剑指offer40 最小的k个数
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/11/leetcode/leetcode-offer05/" target="_self">
+        <a href="/2021/08/24/leetcode/leetcode-offer40/" target="_self">
           
           
             
           
           
-替换空格
+最小的k个数
 
 题目
-请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
 示例 1：
-12输入：s = "We are happy."输出："We%20are%20happy."
+12输入：arr = [3,2,1], k = 2输出：[1,2] 或者 [2,1]
+示例 2：
+12输入：arr = [0,1,2,1], k = 1输出：[0]
 提示：
 
-0 &lt;= s 的长度 &lt;= 10000
-
-题解
-直接替换即可。相当于使用replace方法
-123456789class Solution:    def replaceSpace(self
+0 &lt;= k &lt;= arr.lengt
         </a>
       </p>
 
@@ -514,8 +704,8 @@ $$
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-11 18:36" pubdate>
-              2021-08-11
+            <time datetime="2021-08-24 21:17" pubdate>
+              2021-08-24
             </time>
           </div>
         
@@ -525,7 +715,7 @@ $$
             
               <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a>
             
           </div>
         
@@ -535,7 +725,7 @@ $$
             
               <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+              <a href="/tags/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a>
             
           </div>
         
@@ -549,25 +739,28 @@ $$
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/11/leetcode/leetcode-offer04/" target="_self">
-          剑指offer04 二维数组中的查找
+        <a href="/2021/08/24/config/hexo-emoji/" target="_self">
+          博客中的emoji
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/11/leetcode/leetcode-offer04/" target="_self">
+        <a href="/2021/08/24/config/hexo-emoji/" target="_self">
           
           
             
           
           
-二维数组中的查找
+在博客中使用emoji，可可爱爱小表情😍
 
-题目
-在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个高效的函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
-示例 1：
-现有矩阵 matrix 如下：
-1234567[  [1,   4,  7, 11, 15],  [2,   5,  8, 12, 19],  [3,   6,  9, 
+
+相关配置参见这个博客哟 Hexo -19- 添加emoji表情
+可以在这两个网站看看有哪些小表情
+https://www.webfx.com/tools/emoji-cheat-sheet/
+https://www.zywvvd.com/2021/08/13/git/git-emoji/git-emoji/
+
+安装渲染器
+12npm un hexo
         </a>
       </p>
 
@@ -575,8 +768,8 @@ $$
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-11 18:07" pubdate>
-              2021-08-11
+            <time datetime="2021-08-24 15:00" pubdate>
+              2021-08-24
             </time>
           </div>
         
@@ -584,9 +777,9 @@ $$
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E9%85%8D%E7%BD%AE/">配置</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%95%B0%E7%BB%84/">数组</a>
+              <a href="/categories/%E9%85%8D%E7%BD%AE/hexo/">hexo</a>
             
           </div>
         
@@ -594,11 +787,7 @@ $$
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/idea/">idea</a>
-            
-              <a href="/tags/%E6%95%B0%E7%BB%84%E6%9F%A5%E6%89%BE/">数组查找</a>
+              <a href="/tags/emoji/">emoji</a>
             
           </div>
         
@@ -612,31 +801,24 @@ $$
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/11/leetcode/leetcode-offer03/" target="_self">
-          剑指offer03 数组中重复的数字
+        <a href="/2021/08/21/deep_learning/yolov1/" target="_self">
+          YOLOv1
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/11/leetcode/leetcode-offer03/" target="_self">
+        <a href="/2021/08/21/deep_learning/yolov1/" target="_self">
           
           
             
           
           
-数组中重复的数字
+YOLO系列是基于深度学习的回归方法。YOLO：you only look once的优点是实时快速目标检测。一直都很想把YOLO系统的学习一下。在此，记录下相关的知识和个人理解。做笔记也算是督促我好好的整理相关内容叭！ok开始！😉
 
-题目
-找出数组中重复的数字。
-在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
-示例 1：
-123输入：[2, 3, 1, 0, 2, 5, 3]输出：2 或 3 
-提示：
 
-2 &lt;= n &lt;= 100000
-
-题解
-创建一个f
+参考：
+https://zhuanlan.zhihu.com/p/136382095
+https://mp.weixin.qq.com/s/df1JaGtno
         </a>
       </p>
 
@@ -644,8 +826,8 @@ $$
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-11 10:53" pubdate>
-              2021-08-11
+            <time datetime="2021-08-21 15:56" pubdate>
+              2021-08-21
             </time>
           </div>
         
@@ -653,68 +835,9 @@ $$
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%95%B0%E7%BB%84/">数组</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E6%95%B0%E7%BB%84/">数组</a>
-            
-              <a href="/tags/idea/">idea</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/10/dvc/dvc-config/" target="_self">
-          dvc相关设置
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/10/dvc/dvc-config/" target="_self">
-          
-          
-            
-          
-          
-运行 sh setup.sh detection报错：
-
-(base) root@9b1a4b217508:/workspace/fanmeilin/project/task/ai_lab# sh setup.sh detection
-setup.sh: 12: setup.sh: dvc: not found
-cp: failed to get attributes of ‘assets/ex
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-10 17:36" pubdate>
-              2021-08-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/dvc/">dvc</a>
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
             
           </div>
         
@@ -722,123 +845,11 @@ cp: failed to get attributes of ‘assets/ex
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/dvc/">dvc</a>
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/10/docker/docker-ssh/" target="_self">
-          docker的ssh相关配置
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/10/docker/docker-ssh/" target="_self">
-          
-          
+              <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
             
-          
-          
-参考师兄博客：https://www.zywvvd.com/2020/11/02/windows/win_ssh_linux_docker/win_ssh_linux_docker/
-
-
-ssh是较可靠，专为远程登录会话和其他网络服务提供安全性的协议，广泛用于远程登录的场景，也是远程调试代码的神兵利器。在开发中经常会在服务器启动自己的 docker 容器进行开发，又需要调试代码，vim的调试环境
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-10 17:07" pubdate>
-              2021-08-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/docker/">docker</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/docker/">docker</a>
-            
-              <a href="/tags/%E8%BF%9C%E7%A8%8B%E9%85%8D%E7%BD%AE/">远程配置</a>
-            
-              <a href="/tags/ssh/">ssh</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/10/docker/docker-intro/" target="_self">
-          docker相关命令
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/10/docker/docker-intro/" target="_self">
-          
-          
-            
-          
-          
-简要介绍Docker，记录Docker常用命令使用方法。
-搬运自师兄的博客 又见苍岚 ：https://www.zywvvd.com/2020/05/06/docker/docker_usage/
-
-Docker 简介
-
-**Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。**Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-10 15:15" pubdate>
-              2021-08-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/docker/">docker</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/docker/">docker</a>
-            
-              <a href="/tags/%E8%BF%9C%E7%A8%8B%E9%85%8D%E7%BD%AE/">远程配置</a>
+              <a href="/tags/yolo/">yolo</a>
             
           </div>
         
@@ -850,7 +861,7 @@ Docker 简介
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/9/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#board">8</a><a class="page-number" href="/page/9/#board">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/11/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/9/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#board">8</a><a class="page-number" href="/page/9/#board">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/#board">11</a><a class="page-number" href="/page/12/#board">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/#board">15</a><a class="extend next" rel="next" href="/page/11/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -864,7 +875,7 @@ Docker 简介
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -900,8 +911,6 @@ Docker 简介
   <div class="footer-content">
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
-  <!-- <a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">鄂ICP备2021014492-1号</a>
-  <a href="http://www.beian.miit.gov.cn/"  style="color:blue" target="_blank">http://www.beian.miit.gov.cn/</a> -->
   
   <div class="statistics">
     
@@ -925,6 +934,10 @@ Docker 简介
           </span>
       
     
+  </div>
+  <div class="statistics">
+    <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;"  id="hitokoto"></span></a>
+ <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
   </div>
 
 

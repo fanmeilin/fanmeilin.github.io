@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+<html lang="zh-CN" data-default-color-scheme=auto>
 <script type="text/javascript" src="/js/jquery.js"></script>
 
 
@@ -50,8 +51,16 @@
 </head>
 
 
-<body>
-
+<body>	
+	<div>
+		<div class='real_mask'></div>
+		<div id="banner_video_insert">
+		</div>	
+		<div id='vvd_banner_img'>
+		</div>
+	</div>
+	<div id="banner"></div>
+    
   <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
@@ -145,80 +154,86 @@
   </div>
 </nav>
 
-		<div class="banner" id="banner" parallax=true
-			 style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
-			   background-size: cover;">
-
-      <div class="full-bg-img" >
-
+	
+	<!-- <div class="banner" id="banner" parallax=true
+		style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
+		background-size: cover;"> -->
+        <div class="banner" id='banner' >
+		<div class="full-bg-img" >
 		
-		<div id="banner_video_insert">
-		</div>
-		<script>
-						
-			var ua = navigator.userAgent;
-			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-				isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-				isAndroid = ua.match(/(Android)\s+([\d.]+)/),
-				isMobile = isIphone || isAndroid;
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
 
-			function set_video_attr(id){
-				
-				var height = document.body.children[0].clientHeight
+					function set_video_attr(id){
 
-				var width = document.body.children[0].clientWidth
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
 
-				var video_item = document.getElementById(id);
-
-				if (height / width < 0.56){
-					video_item.setAttribute('width','100%' ); <!--'100%'-->
-					video_item.setAttribute('height', 'auto');
-				} else {
-					video_item.setAttribute('height', '100%'); <!--'100%'-->
-					video_item.setAttribute('width', 'auto');
-				}
-			}
-
-			$.getJSON('/js/video_url.json', function(data){
-				if (true){ <!--!isMobile-->
-					var video_list_length = data.length
-					var seed = Math.random()
-					index = Math.floor(seed * video_list_length)
-					
-					video_url = data[index]
-					video_html_res = "<video id='video_item' style='position: absolute;' muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
-
-					document.getElementById("banner_video_insert").innerHTML = video_html_res;
-					set_video_attr('video_item')
-				}
-
-			});
-
-			if (true){
-				window.onresize = function(){
-					set_video_attr('video_item')
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
 					}
-				}
-			</script>
 
-		
+					$.getJSON('/js/video_url.json', function(data){
+						if (!isMobile){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
 
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
-              
-            </span>
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
 
-            
-          </div>
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
-        </div>
-      </div>
+							video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+							document.getElementById("banner_video_insert").innerHTML = video_html_res;
+
+							set_video_attr('video_item')
+							set_video_attr('banner_img_item')
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+
+			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
+            <div class="mask flex-center">
+			  <div class="page-header text-center fade-in-up">
+				<span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
+				  
+				</span>
+
+				
+			  </div>
+
+			  
+				<div class="scroll-down-bar">
+				  <i class="iconfont icon-arrowdown"></i>
+				</div>
+			  
+			</div>
+		</div>
     </div>
   </header>
 
@@ -240,416 +255,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/30/python/img/pic2video/" target="_self">
-          图像合成视频
+        <a href="/2022/01/04/leetcode/leetcode-offer58-1/" target="_self">
+          剑指offer58-1 翻转单词的顺序
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/30/python/img/pic2video/" target="_self">
+        <a href="/2022/01/04/leetcode/leetcode-offer58-1/" target="_self">
           
           
             
           
           
-在微生物项目中，需要将视频中的微生物检测识别出来，并且生成视频的格式保存，其中需要将检测的annotation图片合成为视频格式。大致流程：使用cv库，首先读取图片，resize到指定大小，存储到Video实例中；
-
-
-OpenCV 底层是用 FFMEPG 进行多媒体开发的，所以 OpenCV 它的长项不在于此，它只是提供了这种能力而已，如果要针对多媒体文件做复杂的处理，推荐的还是 FFMEPG
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-30 09:50" pubdate>
-              2021-10-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/python/">python</a>
-            
-              <a href="/categories/python/%E5%9B%BE%E5%83%8F/">图像</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/python/">python</a>
-            
-              <a href="/tags/%E5%9B%BE%E5%83%8F/">图像</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/29/python/func/squeeze/" target="_self">
-          np.squeeze的用法
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/29/python/func/squeeze/" target="_self">
-          
-          
-            
-          
-          
-记录squeeze() 的相关用法，以及pytorch学习 中 torch.squeeze() 和torch.unsqueeze()的用法。
-
-numpy的squeeze函数
-函数说明
-适用于一处数组中的单一维度，也就是去掉数组轴中维度为1的维度，函数说明如下：
-1234567891011121314151617181920212223242526272829303132333435363738
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-29 10:40" pubdate>
-              2021-10-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/python/">python</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/python/">python</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/26/python/getppi/" target="_self">
-          获得电脑的ppi
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/26/python/getppi/" target="_self">
-          
-          
-            
-          
-          
-获取电脑的分辨率，物理尺寸，PPI
-首先介绍一下PPI和DPI：
-PPI（Pixels Per Inch）每一英寸长度上有多少像素点；计算方式可以使用像素点除以屏幕尺寸。
-分辨率DPI（Dots Per Inch）每一英寸有多少点，这里的点是可以改变的，可以是 1Dot = 1Pixel，也可以是 1Dot = N Pixel。在电脑里，分辩率是可以调节的，这里用的就是Dot ，密度用DPI描述
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-26 14:02" pubdate>
-              2021-10-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/python/">python</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/python/">python</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/21/kaggle/kaggle-data-intro/" target="_self">
-          Sartorius竞赛数据说明
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/21/kaggle/kaggle-data-intro/" target="_self">
-          
-          
-            
-          
-          
-数据说明
-
-Data Description
-In this competition we are segmenting neuronal cells in images. The training annotations are provided as run length encoded masks, and the images are in PNG format. The number 
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-21 17:37" pubdate>
-              2021-10-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/kaggle/">kaggle</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/kaggle/">kaggle</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/21/kaggle/kaggle-intro/" target="_self">
-          kaggle比赛介绍--Sartorius - Cell Instance Segmentation
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/21/kaggle/kaggle-intro/" target="_self">
-          
-          
-            
-          
-          
-最近参赛Sartorius - Cell Instance Segmentation，对竞赛题目和相关注意点进行梳理记录，以便后续回顾。
-
-竞赛说明
-Sartorius - Cell Instance Segmentation，是一个有关医学图像实例分割的竞赛
-地址： https://www.kaggle.com/c/sartorius-cell-instance-segmentation/ov
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-21 16:18" pubdate>
-              2021-10-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/kaggle/">kaggle</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/kaggle/">kaggle</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/21/python/pyqt/pyqtimg/" target="_self">
-          PyQt5中放置图片
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/21/python/pyqt/pyqtimg/" target="_self">
-          
-          
-            
-          
-          
-在pyqt中使用label显示图片，或者使用继承了QLabel的类显示图片，实现在图片上进行长度，角度测量，标注，画板等功能。
-
-QLabel
-Qlabel部件时用于提供文本或者图像显示。Qlabel可以包含纯文本（将字符串传递给setText），富文本（将富文本传递给setText），图像（将QPixmap对象传递setPixmap），动画（将QMovie对象传递给setMovie），数字（将
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-21 09:56" pubdate>
-              2021-10-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/python/">python</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/python/">python</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/20/python/img/cvread/" target="_self">
-          cv读取带有中文路径的图片
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/20/python/img/cvread/" target="_self">
-          
-          
-            
-          
-          
-常规在读取图片时使用的代码是cv.imread(path)，但是路径中出现中文时就会出现，读取为空的情况，以下给出解决方法。
-
-背景
-首先介绍一下cv2.imread()函数
-123456789cv2.imread(filepath,flags)filepath:是要读入的图片路径flags: 读入图片的格式cv2.IMRAED_COLOR:默认选择此参数，读入彩色图片，BGR的格式，忽略了al
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-20 21:12" pubdate>
-              2021-10-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/python/">python</a>
-            
-              <a href="/categories/python/%E5%9B%BE%E5%83%8F/">图像</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/python/">python</a>
-            
-              <a href="/tags/%E5%9B%BE%E5%83%8F/">图像</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/08/leetcode/leetcode-offer36/" target="_self">
-          剑指offer36 二叉搜索树和双向链表
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/08/leetcode/leetcode-offer36/" target="_self">
-          
-          
-            
-          
-          
-二叉搜索树和双向链表
+翻转单词的顺序
 
 题目
-输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向
-为了让您更好地理解问题，以下面的二叉搜索树为例：
-
-我们希望将这个二叉搜索树转化为双向循环链表。链表中的每个节点都有一个前驱和后继指针。对于双向循环链表，第一个节点的前驱是最后一个节点，最后一个节点的后继是第一个节点。
-下图展示了上面的二叉搜索树转化
+输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。例如输入字符串"I am a student. “，则输出"student. a am I”。
+示例 1：
+12输入: "the sky is blue"输出: "blue is sky the"
+示例 2：
+123输入: " &nbsp;hello world! &n
         </a>
       </p>
 
@@ -657,8 +282,8 @@ Qlabel部件时用于提供文本或者图像显示。Qlabel可以包含纯文�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-08 19:50" pubdate>
-              2021-10-08
+            <time datetime="2022-01-04 10:43" pubdate>
+              2022-01-04
             </time>
           </div>
         
@@ -668,7 +293,7 @@ Qlabel部件时用于提供文本或者图像显示。Qlabel可以包含纯文�
             
               <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%91/">树</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a>
             
           </div>
         
@@ -678,7 +303,7 @@ Qlabel部件时用于提供文本或者图像显示。Qlabel可以包含纯文�
             
               <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/tags/%E6%A0%91/">树</a>
+              <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a>
             
           </div>
         
@@ -692,19 +317,47 @@ Qlabel部件时用于提供文本或者图像显示。Qlabel可以包含纯文�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/08/project_tool/pipenv/" target="_self">
-          pipenv的安装和使用
+        <a href="/2022/01/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML2-2/" target="_self">
+          praticalML第二章笔记
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/08/project_tool/pipenv/" target="_self">
+        <a href="/2022/01/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML2-2/" target="_self">
           
           
             
           
           
-pipenv 是Kenneth Reitz大神的作品，能够有效管理Python多个环境，各种包。过去我们一般用virtualenv搭建虚拟环境，管理python版本，但是跨平台的使用不太一致，且有时候处理包之间的依赖总存在问题；过去也常常用 pip进行包的管理，pip已经足够好，但是仍然推荐pipenv，相当于virtualenv和pip的合体，且更加强大。pipenv开源之后，在GitHub上
+斯坦福2021秋季的实用机器学习上线啦~ 😉 跟着沐神复习机器学习冲冲冲！ 记录一下笔记和重点，不一定很全哦~，只是记录自我感觉的重点。
+
+第二章 提升数据质量
+
+
+
+噪声多？
+
+
+yes -&gt;数据清理
+
+
+no？ 格式对吗？
+
+
+No -&gt;数据变换
+
+
+yes 适合学习嘛？
+
+
+No -&gt;特征提取
+
+
+
+2.1 数据清理
+2.1.1 outlier检测（异常）
+
+2.1.2
         </a>
       </p>
 
@@ -712,8 +365,336 @@ pipenv 是Kenneth Reitz大神的作品，能够有效管理Python多个环境，
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-08 16:51" pubdate>
-              2021-10-08
+            <time datetime="2022-01-02 17:52" pubdate>
+              2022-01-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9D%8E%E6%B2%90/">李沐</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/01/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML2-1/" target="_self">
+          PracticeML第二章房价实例笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML2-1/" target="_self">
+          
+          
+            
+          
+          
+斯坦福2021秋季的实用机器学习上线啦~ 😉 跟着沐神复习机器学习冲冲冲！ 记录一下笔记和重点，不一定很全哦~，只是记录自我感觉的重点。
+
+
+本篇笔记主要是实例分析，还有一些小知识点
+
+字符串前加f，r，b，u
+| &amp; 和 or and
+
+
+房价数据分析实例
+使用numpy，pandas，matplotlib，seaborn来处理和可视化。
+实例（波士顿房价）
+读取
+123456789
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-02 15:45" pubdate>
+              2022-01-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9D%8E%E6%B2%90/">李沐</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/30/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML1/" target="_self">
+          praticalML第一章笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/30/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML1/" target="_self">
+          
+          
+            
+          
+          
+斯坦福2021秋季的实用机器学习上线啦~ 😉 跟着沐神复习机器学习冲冲冲！ 记录一下笔记和重点，不一定很全哦~，只是记录自我感觉的重点。
+
+第一章
+1.1 课程介绍
+介绍机器学习balabala 工业界的机器学习哦
+Role
+SDE , 领域专家 -&gt; 数据科学家 机器学习专家
+Skill
+数据科学家需要的技能：
+
+数据： 收集处理数据，独立同分布
+训练： 模型融合，微调，迁移学习，多模
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-30 15:35" pubdate>
+              2021-12-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9D%8E%E6%B2%90/">李沐</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/30/leetcode/leetcode-offer57-2/" target="_self">
+          剑指offer57-2 和为s的连续正数序列
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/30/leetcode/leetcode-offer57-2/" target="_self">
+          
+          
+            
+          
+          
+和为s的连续正数序列
+
+题目
+输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+示例 1：
+12输入：target = 9输出：[[2,3,4],[4,5]]
+示例 2：
+12输入：target = 15输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+提示：
+
+1 &lt;
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-30 13:08" pubdate>
+              2021-12-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/29/project_summary/footprint-summary/" target="_self">
+          足迹检测项目的总结
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/29/project_summary/footprint-summary/" target="_self">
+          
+          
+            
+          
+          
+总结足迹检测项目
+
+简介
+根据刻度尺上的特征对产生畸变的脚印矫正。实现原图打印和标注；
+技术点
+根据刻度尺上的特征对产生畸变的脚印矫正。
+使用霍夫变换拟合4个圆定位来仿射变换矫正图像
+
+霍夫变换-&gt;yolov5
+仿射变换
+pyqt5
+
+难点
+使用霍夫变换容易定位到背景的圆，并且可能出现圆不全的情况
+解决方案
+使用深度学习的方法目标检测
+使用多个特征融合选择进行仿射变换
+成果
+达到不超过15
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-29 21:44" pubdate>
+              2021-12-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%A1%B9%E7%9B%AE/">项目</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/29/project_tool/usePyembeded/" target="_self">
+          python-embeded打包文件生成exe
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/29/project_tool/usePyembeded/" target="_self">
+          
+          
+            
+          
+          
+使用pyinstaller打包的文件太大了！！所以！所以！学到了另一招，将所需的环境配置到python-embeded中，然后使用c来调用py的启动文件，再gcc生成exe文件，酱紫工程文件就会小很多；实践证明，pyinstaller打包5.2G，采用这种方式后降低到1.5G哦~ 这种方式主要就是使用python-embeded来配置环境。
+
+下载embeded版本
+
+python37的embe
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-29 09:58" pubdate>
+              2021-12-29
             </time>
           </div>
         
@@ -722,6 +703,8 @@ pipenv 是Kenneth Reitz大神的作品，能够有效管理Python多个环境，
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+            
+              <a href="/categories/%E5%B7%A5%E5%85%B7/python-embeded/">python-embeded</a>
             
           </div>
         
@@ -743,23 +726,31 @@ pipenv 是Kenneth Reitz大神的作品，能够有效管理Python多个环境，
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/07/python/file/split-filename/" target="_self">
-          分割文件名相关操作
+        <a href="/2021/12/28/leetcode/leetcode-offer45/" target="_self">
+          剑指offer45 把数组排成最小的数
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/07/python/file/split-filename/" target="_self">
+        <a href="/2021/12/28/leetcode/leetcode-offer45/" target="_self">
           
           
             
           
           
-对文件名的相关操作总结
+把数组排成最小的数
 
-函数介绍
-os.path相关函数
-123456os.path.split() #分割文件名os.path.splitdrive() #分割盘符os.path.splitext() #分割扩展名os.path.basename() #获取文件名，split的后一元素os.path.dirname()  #获取路径名，split的前一元素os.path.join()    
+题目
+输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+示例 1：
+12输入: [10,2]输出: "102"
+示例 2：
+12输入: [3,30,34,5,9]输出: "3033459"
+提示：
+
+0 &lt; nums.length &lt;= 100
+输出结果可能非常大，所以你需要返回一个字符串而不是整数
+拼接起来的数字可
         </a>
       </p>
 
@@ -767,8 +758,8 @@ os.path相关函数
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-07 10:34" pubdate>
-              2021-10-07
+            <time datetime="2021-12-28 14:07" pubdate>
+              2021-12-28
             </time>
           </div>
         
@@ -776,9 +767,9 @@ os.path相关函数
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/python/">python</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/categories/python/%E6%96%87%E4%BB%B6/">文件</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%8E%92%E5%BA%8F/">排序</a>
             
           </div>
         
@@ -786,9 +777,138 @@ os.path相关函数
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/python/">python</a>
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/tags/%E6%96%87%E4%BB%B6/">文件</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/26/leetcode/leetcode14/" target="_self">
+          剑指leetcode14 最长公共前缀
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/26/leetcode/leetcode14/" target="_self">
+          
+          
+            
+          
+          
+最长公共前缀
+
+题目
+编写一个函数来查找字符串数组中的最长公共前缀。
+如果不存在公共前缀，返回空字符串 ""。
+示例 1：
+12输入：strs = ["flower","flow","flight"]输出："fl"
+示例 2：
+123输入：strs = ["dog","racecar","car"]输出：""解释：输入不存在公共前缀。
+提示：
+
+1 &lt;= strs.length &lt;=
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-26 14:19" pubdate>
+              2021-12-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/23/leetcode/leetcode-21/" target="_self">
+          剑指offer 力扣-21
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/23/leetcode/leetcode-21/" target="_self">
+          
+          
+            
+          
+          
+合并两个有序链表
+
+题目
+将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+示例 1：
+12输入：l1 = [1,2,4], l2 = [1,3,4]输出：[1,1,2,3,4,4]
+示例 2：
+12输入：l1 = [], l2 = []输出：[]
+示例 2：
+12输入：l1 = [], l2 = [0]输出：[0]
+提示：
+
+两个链表的节点数目范
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-23 15:34" pubdate>
+              2021-12-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/categories/%E5%89%91%E6%8C%87/%E6%8E%92%E5%BA%8F/">排序</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+            
+              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
             
           </div>
         
@@ -800,7 +920,7 @@ os.path相关函数
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/#board">15</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -814,7 +934,7 @@ os.path相关函数
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -850,8 +970,6 @@ os.path相关函数
   <div class="footer-content">
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
-  <!-- <a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">鄂ICP备2021014492-1号</a>
-  <a href="http://www.beian.miit.gov.cn/"  style="color:blue" target="_blank">http://www.beian.miit.gov.cn/</a> -->
   
   <div class="statistics">
     
@@ -875,6 +993,10 @@ os.path相关函数
           </span>
       
     
+  </div>
+  <div class="statistics">
+    <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;"  id="hitokoto"></span></a>
+ <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
   </div>
 
 

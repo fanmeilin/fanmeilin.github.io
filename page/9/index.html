@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+<html lang="zh-CN" data-default-color-scheme=auto>
 <script type="text/javascript" src="/js/jquery.js"></script>
 
 
@@ -50,8 +51,16 @@
 </head>
 
 
-<body>
-
+<body>	
+	<div>
+		<div class='real_mask'></div>
+		<div id="banner_video_insert">
+		</div>	
+		<div id='vvd_banner_img'>
+		</div>
+	</div>
+	<div id="banner"></div>
+    
   <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
@@ -145,80 +154,86 @@
   </div>
 </nav>
 
-		<div class="banner" id="banner" parallax=true
-			 style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
-			   background-size: cover;">
-
-      <div class="full-bg-img" >
-
+	
+	<!-- <div class="banner" id="banner" parallax=true
+		style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
+		background-size: cover;"> -->
+        <div class="banner" id='banner' >
+		<div class="full-bg-img" >
 		
-		<div id="banner_video_insert">
-		</div>
-		<script>
-						
-			var ua = navigator.userAgent;
-			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-				isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-				isAndroid = ua.match(/(Android)\s+([\d.]+)/),
-				isMobile = isIphone || isAndroid;
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
 
-			function set_video_attr(id){
-				
-				var height = document.body.children[0].clientHeight
+					function set_video_attr(id){
 
-				var width = document.body.children[0].clientWidth
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
 
-				var video_item = document.getElementById(id);
-
-				if (height / width < 0.56){
-					video_item.setAttribute('width','100%' ); <!--'100%'-->
-					video_item.setAttribute('height', 'auto');
-				} else {
-					video_item.setAttribute('height', '100%'); <!--'100%'-->
-					video_item.setAttribute('width', 'auto');
-				}
-			}
-
-			$.getJSON('/js/video_url.json', function(data){
-				if (true){ <!--!isMobile-->
-					var video_list_length = data.length
-					var seed = Math.random()
-					index = Math.floor(seed * video_list_length)
-					
-					video_url = data[index]
-					video_html_res = "<video id='video_item' style='position: absolute;' muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
-
-					document.getElementById("banner_video_insert").innerHTML = video_html_res;
-					set_video_attr('video_item')
-				}
-
-			});
-
-			if (true){
-				window.onresize = function(){
-					set_video_attr('video_item')
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
 					}
-				}
-			</script>
 
-		
+					$.getJSON('/js/video_url.json', function(data){
+						if (!isMobile){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
 
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
-              
-            </span>
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
 
-            
-          </div>
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
-        </div>
-      </div>
+							video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+							document.getElementById("banner_video_insert").innerHTML = video_html_res;
+
+							set_video_attr('video_item')
+							set_video_attr('banner_img_item')
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+
+			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
+            <div class="mask flex-center">
+			  <div class="page-header text-center fade-in-up">
+				<span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
+				  
+				</span>
+
+				
+			  </div>
+
+			  
+				<div class="scroll-down-bar">
+				  <i class="iconfont icon-arrowdown"></i>
+				</div>
+			  
+			</div>
+		</div>
     </div>
   </header>
 
@@ -240,23 +255,23 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/18/leetcode/leetcode-offer14-2/" target="_self">
-          剑指offer14.2 剪绳子2
+        <a href="/2021/10/20/python/img/cvread/" target="_self">
+          cv读取带有中文路径的图片
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/18/leetcode/leetcode-offer14-2/" target="_self">
+        <a href="/2021/10/20/python/img/cvread/" target="_self">
           
           
             
           
           
-剪绳子2
+常规在读取图片时使用的代码是cv.imread(path)，但是路径中出现中文时就会出现，读取为空的情况，以下给出解决方法。
 
-题目
-给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n&gt;1并且m&gt;1），每段绳子的长度记为 k[0],k[1]…k[m - 1] .请问 k[0]k[1]…*k[m - 1] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
-答案需要取模 1e9+7（1000000007），如
+背景
+首先介绍一下cv2.imread()函数
+123456789cv2.imread(filepath,flags)filepath:是要读入的图片路径flags: 读入图片的格式cv2.IMRAED_COLOR:默认选择此参数，读入彩色图片，BGR的格式，忽略了al
         </a>
       </p>
 
@@ -264,8 +279,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-18 00:20" pubdate>
-              2021-08-18
+            <time datetime="2021-10-20 21:12" pubdate>
+              2021-10-20
             </time>
           </div>
         
@@ -273,9 +288,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/python/">python</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+              <a href="/categories/python/%E5%9B%BE%E5%83%8F/">图像</a>
             
           </div>
         
@@ -283,9 +298,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/tags/python/">python</a>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+              <a href="/tags/%E5%9B%BE%E5%83%8F/">图像</a>
             
           </div>
         
@@ -299,24 +314,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/17/leetcode/leetcode-offer14-1/" target="_self">
-          剑指offer14.1 剪绳子1
+        <a href="/2021/10/08/leetcode/leetcode-offer36/" target="_self">
+          剑指offer36 二叉搜索树和双向链表
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/17/leetcode/leetcode-offer14-1/" target="_self">
+        <a href="/2021/10/08/leetcode/leetcode-offer36/" target="_self">
           
           
             
           
           
-剪绳子
+二叉搜索树和双向链表
 
 题目
-给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n&gt;1并且m&gt;1），每段绳子的长度记为 k[0],k[1]…k[m-1] 。请问 k[0]k[1]…*k[m-1] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
-示例 1：
-123输入: 2输出: 1解释: 2 = 1 + 
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向
+为了让您更好地理解问题，以下面的二叉搜索树为例：
+
+我们希望将这个二叉搜索树转化为双向循环链表。链表中的每个节点都有一个前驱和后继指针。对于双向循环链表，第一个节点的前驱是最后一个节点，最后一个节点的后继是第一个节点。
+下图展示了上面的二叉搜索树转化
         </a>
       </p>
 
@@ -324,74 +341,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-17 23:46" pubdate>
-              2021-08-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/idea/">idea</a>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/17/leetcode/leetcode-offer07/" target="_self">
-          剑指offer07 重建二叉树
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/17/leetcode/leetcode-offer07/" target="_self">
-          
-          
-            
-          
-          
-重建二叉树
-
-题目
-输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。
-假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
-示例 1：
-
-12Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]Output: [3,9,20,null,null,15,7]
-示例 2：
-12Input: preorder = [-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-17 20:59" pubdate>
-              2021-08-17
+            <time datetime="2021-10-08 19:50" pubdate>
+              2021-10-08
             </time>
           </div>
         
@@ -425,23 +376,19 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/17/deep_learning/gradient-exp/" target="_self">
-          梯度消失&amp;梯度爆炸
+        <a href="/2021/10/08/project_tool/pipenv/" target="_self">
+          pipenv的安装和使用
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/17/deep_learning/gradient-exp/" target="_self">
+        <a href="/2021/10/08/project_tool/pipenv/" target="_self">
           
           
             
           
           
-本文探讨深度学习中经常提到的概念–梯度消失和梯度爆炸 。他们是影响模型收敛，学习好坏的重要因素。对此现象也提出了很多对应的解决方案。我们来大致做一个总结，对其概念，原因和相关的解决方案进行探讨叭~~
-
-梯度爆炸&amp;梯度消失
-梯度爆炸就是在梯度更新的时候偏导数很大，导致更新参数无法收敛到最值（总是跳到其他不好的地方）。
-梯度消失就是在梯度更新的时候偏导数很小，导致更新参数无法收敛到最值（动不
+pipenv 是Kenneth Reitz大神的作品，能够有效管理Python多个环境，各种包。过去我们一般用virtualenv搭建虚拟环境，管理python版本，但是跨平台的使用不太一致，且有时候处理包之间的依赖总存在问题；过去也常常用 pip进行包的管理，pip已经足够好，但是仍然推荐pipenv，相当于virtualenv和pip的合体，且更加强大。pipenv开源之后，在GitHub上
         </a>
       </p>
 
@@ -449,8 +396,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-17 10:42" pubdate>
-              2021-08-17
+            <time datetime="2021-10-08 16:51" pubdate>
+              2021-10-08
             </time>
           </div>
         
@@ -458,7 +405,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
             
           </div>
         
@@ -466,7 +413,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
             
           </div>
         
@@ -480,38 +427,151 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/16/leetcode/leetcode-offer27/" target="_self">
-          剑指offer27 二叉树的镜像
+        <a href="/2021/10/07/python/file/split-filename/" target="_self">
+          分割文件名相关操作
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/16/leetcode/leetcode-offer27/" target="_self">
+        <a href="/2021/10/07/python/file/split-filename/" target="_self">
           
           
             
           
           
-二叉树的镜像
+对文件名的相关操作总结
+
+函数介绍
+os.path相关函数
+123456os.path.split() #分割文件名os.path.splitdrive() #分割盘符os.path.splitext() #分割扩展名os.path.basename() #获取文件名，split的后一元素os.path.dirname()  #获取路径名，split的前一元素os.path.join()    
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-07 10:34" pubdate>
+              2021-10-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/python/">python</a>
+            
+              <a href="/categories/python/%E6%96%87%E4%BB%B6/">文件</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/python/">python</a>
+            
+              <a href="/tags/%E6%96%87%E4%BB%B6/">文件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/06/python/file/delete-file/" target="_self">
+          使用python删除文件和文件夹
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/06/python/file/delete-file/" target="_self">
+          
+          
+            
+          
+          
+总结删除文件和文件夹的相关操作和函数。
+
+删除单个文件
+12os.remove(path)# 如果path是一个目录，抛出OSError错误，如果文件不在或者路径错误，会抛出错误
+删除文件夹
+空文件夹
+123os.rmdir(dirName)os.removedirs(dirName)# 删除目录 dirName，要求dirName必须是个空目录，否则抛出OSError错误
+递归删除文件夹
+非空
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-06 15:33" pubdate>
+              2021-10-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/python/">python</a>
+            
+              <a href="/categories/python/%E6%96%87%E4%BB%B6/">文件</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/python/">python</a>
+            
+              <a href="/tags/%E6%96%87%E4%BB%B6/">文件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/06/leetcode/leetcode-offer42/" target="_self">
+          剑指offer42 连续子数组最大和
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/06/leetcode/leetcode-offer42/" target="_self">
+          
+          
+            
+          
+          
+连续子数组最大和
 
 题目
-请完成一个函数，输入一个二叉树，该函数输出它的镜像。
-例如输入：
-​     4
-2     7
-1   3  6   9
-镜像输出：
-​     4
-7     2
-9   6 3   1
+输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
+要求时间复杂度为O(n)。
 示例 1：
-12输入：root = [4,2,7,1,3,6,9]输出：[4,7,2,9,6,3,1]
+123输入: nums = [-2,1,-3,4,-1,2,1,-5,4]输出: 6解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 提示：
 
-0 &lt;= 节点个数 &lt;= 1000
-
-题解
-如果为空树就返
+1 &lt;= arr.length &lt;= 10^5
+-100 &lt;= arr
         </a>
       </p>
 
@@ -519,8 +579,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-16 21:01" pubdate>
-              2021-08-16
+            <time datetime="2021-10-06 14:54" pubdate>
+              2021-10-06
             </time>
           </div>
         
@@ -530,7 +590,7 @@
             
               <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%91/">树</a>
+              <a href="/categories/%E5%89%91%E6%8C%87/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
             
           </div>
         
@@ -540,7 +600,7 @@
             
               <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
             
-              <a href="/tags/%E6%A0%91/">树</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
             
           </div>
         
@@ -554,30 +614,25 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/16/leetcode/leetcode-offer25/" target="_self">
-          剑指offer06 合并两个排序的链表
+        <a href="/2021/10/06/python/img/FPDF/" target="_self">
+          python将图片存进PDF中
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/16/leetcode/leetcode-offer25/" target="_self">
+        <a href="/2021/10/06/python/img/FPDF/" target="_self">
           
           
             
           
           
-合并两个排序的链表
+在公安部足迹项目中，需要将矫正的足迹图片打印出来，所有首先转成pdf文件中再进行打印。就涉及到将图片存入pdf中，这里使用的工具是FPDF。FPDF是一个pdf文件的处理库，我们可以个性化创建和规范设定pdf文件。
 
-题目
-输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
-示例 1：
-12输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4
-提示：
-
-0 &lt;= 链表长度 &lt;= 1000
-
-题解
-如果直接用p = l.next  那么不能达到“指针”的效果。这样的操作对l没有
+安装
+1pip install fpdf
+具体内容
+实现代码
+12345678910111213from fpdf import FPDFimport globdef images
         </a>
       </p>
 
@@ -585,8 +640,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-16 17:39" pubdate>
-              2021-08-16
+            <time datetime="2021-10-06 10:43" pubdate>
+              2021-10-06
             </time>
           </div>
         
@@ -594,9 +649,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/python/">python</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E9%93%BE%E8%A1%A8/">链表</a>
+              <a href="/categories/python/%E5%9B%BE%E5%83%8F/">图像</a>
             
           </div>
         
@@ -604,9 +659,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/tags/python/">python</a>
             
-              <a href="/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+              <a href="/tags/%E5%9B%BE%E5%83%8F/">图像</a>
             
           </div>
         
@@ -620,22 +675,22 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/14/leetcode/leetcode-offer13/" target="_self">
-          剑指offer13 机器人的运动范围
+        <a href="/2021/09/29/project_tool/pyinstaller-spec-problem/" target="_self">
+          pyinstaller打包问题
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/14/leetcode/leetcode-offer13/" target="_self">
+        <a href="/2021/09/29/project_tool/pyinstaller-spec-problem/" target="_self">
           
           
             
           
           
-机器人的运动范围
+在使用pyinstaller打包的过程中的坑点，记录一下
+参考大佬：https://blog.csdn.net/u012219045/article/details/115397646
 
-题目
-地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=1
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657
         </a>
       </p>
 
@@ -643,8 +698,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-14 17:56" pubdate>
-              2021-08-14
+            <time datetime="2021-09-29 15:41" pubdate>
+              2021-09-29
             </time>
           </div>
         
@@ -652,9 +707,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/DFS/">DFS</a>
+              <a href="/categories/%E5%B7%A5%E5%85%B7/pyinstaller/">pyinstaller</a>
             
           </div>
         
@@ -662,11 +717,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/idea/">idea</a>
-            
-              <a href="/tags/DFS/">DFS</a>
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
             
           </div>
         
@@ -680,25 +731,33 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/14/img_process/sobel/" target="_self">
-          Sobel算子
+        <a href="/2021/09/28/project_tool/spec/" target="_self">
+          利用spec文件打包
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/14/img_process/sobel/" target="_self">
+        <a href="/2021/09/28/project_tool/spec/" target="_self">
           
           
             
           
           
-本文主要介绍Sobel算子，主要用于边缘检测；由于该算子引入了局部平均，对噪声有平滑作用，因此还可以消除噪声。
+pyinstaller打包方式一般可以分为直接输入指令和利用spec文件进行打包两种方式，直接输入指令就是根据指令生成spec文件，再根据spec文件的内容进行打包操作，因此spec文件就是核心部分，在此对其内容的相关配置进行归纳。
 
-图像边缘与梯度
-在图像边缘，灰度值的变化较大，因此图像在此处的梯度值也较大。一般情况，图像梯度时计算图像的边缘信息。图像梯度严格来说时需要求导数，但是在图像计算上时使用像素值的差得到梯度的近似值。
-图像强度的显著变化可分为：
+spec文件参数
+spec文件参数：a，pyz，exe，coll，block_cipher;
 
-阶跃变化函数，即图像强度在不连续处的两边的像素灰度值有着
+
+
+变量
+含义
+
+
+
+
+a
+Analysis类的实例,要求传入各种
         </a>
       </p>
 
@@ -706,8 +765,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-14 10:25" pubdate>
-              2021-08-14
+            <time datetime="2021-09-28 14:09" pubdate>
+              2021-09-28
             </time>
           </div>
         
@@ -715,7 +774,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
+              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+            
+              <a href="/categories/%E5%B7%A5%E5%85%B7/pyinstaller/">pyinstaller</a>
             
           </div>
         
@@ -723,7 +784,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
             
           </div>
         
@@ -737,31 +798,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/14/leetcode/leetcode-offer06/" target="_self">
-          剑指offer06 从尾到头打印链表
+        <a href="/2021/09/26/project_tool/pyinstaller/" target="_self">
+          pyinstaller打包exe
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/14/leetcode/leetcode-offer06/" target="_self">
+        <a href="/2021/09/26/project_tool/pyinstaller/" target="_self">
           
           
             
           
           
-从尾到头打印链表
+pyinstaller的作用是可以将python应用程序打包为独立的可执行文件，相对与同类工具而言，其优势在于可以和python配合使用，构建较小的可执行文件并且完全多平台，完全兼容性。
 
-题目
-输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
-示例 1：
-12输入：head = [1,3,2]输出：[2,3,1]
-提示：
 
-0 &lt;= 链表长度 &lt;= 10000
+pyinstaller的主要目标是与第三方软件包兼容，因此在使用pyinstaller会将所有的外部包继承在pyinstaller本身中。
 
-题解
-遍历链表，直接插入到头位置。就可以直接输出了。或者采用递归，超级简洁，值得借鉴。注意if的条件和对应结果。（递归就从中间普适的节点开始考虑 然后补充边界细节）
-r
+安装
+直接从pypi安装pyinstaller：
+1pip in
         </a>
       </p>
 
@@ -769,8 +825,8 @@ r
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-14 01:28" pubdate>
-              2021-08-14
+            <time datetime="2021-09-26 20:11" pubdate>
+              2021-09-26
             </time>
           </div>
         
@@ -778,71 +834,9 @@ r
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E9%93%BE%E8%A1%A8/">链表</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/idea/">idea</a>
-            
-              <a href="/tags/%E9%93%BE%E8%A1%A8/">链表</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/14/leetcode/leetcode-offer12/" target="_self">
-          剑指offer12 矩阵中的路径
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/14/leetcode/leetcode-offer12/" target="_self">
-          
-          
-            
-          
-          
-矩阵中的路径
-
-题目
-给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
-单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
-例如，在下面的 3×4 的矩阵中包含单词 “ABCCED”（单词中的字母已标出
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-14 01:04" pubdate>
-              2021-08-14
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/DFS/">DFS</a>
+              <a href="/categories/%E5%B7%A5%E5%85%B7/pyinstaller/">pyinstaller</a>
             
           </div>
         
@@ -850,11 +844,7 @@ r
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/idea/">idea</a>
-            
-              <a href="/tags/DFS/">DFS</a>
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/">项目打包</a>
             
           </div>
         
@@ -866,7 +856,7 @@ r
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/8/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/#board">10</a><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/10/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/8/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/#board">10</a><a class="page-number" href="/page/11/#board">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/#board">15</a><a class="extend next" rel="next" href="/page/10/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -880,7 +870,7 @@ r
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -916,8 +906,6 @@ r
   <div class="footer-content">
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
-  <!-- <a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">鄂ICP备2021014492-1号</a>
-  <a href="http://www.beian.miit.gov.cn/"  style="color:blue" target="_blank">http://www.beian.miit.gov.cn/</a> -->
   
   <div class="statistics">
     
@@ -941,6 +929,10 @@ r
           </span>
       
     
+  </div>
+  <div class="statistics">
+    <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;"  id="hitokoto"></span></a>
+ <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
   </div>
 
 

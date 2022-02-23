@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+<html lang="zh-CN" data-default-color-scheme=auto>
 <script type="text/javascript" src="/js/jquery.js"></script>
 
 
@@ -50,8 +51,16 @@
 </head>
 
 
-<body>
-
+<body>	
+	<div>
+		<div class='real_mask'></div>
+		<div id="banner_video_insert">
+		</div>	
+		<div id='vvd_banner_img'>
+		</div>
+	</div>
+	<div id="banner"></div>
+    
   <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
@@ -145,80 +154,86 @@
   </div>
 </nav>
 
-		<div class="banner" id="banner" parallax=true
-			 style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
-			   background-size: cover;">
-
-      <div class="full-bg-img" >
-
+	
+	<!-- <div class="banner" id="banner" parallax=true
+		style="background: url('https://picture.mulindya.com/girl.png') no-repeat center center;
+		background-size: cover;"> -->
+        <div class="banner" id='banner' >
+		<div class="full-bg-img" >
 		
-		<div id="banner_video_insert">
-		</div>
-		<script>
-						
-			var ua = navigator.userAgent;
-			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-				isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-				isAndroid = ua.match(/(Android)\s+([\d.]+)/),
-				isMobile = isIphone || isAndroid;
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
 
-			function set_video_attr(id){
-				
-				var height = document.body.children[0].clientHeight
+					function set_video_attr(id){
 
-				var width = document.body.children[0].clientWidth
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
 
-				var video_item = document.getElementById(id);
-
-				if (height / width < 0.56){
-					video_item.setAttribute('width','100%' ); <!--'100%'-->
-					video_item.setAttribute('height', 'auto');
-				} else {
-					video_item.setAttribute('height', '100%'); <!--'100%'-->
-					video_item.setAttribute('width', 'auto');
-				}
-			}
-
-			$.getJSON('/js/video_url.json', function(data){
-				if (true){ <!--!isMobile-->
-					var video_list_length = data.length
-					var seed = Math.random()
-					index = Math.floor(seed * video_list_length)
-					
-					video_url = data[index]
-					video_html_res = "<video id='video_item' style='position: absolute;' muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
-
-					document.getElementById("banner_video_insert").innerHTML = video_html_res;
-					set_video_attr('video_item')
-				}
-
-			});
-
-			if (true){
-				window.onresize = function(){
-					set_video_attr('video_item')
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
 					}
-				}
-			</script>
 
-		
+					$.getJSON('/js/video_url.json', function(data){
+						if (!isMobile){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
 
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
-              
-            </span>
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
 
-            
-          </div>
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
-        </div>
-      </div>
+							video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+							document.getElementById("banner_video_insert").innerHTML = video_html_res;
+
+							set_video_attr('video_item')
+							set_video_attr('banner_img_item')
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+
+			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
+            <div class="mask flex-center">
+			  <div class="page-header text-center fade-in-up">
+				<span class="h2" id="subtitle" title="听说，橘红色的天空是星星在跳舞">
+				  
+				</span>
+
+				
+			  </div>
+
+			  
+				<div class="scroll-down-bar">
+				  <i class="iconfont icon-arrowdown"></i>
+				</div>
+			  
+			</div>
+		</div>
     </div>
   </header>
 
@@ -240,29 +255,27 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/21/leetcode/leetcode-offer32-1/" target="_self">
-          剑指offer32-1 从上到下打印二叉树
+        <a href="/2022/01/19/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/DataAnalysis2/" target="_self">
+          数据分析笔记--数据分析
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/21/leetcode/leetcode-offer32-1/" target="_self">
+        <a href="/2022/01/19/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/DataAnalysis2/" target="_self">
           
           
             
           
           
-题目
-从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
-示例 1：
-123456789例如:给定二叉树: [3,9,20,null,null,15,7],    3   / \  9  20    /  \   15   7 返回：     [3,9,20,15,7]
-提示：
+本科实训的时候记录的数据分析的笔记，感觉还挺全面的，部署到博客中，今后对数据分析的应用可以方便回顾。
 
-节点总数 &lt;= 1000
 
-题解
-常规的层序遍历
-123456789101112131415
+本篇主要内容是数据分析，包括单纯的描述性分析和报表分析，这里主要讲解了单连续变量描述统计量的描述性分析以及报表分析。可以参考本篇的图表绘制方法哦！ 👾
+
+1 描述性分析 🎩
+
+单分类变量描述频数，例如：value_counts()描述分类变量 柱形图
+单连续变量描述统计量（均值，中位数，
         </a>
       </p>
 
@@ -270,8 +283,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-21 17:39" pubdate>
-              2021-11-21
+            <time datetime="2022-01-19 15:41" pubdate>
+              2022-01-19
             </time>
           </div>
         
@@ -279,7 +292,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
             
           </div>
         
@@ -287,7 +302,11 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/tags/python/">python</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
+            
+              <a href="/tags/%E7%BB%98%E5%9B%BE/">绘图</a>
             
           </div>
         
@@ -301,33 +320,23 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/20/leetcode/leetcode-offer38/" target="_self">
-          剑指offer38 字符串的排列
+        <a href="/2022/01/19/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/DataAnalysis1/" target="_self">
+          数据分析笔记--索引操作
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/20/leetcode/leetcode-offer38/" target="_self">
+        <a href="/2022/01/19/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/DataAnalysis1/" target="_self">
           
           
             
           
           
-字符串的排列
+本科实训的时候记录的数据分析的笔记，感觉还挺全面的，部署到博客中，今后对pandas的应用可以方便回顾。
+本篇主要内容数据分析的索引操作，对Series以及DataFrame的索引操作。😉
 
-题目
-输入一个字符串，打印出该字符串中字符的所有排列。
-你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
-示例 1：
-12输入：s = "abc"输出：["abc","acb","bac","bca","cab","cba"]
-提示：
-
-1 &lt;= s 的长度 &lt;= 8
-
-题解
-思路一
-固定s的第一个元素,得到去掉这个元素的后续元素的全排列情况（递归调用）;
-
+1 索引操作 📆
+123456#索引操作ser1 = pd.Series(range(10,15),index = list('ABCDE'))ser2 = pd.Series(range(10,15)
         </a>
       </p>
 
@@ -335,8 +344,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-20 15:10" pubdate>
-              2021-11-20
+            <time datetime="2022-01-19 14:20" pubdate>
+              2022-01-19
             </time>
           </div>
         
@@ -344,9 +353,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E9%80%92%E5%BD%92/">递归</a>
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
             
           </div>
         
@@ -354,9 +363,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/tags/python/">python</a>
             
-              <a href="/tags/%E9%80%92%E5%BD%92/">递归</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
             
           </div>
         
@@ -370,24 +379,38 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/19/leetcode/leetcode-offer31/" target="_self">
-          剑指offer31 栈的压入，弹出序列
+        <a href="/2022/01/18/project_tool/quat/" target="_self">
+          Latex中的空格
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/19/leetcode/leetcode-offer31/" target="_self">
+        <a href="/2022/01/18/project_tool/quat/" target="_self">
           
           
             
           
           
-栈的压入，弹出序列
+记录Latex在公式中使用空格。
 
-题目
-输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如，序列 {1,2,3,4,5} 是某栈的压栈序列，序列 {4,5,3,2,1} 是该压栈序列对应的一个弹出序列，但 {4,3,5,1,2} 就不可能是该压栈序列的弹出序列。
-示例 1：
-12345输入：pushed = [1,2,3,4,5], pop
+一般情况下使用空格都是\quad 命令。但最近发现这个空格距离太大了，需要小一点的空格。
+所以改用\ 命令。
+一个空格
+1a \quad b
+$$
+a \quad b
+$$
+两个空格
+1a \qquad b
+$$
+a \qquad b
+$$
+一个m的长度
+1a \ b
+$$
+a \ b
+$$
+
         </a>
       </p>
 
@@ -395,8 +418,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-19 10:28" pubdate>
-              2021-11-19
+            <time datetime="2022-01-18 19:27" pubdate>
+              2022-01-18
             </time>
           </div>
         
@@ -404,9 +427,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%88/">栈</a>
+              <a href="/categories/%E9%85%8D%E7%BD%AE/">配置</a>
             
           </div>
         
@@ -414,9 +435,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
+              <a href="/tags/Latex/">Latex</a>
             
           </div>
         
@@ -430,27 +449,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/18/leetcode/leetcode-offer563/" target="_self">
-          剑指offerleetcode-offer563 二叉树的坡度
+        <a href="/2022/01/17/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML4/" target="_self">
+          praticalML第四章笔记
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/18/leetcode/leetcode-offer563/" target="_self">
+        <a href="/2022/01/17/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML4/" target="_self">
           
           
             
           
           
-二叉树的坡度
+斯坦福2021秋季的实用机器学习上线啦~ 😉 跟着沐神复习机器学习冲冲冲！ 记录一下笔记和重点，不一定很全哦~，只是记录自我感觉的重点。
 
-题目
-给定一个二叉树，计算 整个树 的坡度 。
-一个树的 节点的坡度 定义即为，该节点左子树的节点之和和右子树节点之和的 差的绝对值 。如果没有左子树的话，左子树的节点之和为 0 ；没有右子树的话也是一样。空结点的坡度是 0 。
-整个树 的坡度就是其所有节点的坡度之和。
-示例 1：
+第四章
+4.1 模型评估
+P来源于data采样得到模型之后得到预测，这个新的预测是更加关心的。
+给定数据给定 超参数 已经获取到模型
 
-12345678输入：root = [1,2,3]输出：1解释：节点 2 的坡度：|0-0| =
+Loss measures how good the model in predicting the outcome i
         </a>
       </p>
 
@@ -458,8 +476,311 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-18 15:06" pubdate>
-              2021-11-18
+            <time datetime="2022-01-17 15:31" pubdate>
+              2022-01-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%8C%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">学习笔记，机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9D%8E%E6%B2%90/">李沐</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/01/11/deep_learning/conv3d/" target="_self">
+          深度理解3D卷积
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/11/deep_learning/conv3d/" target="_self">
+          
+          
+            
+          
+          
+在帕金森数据中涉及三维数据的训练和预测，用到了conv3但是对其背后的原理还有一些模糊的地方，conv2d与多通道的conv2d的区别在哪里？conv3d的思想理论是什么？对此进行探究和记录… 😳
+
+
+首先要明确多通道的2d卷积和3d卷积是不一样的，3d是可以在通道中移动的，2d达咩！
+
+卷积核的维度
+卷积核的维度指的的进行滑窗操作的维度，而滑窗操作不在channel维度上进行，不管有几个ch
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-11 10:59" pubdate>
+              2022-01-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/01/10/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML3/" target="_self">
+          praticalML第三章笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/10/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML3/" target="_self">
+          
+          
+            
+          
+          
+斯坦福2021秋季的实用机器学习上线啦~ 😉 跟着沐神复习机器学习冲冲冲！ 记录一下笔记和重点，不一定很全哦~，只是记录自我感觉的重点。
+这一章的内容是对各种机器学习模型的介绍，包括有决策树，线性模型，多层感知机，卷积神经网络，循环神经网络。
+
+第三章 机器学习模型
+3.1 机器学习介绍🎈
+分类可以分成：
+
+监督学习（Surprised）：有标号的数据上来训练模型来预测标号
+
+衍生出现sel
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-10 14:27" pubdate>
+              2022-01-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9D%8E%E6%B2%90/">李沐</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/01/06/deep_learning/dsconv/" target="_self">
+          Depthwise Separable Convolution
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/06/deep_learning/dsconv/" target="_self">
+          
+          
+            
+          
+          Depthwise Separable Convolution
+
+在Mobilenet中使用DSconv，通过改进架构减少参数量的方法，所以也顺势记录一下Depthwise Separable卷积的原理。笔记来源于李宏毅的课程。😢
+
+传统的卷积过程
+
+Depthwise Convolution
+第一个步骤，每一个filter只作用到一个Chanel，这里input和output的channel是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-06 10:20" pubdate>
+              2022-01-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/MobileNet/">MobileNet</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+              <a href="/tags/MobileNet/">MobileNet</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/01/05/deep_learning/KnowledgeDistillation/" target="_self">
+          Knowledge Distillation笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/05/deep_learning/KnowledgeDistillation/" target="_self">
+          
+          
+            
+          
+          
+因为项目中要使用到知识蒸馏来训练网络，所以先好好学一下它的原理。在网上找到了李宏毅机器学习的模型压缩中讲到了这个，那，就开始学习叭😉
+
+知识蒸馏🌌
+概念
+先训练一个大的network（teacher），再根据这个network来制造小的network（student），同时student是根据teacher的结构做一些修剪得到的小网络，student network是根据teacher ne
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-05 16:38" pubdate>
+              2022-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9D%8E%E5%AE%8F%E6%AF%85/">李宏毅</a>
+            
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/">知识蒸馏</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/01/05/leetcode/leetcode17/" target="_self">
+          leetcode17 电话号码的字母组合
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/01/05/leetcode/leetcode17/" target="_self">
+          
+          
+            
+          
+          
+电话号码的字母组合
+
+题目
+给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母
+
+示例 1：
+12输入：digits = "23"输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
+示例 2：
+12输入：digits = ""输出：[]
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-01-05 11:14" pubdate>
+              2022-01-05
             </time>
           </div>
         
@@ -493,26 +814,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/11/17/leetcode/leetcode-offer57/" target="_self">
-          剑指offer57 和为s的两个数字
+        <a href="/2022/01/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/paper-gan/" target="_self">
+          NIPS-2014-generative-adversarial-nets-Paper
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/11/17/leetcode/leetcode-offer57/" target="_self">
+        <a href="/2022/01/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/paper-gan/" target="_self">
           
           
             
           
           
-和为s的两个数字
+笔记记录再pdf中，所以就直接放pdf在此处叭~ 😉
 
-题目
-输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
-示例 1：
-12输入：nums = [2,7,11,15], target = 9输出：[2,7] 或者 [7,2]
-示例 2：
-12输入：nums = [10,26,30,31,47,60], target = 40输出：[10,30] 或者 
+学习视频链接
+https://www.bilibili.com/video/BV1rb4y187vD?spm_id_from=333.999.0.0
+pdf链接
+https://paper.mulindya.com/NIPS-2014-generative-adversarial-nets-Paper.pdf
+论文学习链接
+更多论文请见：
         </a>
       </p>
 
@@ -520,8 +841,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-17 11:50" pubdate>
-              2021-11-17
+            <time datetime="2022-01-04 15:48" pubdate>
+              2022-01-04
             </time>
           </div>
         
@@ -529,79 +850,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
             
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/16/leetcode/leetcode-offer55-1/" target="_self">
-          剑指offer55-Ⅰ 二叉树的深度
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/16/leetcode/leetcode-offer55-1/" target="_self">
-          
-          
-            
-          
-          
-二叉树的深度
-
-题目
-输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
-示例 1：
-例如：
-给定二叉树 [3,9,20,null,null,15,7],
-12345 3 / \9  20  /  \ 15   7
-返回它的最大深度 3 。
-提示：
-
-节点总数 &lt;= 10000
-
-题解
-解法一
-直接深度优先遍历即
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-16 16:47" pubdate>
-              2021-11-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/%E6%A0%91/">树</a>
+              <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/">paper</a>
             
           </div>
         
@@ -609,265 +860,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E6%A0%91/">树</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/15/leetcode/leetcode-offer50/" target="_self">
-          剑指offer50 第一个只出现一次的字符
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/15/leetcode/leetcode-offer50/" target="_self">
-          
-          
-            
-          
-          
-第一个只出现一次的字符
-
-题目
-在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
-示例 1：
-12输入：s = "abaccdeff"输出：'b'
-示例 2：
-12输入：s = "" 输出：' '
-提示：
-
-0 &lt;= s 的长度 &lt;= 50000
-
-题解
-方法是使用哈希表记录字符状态。
-123456789101112class Soluti
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-15 16:55" pubdate>
-              2021-11-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%93%88%E5%B8%8C%E8%A1%A8/">哈希表</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/">哈希表</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/12/leetcode/leetcode-offer32/" target="_self">
-          剑指leetcode-offer32-Ⅱ 从上到下打印二叉树Ⅱ
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/12/leetcode/leetcode-offer32/" target="_self">
-          
-          
-            
-          
-          
-从上到下打印二叉树Ⅱ
-
-题目
-从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
-示例 1：
-1234567例如:给定二叉树: [3,9,20,null,null,15,7],    3   / \  9  20    /  \   15   7
-1234567返回其层次遍历结果：[  [3],  [9,20],  [15,7]]
-提示：
-
-节点总数 &lt;= 100
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-12 20:59" pubdate>
-              2021-11-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/04/leetcode/leetcode-offer39/" target="_self">
-          剑指offer39 数组中出现次数超过一半的数字
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/04/leetcode/leetcode-offer39/" target="_self">
-          
-          
-            
-          
-          
-数组中出现次数超过一半的数字
-
-题目
-数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
-你可以假设数组是非空的，并且给定的数组总是存在多数元素。
-示例 1：
-12输入: [1, 2, 3, 2, 2, 2, 5, 4, 2]输出: 2
-提示：
-
-1 &lt;= 数组长度 &lt;= 50000
-
-题解
-本题可以遍历数组哈希表统计时间和空间复杂度均为O(N)。
-12345678910
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-04 16:53" pubdate>
-              2021-11-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/categories/%E5%89%91%E6%8C%87/%E5%AD%97%E5%85%B8/">字典</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
-            
-              <a href="/tags/%E5%AD%97%E5%85%B8/">字典</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/03/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/brain-pet-paper1/" target="_self">
-          论文总结&lt;Anatomical-guided attention enhances unsupervised PET image denoising performance&gt;
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/03/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/brain-pet-paper1/" target="_self">
-          
-          
-            
-          
-          
-2021年2月投稿的一篇论文《Anatomical-guided attention enhances unsupervised PET image denoising performance》提出使用Anatomical-guided的注意力加强非监督的PET图像降噪性能。
-
-ABSTRACT
-
-Although supervised convolutional neural networks
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-03 13:04" pubdate>
-              2021-11-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%96%87%E7%8C%AE/">文献</a>
-            
-              <a href="/categories/%E6%96%87%E7%8C%AE/pet/">pet</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
             
               <a href="/tags/paper/">paper</a>
             
@@ -881,7 +874,7 @@ Although supervised convolutional neural networks
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/#board">15</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -895,7 +888,7 @@ Although supervised convolutional neural networks
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -931,8 +924,6 @@ Although supervised convolutional neural networks
   <div class="footer-content">
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
-  <!-- <a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">鄂ICP备2021014492-1号</a>
-  <a href="http://www.beian.miit.gov.cn/"  style="color:blue" target="_blank">http://www.beian.miit.gov.cn/</a> -->
   
   <div class="statistics">
     
@@ -956,6 +947,10 @@ Although supervised convolutional neural networks
           </span>
       
     
+  </div>
+  <div class="statistics">
+    <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;"  id="hitokoto"></span></a>
+ <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
   </div>
 
 

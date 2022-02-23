@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+<html lang="zh-CN" data-default-color-scheme=auto>
 <script type="text/javascript" src="/js/jquery.js"></script>
 
 
@@ -50,8 +51,16 @@
 </head>
 
 
-<body>
-
+<body>	
+	<div>
+		<div class='real_mask'></div>
+		<div id="banner_video_insert">
+		</div>	
+		<div id='vvd_banner_img'>
+		</div>
+	</div>
+	<div id="banner"></div>
+    
   <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
@@ -145,76 +154,82 @@
   </div>
 </nav>
 
-		<div class="banner" id="banner" parallax=true
-			 style="background: url('https://picture.mulindya.com/bd643dc0ad68f830b3a0eeae50ceba5f_4.jpg') no-repeat center center;
-			   background-size: cover;">
-
-      <div class="full-bg-img" >
-
+	
+	<!-- <div class="banner" id="banner" parallax=true
+		style="background: url('https://picture.mulindya.com/bd643dc0ad68f830b3a0eeae50ceba5f_4.jpg') no-repeat center center;
+		background-size: cover;"> -->
+        <div class="banner" id='banner' >
+		<div class="full-bg-img" >
 		
-		<div id="banner_video_insert">
-		</div>
-		<script>
-						
-			var ua = navigator.userAgent;
-			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
-				isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
-				isAndroid = ua.match(/(Android)\s+([\d.]+)/),
-				isMobile = isIphone || isAndroid;
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
 
-			function set_video_attr(id){
-				
-				var height = document.body.children[0].clientHeight
+					function set_video_attr(id){
 
-				var width = document.body.children[0].clientWidth
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
 
-				var video_item = document.getElementById(id);
-
-				if (height / width < 0.56){
-					video_item.setAttribute('width','100%' ); <!--'100%'-->
-					video_item.setAttribute('height', 'auto');
-				} else {
-					video_item.setAttribute('height', '100%'); <!--'100%'-->
-					video_item.setAttribute('width', 'auto');
-				}
-			}
-
-			$.getJSON('/js/video_url.json', function(data){
-				if (true){ <!--!isMobile-->
-					var video_list_length = data.length
-					var seed = Math.random()
-					index = Math.floor(seed * video_list_length)
-					
-					video_url = data[index]
-					video_html_res = "<video id='video_item' style='position: absolute;' muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
-
-					document.getElementById("banner_video_insert").innerHTML = video_html_res;
-					set_video_attr('video_item')
-				}
-
-			});
-
-			if (true){
-				window.onresize = function(){
-					set_video_attr('video_item')
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
 					}
-				}
-			</script>
 
-		
+					$.getJSON('/js/video_url.json', function(data){
+						if (!isMobile){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
 
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
-              
-            </span>
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
 
-            
-          </div>
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
 
-          
-        </div>
-      </div>
+							video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+							document.getElementById("banner_video_insert").innerHTML = video_html_res;
+
+							set_video_attr('video_item')
+							set_video_attr('banner_img_item')
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+
+			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
+            <div class="mask flex-center">
+			  <div class="page-header text-center fade-in-up">
+				<span class="h2" id="subtitle" title="归档">
+				  
+				</span>
+
+				
+			  </div>
+
+			  
+			</div>
+		</div>
     </div>
   </header>
 
@@ -230,83 +245,86 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 109 篇文章</p>
+  <p class="h4">共计 143 篇文章</p>
   <hr>
   
   
     
       
+      <p class="h5">2022</p>
+    
+    <a href="/2022/01/06/deep_learning/dsconv/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Depthwise Separable Convolution</span>
+      <time style="float: right;">01-06</time>
+    </a>
+  
+    
+    <a href="/2022/01/05/deep_learning/KnowledgeDistillation/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Knowledge Distillation笔记</span>
+      <time style="float: right;">01-05</time>
+    </a>
+  
+    
+    <a href="/2022/01/05/leetcode/leetcode17/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">leetcode17 电话号码的字母组合</span>
+      <time style="float: right;">01-05</time>
+    </a>
+  
+    
+    <a href="/2022/01/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/paper-gan/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">NIPS-2014-generative-adversarial-nets-Paper</span>
+      <time style="float: right;">01-04</time>
+    </a>
+  
+    
+    <a href="/2022/01/04/leetcode/leetcode-offer58-1/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">剑指offer58-1 翻转单词的顺序</span>
+      <time style="float: right;">01-04</time>
+    </a>
+  
+    
+    <a href="/2022/01/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML2-2/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">praticalML第二章笔记</span>
+      <time style="float: right;">01-02</time>
+    </a>
+  
+    
+    <a href="/2022/01/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML2-1/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">PracticeML第二章房价实例笔记</span>
+      <time style="float: right;">01-02</time>
+    </a>
+  
+    
+      
       <p class="h5">2021</p>
     
-    <a href="/2021/11/15/leetcode/leetcode-offer50/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">剑指offer50 第一个只出现一次的字符</span>
-      <time style="float: right;">11-15</time>
+    <a href="/2021/12/30/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML1/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">praticalML第一章笔记</span>
+      <time style="float: right;">12-30</time>
     </a>
   
     
-    <a href="/2021/11/12/leetcode/leetcode-offer32/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">剑指leetcode-offer32-Ⅱ 从上到下打印二叉树Ⅱ</span>
-      <time style="float: right;">11-12</time>
+    <a href="/2021/12/30/leetcode/leetcode-offer57-2/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">剑指offer57-2 和为s的连续正数序列</span>
+      <time style="float: right;">12-30</time>
     </a>
   
     
-    <a href="/2021/11/04/leetcode/leetcode-offer39/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">剑指offer39 数组中出现次数超过一半的数字</span>
-      <time style="float: right;">11-04</time>
+    <a href="/2021/12/29/project_summary/footprint-summary/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">足迹检测项目的总结</span>
+      <time style="float: right;">12-29</time>
     </a>
   
     
-    <a href="/2021/11/03/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/paper/brain-pet-paper1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">论文总结&lt;Anatomical-guided attention enhances unsupervised PET image denoising performance&gt;</span>
-      <time style="float: right;">11-03</time>
+    <a href="/2021/12/29/project_tool/usePyembeded/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">python-embeded打包文件生成exe</span>
+      <time style="float: right;">12-29</time>
     </a>
   
     
-    <a href="/2021/10/30/python/img/pic2video/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">图像合成视频</span>
-      <time style="float: right;">10-30</time>
-    </a>
-  
-    
-    <a href="/2021/10/29/python/func/squeeze/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">np.squeeze的用法</span>
-      <time style="float: right;">10-29</time>
-    </a>
-  
-    
-    <a href="/2021/10/26/python/getppi/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">获得电脑的ppi</span>
-      <time style="float: right;">10-26</time>
-    </a>
-  
-    
-    <a href="/2021/10/21/kaggle/kaggle-data-intro/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Sartorius竞赛数据说明</span>
-      <time style="float: right;">10-21</time>
-    </a>
-  
-    
-    <a href="/2021/10/21/kaggle/kaggle-intro/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">kaggle比赛介绍--Sartorius - Cell Instance Segmentation</span>
-      <time style="float: right;">10-21</time>
-    </a>
-  
-    
-    <a href="/2021/10/21/python/pyqt/pyqtimg/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">PyQt5中放置图片</span>
-      <time style="float: right;">10-21</time>
-    </a>
-  
-    
-    <a href="/2021/10/20/python/img/cvread/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">cv读取带有中文路径的图片</span>
-      <time style="float: right;">10-20</time>
-    </a>
-  
-    
-    <a href="/2021/10/08/leetcode/leetcode-offer36/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">剑指offer36 二叉搜索树和双向链表</span>
-      <time style="float: right;">10-08</time>
+    <a href="/2021/12/28/leetcode/leetcode-offer45/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">剑指offer45 把数组排成最小的数</span>
+      <time style="float: right;">12-28</time>
     </a>
   
 </div>
@@ -314,7 +332,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/archives/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/#board">2</a><a class="page-number" href="/archives/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/#board">5</a><a class="page-number" href="/archives/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/10/#board">10</a><a class="extend next" rel="next" href="/archives/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/archives/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/#board">2</a><a class="page-number" href="/archives/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/#board">5</a><a class="page-number" href="/archives/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/12/#board">12</a><a class="extend next" rel="next" href="/archives/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -329,7 +347,7 @@
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -365,8 +383,6 @@
   <div class="footer-content">
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
-  <!-- <a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">鄂ICP备2021014492-1号</a>
-  <a href="http://www.beian.miit.gov.cn/"  style="color:blue" target="_blank">http://www.beian.miit.gov.cn/</a> -->
   
   <div class="statistics">
     
@@ -390,6 +406,10 @@
           </span>
       
     
+  </div>
+  <div class="statistics">
+    <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;"  id="hitokoto"></span></a>
+ <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
   </div>
 
 

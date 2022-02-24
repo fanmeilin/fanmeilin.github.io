@@ -20,7 +20,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>praticalML第八章笔记--迁移学习 - 待时</title>
+  <title>机器学习中的相关概念 - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -236,7 +236,7 @@
 			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
             <div class="mask flex-center">
 			  <div class="page-header text-center fade-in-up">
-				<span class="h2" id="subtitle" title="praticalML第八章笔记--迁移学习">
+				<span class="h2" id="subtitle" title="机器学习中的相关概念">
 				  
 				</span>
 
@@ -246,8 +246,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-21 16:51" pubdate>
-        2022年2月21日 下午
+      <time datetime="2022-02-24 16:31" pubdate>
+        2022年2月24日 下午
       </time>
     </span>
   
@@ -258,7 +258,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      1.5k 字
     </span>
   
 
@@ -268,7 +268,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18
+      15
        分钟
     </span>
   
@@ -298,110 +298,55 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">praticalML第八章笔记--迁移学习</h1>
+            <h1 style="display: none">机器学习中的相关概念</h1>
             
             <div class="markdown-body">
               <blockquote>
-<p>斯坦福2021秋季的实用机器学习上线啦~ 😉 跟着沐神复习机器学习冲冲冲！ 记录一下笔记和重点，不一定很全哦~，只是记录自我感觉的重点。本章的内容包括迁移学习，对视觉，NLP两个方面的微调。</p>
+<p>机器学习中大体可以把任务分为监督学习，无监督学习。在我们的学习和资料查阅中会出现，半监督，自监督，弱监督这样的词汇，让人心生疑惑，在此进行一个梳理。以上各个概念的分类并不是严格互斥的。</p>
 </blockquote>
-<h1>第八章</h1>
-<h2 id="8-1-迁移学习-💧">8.1 迁移学习 💧</h2>
-<p>• Motivation<br>
-• Exploit a model trained on one task for a related task<br>
-• Popular in deep learning as DNNs are data hungry and training cost is high<br>
-• Approaches<br>
-• Feature extraction (e.g. Word2Vec, ResNet-50 feature, I3D feature)<br>
-• Train a model on a related task and reuse it<br>
-• Fine-tuning from a pertained model (focus of this lecture)<br>
-• Related to<br>
-• Semi-supervised learning  半监督学习<br>
-• In the extreme, zero-shot / few-shot learning<br>
-• Multi-task learning, where some labeled data is available for each task 多任务学习</p>
+<h2 id="监督和无监督-🎵">监督和无监督 🎵</h2>
 <ul>
-<li>途径：
-<ul>
-<li>训练好模型作为特征抽取的模块</li>
-<li>在相关任务上训练一个模型，直接在另外一个任务上使用该模型</li>
-<li>对预训练模型进行微调</li>
+<li>有监督：用有标签的数据训练；</li>
+<li>无监督：用无标签的数据训练；</li>
 </ul>
+<blockquote>
+<p>这两者其最主要的区别在于模型在训练时是否需要人工标注的标签信息。监督学习利用大量的标注数据来训练模型，模型的预测和数据的真实标签产生损失后进行反向传播，通过不断的学习，最终可以获得识别新样本的能力。<br>
+无监督学习不依赖任何标签值，通过对数据内在特征的挖掘，找到样本间的关系，比如聚类相关的任务。</p>
+</blockquote>
+<ul>
+<li>半监督：同时用有标签和无标签的数据进行训练。也就是数据集中小部分数据是带标签的；先前通常是两阶段的训练，先用（较小规模的）有标签数据训练一个Teacher模型，再用这个模型对（较大规模的）无标签数据预测伪标签，作为Student模型的训练数据；目前已经有很多直接end-to-end地训练，大大减少半监督训练的工作；</li>
+</ul>
+<h2 id="自监督学习-☁️">自监督学习 ☁️</h2>
+<ul>
+<li>
+<p>自监督：在无标注数据上训练，通过一些方法让模型学习到数据的inner representation，再接下游任务，例如加一个mlp作为分类器等。但接了下游任务之后还是需要在特定的有标签数据上finetune，只是有时候可以选择把前面的层完全固定，只finetune后面接的网络的参数。</p>
+<p>自监督学习是监督学习的一个特例，它与众不同，值得单独分为一类。自监督学习是没有人工标注标签的监督学习，可以将它看作没有人类参与的监督学习。标签仍然存在（因为总要有什么东西来监督学习过程），但它们是从输入数据中生成的，通常使用启发式算法生成的。</p>
 </li>
 </ul>
-<h2 id="8-2-计算机视觉上的应用-🌼">8.2 计算机视觉上的应用 🌼</h2>
-<h3 id="8-2-1-Transferring-Knowledge">8.2.1 Transferring Knowledge</h3>
-<p>• There exists large-scale labeled CV datasets<br>
-• Especially for image classification, the cheapest one to label<br>
-• Transfer knowledge from models trained on these datasets to your CV applications (with 10-100X smaller data)</p>
-<p>比如：ImageNet有120万图片1000类图片</p>
-<h3 id="8-2-2-预训练模型">8.2.2 预训练模型</h3>
+<blockquote>
+<p>和无监督学习不同，自监督学习主要是利用辅助任务（pretext）从大规模的无监督数据中挖掘自身的监督信息，通过这种构造的监督信息对网络进行训练，从而可以学习到对下游任务有价值的表征。换句话说自监督学习的监督信息不是人工标注的，而是算法在大规模无监督数据中自动构造监督信息，来进行监督学习或训练。</p>
+</blockquote>
+<h2 id="弱监督学习-🎐">弱监督学习 🎐</h2>
 <ul>
-<li>Partition a neural network into:<br>
-• A feature extractor (encoder) maps raw pixels into linearly separable features<br>
-• A linear classifier (decoder) makes decisions</li>
-<li>Pre-trained model<br>
-• a neural network trained on a large-scale and general enough dataset</li>
-<li>The feature extractor may generalize well to<br>
-• other datasets (e.g. medical/satellite images)<br>
-• other tasks (e.g. object detection, segmentation)</li>
+<li>弱监督：用包含噪声的有标签数据训练。弱监督学习是机器学习领域中的一个分支，与传统的监督学习相比，其使用有限的、含有噪声的或者标注不准确的数据来进行模型参数的训练。</li>
 </ul>
-<p>可以把神经网络分成两块 encoder + decoder，这是一种抽象的概念。</p>
-<p>encoder就是一种特征提取器，把原始像素转换为语义空间中线性可分的特征（浅表示/语义表示）；</p>
-<p>decoder 是对编码器的表示进行一些决策转化为标号空间；</p>
-<p><img src="https://picture.mulindya.com/Blog_PracticeML/pML8-1.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>比如说上图这个网络结构，可以把下面的L-1层作为encocder，最后一层可以作为decoder。</p>
-<p>预训练模型可以理解为在大型数据集上训练过的，因此是具有一定分泛化能力的。在imagenet上训练好的神经网络具有一定的特征提取能力，虽然它是自然图片，但是换到医学数据，卫星图片也是有一定帮助的。</p>
-<h3 id="8-2-3-Fine-Tuning">8.2.3 Fine-Tuning</h3>
-<p>一种简单的方法是将预训练模型只进行特征提取，也就是encoder部分。</p>
+<p>也就是说这种监督学习的数据的缘故，是一种有限有瓶颈的学习。来描述一个任务比较困难，并在这种学习任务中将其统称为弱监督学习。</p>
+<p>按照数据的标注程度可以分为以下三类：不完全监督、不确切监督、不准确监督。</p>
+<p><strong>1．不完全监督</strong><br>
+若样本中存在部分数据具有标注信息，而剩余部分则不具备有效的标注，这种为不完全监督。进一步，如果对于选定的未标注数据，存在一个系统能够给出数据的正确标签，即具备查询功能，则为不完全监督中的主动学习，其余的可划分为半监督学习的范围。<br>
+在半监督学习中，对于数据的分布存在两种基本假设：聚类假设和流行假设。前者假设样本空间存在内在的聚类结构，因此同一聚类中样本的标签应该相同；而后者则认为数据分布在一个流行上，在流行上相近的样本具有相似的预测结果。</p>
+<p><strong>2．不确切监督</strong><br>
+当数据只具有粗粒度的标签时，被称为不确切监督。例如在人脸识别任务中，只对样本中是否含有人脸进行说明，但不提供人脸的具体位置，便是一种典型的不确切监督的问题。</p>
+<p><strong>3．不准确监督</strong><br>
+即样本虽有具有标签，但并不准确。造成这种现象的原因有很多，例如标注难度大、标注人员自身水平有限等。</p>
+<p><strong>弱监督学习在医学影像中的应用</strong></p>
+<p>医学影像因标注要求高、数据收集困难等特点，很难收集具有大量有效标注的医学影像，因此很多医学影像分析的工作均采用弱监督学习的思路尝试解决问题。弱监督学习在标签有限的情况下，进行医学影像的处理，进而实现疾病的分类、病灶的定位及分割多种任务。</p>
+<p><strong>参考文献</strong></p>
+<h2 id="强化学习-📠">强化学习 📠</h2>
 <ul>
-<li>Initialize the new model:<br>
-• Initialize the feature extractor with the feature extractor parameters of a pre-trained model<br>
-• Randomly initialize the output layer<br>
-• Start the parameter optimization near a local minimal</li>
-<li>Train with a small learning rate with just a few epochs<br>
-•   Regularize the search space</li>
+<li>强化学习一直以来被人们所忽视，但随着google的DeepMind公司将其成功应用于学习玩Atari游戏（以及后来学习下围棋并达到最高水平），机器学习的这一分支开始受到大量关注。</li>
 </ul>
-<p>微调比直接替换encoder更有效。</p>
-<p>在新的任务上构建新的模型，但是他的架构和预训练模型有一致的地方，再去初始化模型；</p>
-<p>初始化表示的是把预训练好的模型权重复制到那些一致的地方，而对decoder部分随机初始化，如下图所示；</p>
-<p><img src="https://picture.mulindya.com/Blog_PracticeML/pML8-2.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>然后再进行训练，对于如何训练也有一些技巧，通过初始化encoder权重，可以使得自己的权重值已经比较接近最优解了，这个时候训练可以<strong>使用比较小的学习率，采用更小的epoch，或者冻结部分层</strong>，使得搜索空间更小，避免梯度偏离。因为泛化误差和训练误差是不一样的，我们要让泛化误差更好。</p>
-<h3 id="8-2-4-Freeze-Bottom-Layers">8.2.4 Freeze Bottom Layers</h3>
-<ul>
-<li>Neural networks learn hierarchical features<br>
-• Low-level features are universal, generalize well, e.g. curves /edges / blobs<br>
-• High-level features are more task and dataset specific, e.g. classification labels</li>
-<li>Freeze bottom layers during fine tuning Train the top layers from scratch<br>
-• Keep low-level universal features intact<br>
-• Focus on learning task specific features<br>
-• A strong regularizer</li>
-</ul>
-<p>限制搜索空间也可以使用冻结的方法，在下面的层是学习像素底层的特征，比如颜色，纹理，这种特征提取是可以冻结的，越往上越靠近语义相关的特征.</p>
-<p><img src="https://picture.mulindya.com/Blog_PracticeML/pML8-3.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>对于神经网络是一个很平滑的过程从下而上慢慢学习任务；也就是说对下面几层可以固定住；如果应用和预训练数据差别比较大，可以少固定几层。</p>
-<h3 id="8-2-5-find-Pre-trained-Models">8.2.5 find Pre-trained Models</h3>
-<p>• Tensorflow Hub: <a target="_blank" rel="noopener" href="https://tfhub.dev/">https://tfhub.dev/</a><br>
-• Tensorflow models submitted by users<br>
-• TIMM:  <a target="_blank" rel="noopener" href="https://github.com/rwightman/pytorch-image-models">https://github.com/rwightman/pytorch-image-models</a>  最近比较流行，整理比较清晰，但是模型性能一般般<br>
-• PyTorch models collected by Ross Wightman</p>
-<p>也有modelhub modelzoo</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> timm<br><span class="hljs-keyword">from</span> torch <span class="hljs-keyword">import</span> nn<br>model = timm.creat_model(<span class="hljs-string">'resnet18'</span>,pretrained=<span class="hljs-literal">True</span>) <span class="hljs-comment">#模型和预训练模型权重</span><br>model.fc = nn.Linear(model.fc.in_features,n_classes) <span class="hljs-comment">#修改最后一层 个人数据集n_classes 默认随机初始化</span><br><span class="hljs-comment"># Train model as a normal training job </span><br><span class="hljs-comment">#固定层就是对其学习率改成0</span><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="8-2-6-应用">8.2.6 应用</h3>
-<ul>
-<li>Fine-tuning pre-trained models (on ImageNet) is widely used in various CV applications:<br>
-• Detection/segmentation (similar images but different targets)<br>
-• Medical/satellite images (same task but very different<br>
-images)</li>
-<li>Fine-tuning accelerates convergence</li>
-<li>Though not always improve accuracy<br>
-• Training from scratch could get a similar accuracy, especially when the target dataset is also large</li>
-</ul>
-<p><img src="https://picture.mulindya.com/Blog_PracticeML/pML8-4.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p>微调加速了收敛，对任务不同，数据集不同都能得到不错的效果；当数据集和预训练数据集差别非常大不一定会提升精度，但是不会变差。</p>
-<h3 id="8-2-7-总结">8.2.7 总结</h3>
-<p>• Pre-train models on large-scale datasets (often image classification)<br>
-• Initialize weights with pre-trained models for down-stream tasks<br>
-• Fine-tuning accelerates converges and (sometimes) improves<br>
-accuracy</p>
-<p>在大型数据集上预训练模型，引入到自身的任务中，再进行微调。计算机视觉中对此有较好的应用性。</p>
+<p>在强化学习中，智能体（agent）接收有关环境的信息，并学会选择使某种奖励最大化的行动。例如，神经网络会“观察”视频游戏的屏幕，并输出游戏操作，目的是尽可能得高分，这种神经网络可以通过强化学习来训练。</p>
 
             </div>
             <hr>
@@ -411,9 +356,7 @@ accuracy</p>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-                    
-                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                   </div>
                 
@@ -422,8 +365,6 @@ accuracy</p>
                     <i class="iconfont icon-tags"></i>
                     
                       <a class="hover-with-bg" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E6%9D%8E%E6%B2%90/">李沐</a>
                     
                   </div>
                 
@@ -440,18 +381,12 @@ accuracy</p>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/21/leetcode/leetcode-offer61/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">剑指offer61 扑克牌中的顺子</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/18/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%99%BD%E6%9D%BF%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/1.Intro_Math/">
-                        <span class="hidden-mobile">机器学习公式推导--Introduction</span>
+                      <a href="/2022/02/23/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML8/">
+                        <span class="hidden-mobile">praticalML第八章笔记--迁移学习</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -473,8 +408,8 @@ accuracy</p>
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2022/02/21/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML8/';
-          this.page.identifier = '/2022/02/21/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML8/';
+          this.page.url = 'https://fanmeilin.github.io/2022/02/24/%E7%9B%91%E7%9D%A3%E6%A6%82%E5%BF%B5/';
+          this.page.identifier = '/2022/02/24/%E7%9B%91%E7%9D%A3%E6%A6%82%E5%BF%B5/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');

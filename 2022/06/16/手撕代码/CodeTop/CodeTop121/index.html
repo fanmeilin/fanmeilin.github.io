@@ -20,7 +20,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>剑指offer48 最长不含重复字符的子字符串 - 待时</title>
+  <title>CodeTop121 买卖股票的最佳时机 - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -240,7 +240,7 @@
 			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
             <div class="mask flex-center">
 			  <div class="page-header text-center fade-in-up">
-				<span class="h2" id="subtitle" title="剑指offer48 最长不含重复字符的子字符串">
+				<span class="h2" id="subtitle" title="CodeTop121 买卖股票的最佳时机">
 				  
 				</span>
 
@@ -250,8 +250,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-25 20:23" pubdate>
-        2022年1月25日 晚上
+      <time datetime="2022-06-16 12:29" pubdate>
+        2022年6月16日 中午
       </time>
     </span>
   
@@ -262,7 +262,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      362 字
+      582 字
     </span>
   
 
@@ -272,7 +272,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      7
        分钟
     </span>
   
@@ -302,32 +302,35 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">剑指offer48 最长不含重复字符的子字符串</h1>
+            <h1 style="display: none">CodeTop121 买卖股票的最佳时机</h1>
             
             <div class="markdown-body">
               <blockquote>
-<p>最长不含重复字符的子字符串</p>
+<p>买卖股票的最佳时机</p>
 </blockquote>
 <h2 id="题目">题目</h2>
-<p>请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。</p>
+<p>给定一个数组 prices ，它的第&nbsp;i 个元素&nbsp;prices[i] 表示一支给定股票第 i 天的价格。</p>
+<p>你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0</p>
 <h3 id="示例-1：">示例 1：</h3>
-<figure class="highlight makefile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: "abcabcbb"</span><br><span class="hljs-section">输出: 3 </span><br><span class="hljs-section">解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。</span><br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight tap"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs tap">输入：[7,1,5,3,6,4]<br>输出：5<br>解释：在第<span class="hljs-number"> 2 </span>天（股票价格 = 1）的时候买入，在第<span class="hljs-number"> 5 </span>天（股票价格 = 6）的时候卖出，最大利润 = 6-1 =<span class="hljs-number"> 5 </span>。<br>     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。<br><br></code></pre></td></tr></tbody></table></figure>
 <h3 id="示例-2：">示例 2：</h3>
-<figure class="highlight makefile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: "bbbbb"</span><br><span class="hljs-section">输出: 1</span><br><span class="hljs-section">解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。</span><br></code></pre></td></tr></tbody></table></figure>
-<h3 id="示例-3：">示例 3：</h3>
-<figure class="highlight makefile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">输入: "pwwkew"</span><br><span class="hljs-section">输出: 3</span><br><span class="hljs-section">解释: 因为无重复字符的最长子串是&nbsp;"wke"，所以其长度为 3。</span><br>&nbsp;    请注意，你的答案必须是 子串 的长度，<span class="hljs-string">"pwke"</span>&nbsp;是一个子序列，不是子串。<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight accesslog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：prices = <span class="hljs-string">[7,6,4,3,1]</span><br>输出：<span class="hljs-number">0</span><br>解释：在这种情况下, 没有交易完成, 所以最大利润为 <span class="hljs-number">0</span>。<br></code></pre></td></tr></tbody></table></figure>
 <h3 id="提示：">提示：</h3>
 <ul>
-<li><code>s.length &lt;= 40000</code></li>
+<li><code>1 &lt;= prices.length &lt;= 105</code></li>
+<li><code>0 &lt;= prices[i] &lt;= 104</code></li>
 </ul>
 <h2 id="题解">题解</h2>
-<p>使用动态规划+哈希表的方法</p>
-<ul>
-<li><strong>哈希表 dic 统计：</strong> 指针 j遍历字符 s，哈希表统计字符 s[j]<strong>最后一次出现的索引</strong> 。</li>
-<li>更新左指针 i ： 根据上轮左指针 i 和 dic[s[j]]，每轮更新左边界 i ，保证区间 [i + 1, j]内无重复字符且最大。</li>
-<li><strong>更新结果 res：</strong> 取上轮 res和本轮双指针区间 [i + 1,j]的宽度（即 j - i）中的最大值。</li>
-</ul>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">lengthOfLongestSubstring</span>(<span class="hljs-params">self, s: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        dic, res, i = {}, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span><br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(s)):<br>            <span class="hljs-keyword">if</span> s[j] <span class="hljs-keyword">in</span> dic:<br>                i = <span class="hljs-built_in">max</span>(dic[s[j]], i) <span class="hljs-comment"># 更新左指针 i</span><br>            dic[s[j]] = j <span class="hljs-comment"># 哈希表记录</span><br>            res = <span class="hljs-built_in">max</span>(res, j - i) <span class="hljs-comment"># 更新结果</span><br>        <span class="hljs-keyword">return</span> res<br></code></pre></td></tr></tbody></table></figure>
+<p>找寻抛售股票最佳时机实际上在找一个前后差值最大的结果。最暴力的解法就是对每个起止点找最佳的抛点，在取其最大，这种需要n平方的复杂度。</p>
+<p>也可以理解为对相邻两天的差价做一个数组，对这个gap数组找寻最大子序列和。</p>
+<p>求解最大子序列和的代码：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">resum,result = <span class="hljs-number">0</span>,<span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> gap:<br>	resum = <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>,resum+x) <span class="hljs-comment">#resum是当前为终止点的最大子序列和，如果为负数就恢复为0（不取用），也不采用当前点</span><br>	result = <span class="hljs-built_in">max</span>(result,resum) <span class="hljs-comment">#result记录数组中最大的子序列和</span><br></code></pre></td></tr></tbody></table></figure>
+<p>完整代码：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span>(<span class="hljs-params">self, prices: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        gap = [prices[i+<span class="hljs-number">1</span>]-prices[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(prices)-<span class="hljs-number">1</span>)]<br>        <span class="hljs-built_in">print</span>(gap)<br>        resum,result = <span class="hljs-number">0</span>,<span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> gap:<br>            resum = <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>,resum+x)<br>            result = <span class="hljs-built_in">max</span>(result,resum)<br>            <span class="hljs-built_in">print</span>(resum)<br>        <span class="hljs-keyword">return</span> result<br></code></pre></td></tr></tbody></table></figure>
+<p>此时遍历了数组两遍 也就是O(2n)</p>
+<p>实际上无需建立数组gap，可以进一步提高时间，空间复杂度</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">maxProfit</span>(<span class="hljs-params">self, prices: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>        resum, result = <span class="hljs-number">0</span>, <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(prices)-<span class="hljs-number">1</span>):<br>            gap = prices[i+<span class="hljs-number">1</span>]-prices[i]<br>            resum = resum+gap <span class="hljs-keyword">if</span> resum+gap&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span> <span class="hljs-comment"># resum = max(0,resum+gap)</span><br>            <span class="hljs-keyword">if</span> resum&gt;result: result = resum <span class="hljs-comment"># result = max(result,resum)   </span><br>        <span class="hljs-keyword">return</span> result<br></code></pre></td></tr></tbody></table></figure>
 
             </div>
             <hr>
@@ -337,9 +340,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/">剑指</a>
+                      <a class="hover-with-bg" href="/categories/CodeTop/">CodeTop</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%89%91%E6%8C%87/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+                      <a class="hover-with-bg" href="/categories/CodeTop/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
                     
                   </div>
                 
@@ -347,9 +350,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+                      <a class="hover-with-bg" href="/tags/CodeTop/">CodeTop</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%89%91%E6%8C%87/">剑指</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
                     
                   </div>
                 
@@ -366,18 +369,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/02/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PracticeML6/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">praticalML第六章笔记 Tuning</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/24/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/leetcode/leetcode-offer53-2/">
-                        <span class="hidden-mobile">剑指offer53-Ⅱ 0~n-1种缺少的数字</span>
+                      <a href="/2022/06/15/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/CodeTop20/">
+                        <span class="hidden-mobile">CodeTop20 有效的括号</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -399,8 +396,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2022/01/25/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/leetcode/leetcode-offer48/';
-          this.page.identifier = '/2022/01/25/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/leetcode/leetcode-offer48/';
+          this.page.url = 'https://fanmeilin.github.io/2022/06/16/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/CodeTop121/';
+          this.page.identifier = '/2022/06/16/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/CodeTop121/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');

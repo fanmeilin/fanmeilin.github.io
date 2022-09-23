@@ -20,7 +20,7 @@
   <meta name="author" content="Meilin Fan">
   <meta name="keywords" content="个人博客,学习,生活">
   
-  <title>CodeTop48 旋转图像 - 待时</title>
+  <title>CodeTop19 删除链表的倒数第N个节点 - 待时</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -240,7 +240,7 @@
 			<!-- <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)"> -->
             <div class="mask flex-center">
 			  <div class="page-header text-center fade-in-up">
-				<span class="h2" id="subtitle" title="CodeTop48 旋转图像">
+				<span class="h2" id="subtitle" title="CodeTop19 删除链表的倒数第N个节点">
 				  
 				</span>
 
@@ -250,8 +250,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-09-22 11:41" pubdate>
-        2022年9月22日 中午
+      <time datetime="2022-09-23 11:39" pubdate>
+        2022年9月23日 中午
       </time>
     </span>
   
@@ -262,7 +262,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      353 字
+      656 字
     </span>
   
 
@@ -272,7 +272,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      9
        分钟
     </span>
   
@@ -302,31 +302,54 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">CodeTop48 旋转图像</h1>
+            <h1 style="display: none">CodeTop19 删除链表的倒数第N个节点</h1>
             
             <div class="markdown-body">
               <blockquote>
-<p>旋转图像</p>
+<p>删除链表的倒数第N个节点</p>
 </blockquote>
 <h2 id="题目">题目</h2>
-<p>给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。</p>
-<p>你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。</p>
+<p>给你一个链表，删除链表的倒数第 <code>n</code> 个结点，并且返回链表的头结点。</p>
 <h3 id="示例-1：">示例 1：</h3>
-<figure class="highlight lua"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">输入：matrix = <span class="hljs-string">[[1,2,3],[4,5,6],[7,8,9]]</span><br>输出：<span class="hljs-string">[[7,4,1],[8,5,2],[9,6,3]]</span><br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight dns"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns">输入：head = [<span class="hljs-number">1,2,3,4</span>,<span class="hljs-number">5</span>], n = <span class="hljs-number">2</span><br>输出：[<span class="hljs-number">1,2,3,5</span>]<br></code></pre></td></tr></tbody></table></figure>
 <h3 id="示例-2：">示例 2：</h3>
-<figure class="highlight inform7"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：matrix = <span class="hljs-comment">[<span class="hljs-comment">[5,1,9,11]</span>,<span class="hljs-comment">[2,4,8,10]</span>,<span class="hljs-comment">[13,3,6,7]</span>,<span class="hljs-comment">[15,14,12,16]</span>]</span><br>输出：<span class="hljs-comment">[<span class="hljs-comment">[15,13,2,5]</span>,<span class="hljs-comment">[14,3,4,1]</span>,<span class="hljs-comment">[12,6,8,9]</span>,<span class="hljs-comment">[16,7,10,11]</span>]</span><br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight inform7"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：head = <span class="hljs-comment">[1]</span>, n = 1<br>输出：<span class="hljs-comment">[]</span><br></code></pre></td></tr></tbody></table></figure>
+<h3 id="示例-3：">示例 3：</h3>
+<figure class="highlight inform7"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：head = <span class="hljs-comment">[1,2]</span>, n = 1<br>输出：<span class="hljs-comment">[1]</span><br></code></pre></td></tr></tbody></table></figure>
 <h3 id="提示：">提示：</h3>
 <ul>
-<li>n == matrix.length == matrix[i].length</li>
-<li>1 &lt;= n &lt;= 20</li>
-<li>-1000 &lt;= matrix[i][j] &lt;= 1000</li>
+<li>链表中结点的数目为 <code>sz</code></li>
+<li><code>1 &lt;= sz &lt;= 30</code></li>
+<li><code>0 &lt;= Node.val &lt;= 100</code></li>
+<li><code>1 &lt;= n &lt;= sz</code></li>
 </ul>
+<p>**进阶：**你能尝试使用一趟扫描实现吗？</p>
 <h2 id="题解">题解</h2>
-<p>原地旋转，可以使用将“转置”和倒置结合处理。</p>
-<p>先按照负对角线转置，再水平倒置：</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rotate</span>(<span class="hljs-params">self, matrix: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]]</span>) -&gt; <span class="hljs-literal">None</span>:</span><br>        <span class="hljs-comment">#按照副对角线 转置</span><br>        n = <span class="hljs-built_in">len</span>(matrix)<br>        <span class="hljs-keyword">for</span> i1 <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,n):<br>            i2 = n-i1-<span class="hljs-number">1</span><br>            <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,i1):<br>                matrix[x][i2], matrix[i1][n-x-<span class="hljs-number">1</span>] = matrix[i1][n-x-<span class="hljs-number">1</span>], matrix[x][i2]<br>        <span class="hljs-comment">#上下交换</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n//<span class="hljs-number">2</span>):<br>            matrix[i], matrix[n-i-<span class="hljs-number">1</span>] = matrix[n-i-<span class="hljs-number">1</span>], matrix[i]<br></code></pre></td></tr></tbody></table></figure>
-<p>先水平倒置，再主对角线转置：</p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rotate</span>(<span class="hljs-params">self, matrix: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]]</span>) -&gt; <span class="hljs-literal">None</span>:</span><br>        n = <span class="hljs-built_in">len</span>(matrix)<br>        <span class="hljs-comment"># 水平翻转</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n // <span class="hljs-number">2</span>):<br>            matrix[i], matrix[n-i-<span class="hljs-number">1</span>] = matrix[n-i-<span class="hljs-number">1</span>], matrix[i]<br>        <span class="hljs-comment"># 主对角线翻转</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i):<br>                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]<br></code></pre></td></tr></tbody></table></figure>
+<p>常规想法，遍历两次链表，第一次记录链表的长度N，第二次删除第N-n+1个节点。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">removeNthFromEnd</span>(<span class="hljs-params">self, head: ListNode, n: <span class="hljs-built_in">int</span></span>) -&gt; ListNode:</span><br>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getLength</span>(<span class="hljs-params">head: ListNode</span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>            length = <span class="hljs-number">0</span><br>            <span class="hljs-keyword">while</span> head:<br>                length += <span class="hljs-number">1</span><br>                head = head.<span class="hljs-built_in">next</span><br>            <span class="hljs-keyword">return</span> length<br>        <br>        dummy = ListNode(<span class="hljs-number">0</span>, head)<br>        length = getLength(head)<br>        cur = dummy<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, length - n + <span class="hljs-number">1</span>):<br>            cur = cur.<span class="hljs-built_in">next</span><br>        cur.<span class="hljs-built_in">next</span> = cur.<span class="hljs-built_in">next</span>.<span class="hljs-built_in">next</span><br>        <span class="hljs-keyword">return</span> dummy.<span class="hljs-built_in">next</span><br></code></pre></td></tr></tbody></table></figure>
+<ul>
+<li>时间复杂度：O(L)，其中 L是链表的长度。</li>
+<li>空间复杂度：O(1)。</li>
+</ul>
+<h4 id="栈">栈</h4>
+<p>也可以在遍历链表的同时将所有节点依次入栈。根据栈「先进后出」的原则，我们弹出栈的第 n个节点就是需要删除的节点，并且目前栈顶的节点就是待删除节点的前驱节点。这样一来，删除操作就变得十分方便了。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">removeNthFromEnd</span>(<span class="hljs-params">self, head: ListNode, n: <span class="hljs-built_in">int</span></span>) -&gt; ListNode:</span><br>        dummy = ListNode(<span class="hljs-number">0</span>, head)<br>        stack = <span class="hljs-built_in">list</span>()<br>        cur = dummy<br>        <span class="hljs-keyword">while</span> cur:<br>            stack.append(cur)<br>            cur = cur.<span class="hljs-built_in">next</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>            stack.pop()<br>        prev = stack[-<span class="hljs-number">1</span>]<br>        prev.<span class="hljs-built_in">next</span> = prev.<span class="hljs-built_in">next</span>.<span class="hljs-built_in">next</span><br>        <span class="hljs-keyword">return</span> dummy.<span class="hljs-built_in">next</span><br></code></pre></td></tr></tbody></table></figure>
+<ul>
+<li>时间复杂度：O(L)，其中 L是链表的长度。</li>
+<li>空间复杂度：O(L)，其中 L是链表的长度。主要为栈的开销。</li>
+</ul>
+<h4 id="双指针">双指针</h4>
+<p>更简单的方法，可以使用双指针可以实现一趟扫描，维持两个指针的距离为n+1,同步前移；</p>
+<ul>
+<li>使用<strong>头节点</strong>规范所有边界情况；</li>
+<li>l和r的距离为n+1，同时后移；</li>
+<li>当r为空指针时，l正好是目标元素前驱节点，直接删除目标节点即可</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Definition for singly-linked list.</span><br><span class="hljs-comment"># class ListNode:</span><br><span class="hljs-comment">#     def __init__(self, val=0, next=None):</span><br><span class="hljs-comment">#         self.val = val</span><br><span class="hljs-comment">#         self.next = next</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">removeNthFromEnd</span>(<span class="hljs-params">self, head: <span class="hljs-type">Optional</span>[ListNode], n: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-type">Optional</span>[ListNode]:</span><br>        <span class="hljs-comment">#双指针实现一趟扫描,使用头节点规范所有边界情况，l和r的距离为n+1,当r为空指针时，l正好是目标元素前驱节点，直接删除目标节点即可</span><br>        dummy = ListNode(<span class="hljs-number">0</span>,head)<br>        l, r = dummy, head<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n): r = r.<span class="hljs-built_in">next</span><br>        <span class="hljs-keyword">while</span> r: l,r = l.<span class="hljs-built_in">next</span>, r.<span class="hljs-built_in">next</span><br>        l.<span class="hljs-built_in">next</span> = l.<span class="hljs-built_in">next</span>.<span class="hljs-built_in">next</span><br>        <span class="hljs-keyword">return</span> dummy.<span class="hljs-built_in">next</span><br></code></pre></td></tr></tbody></table></figure>
+<ul>
+<li>时间复杂度：O(L)，其中 L是链表的长度。</li>
+<li>空间复杂度：O(1)。</li>
+</ul>
 
             </div>
             <hr>
@@ -365,18 +388,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/09/23/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E4%B8%AD%E7%AD%89/CodeTop19/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CodeTop19 删除链表的倒数第N个节点</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/09/21/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E5%9B%B0%E9%9A%BE/CodeTop239/">
-                        <span class="hidden-mobile">CodeTop239 滑动窗口最大值</span>
+                      <a href="/2022/09/22/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E4%B8%AD%E7%AD%89/CodeTop48/">
+                        <span class="hidden-mobile">CodeTop48 旋转图像</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -398,8 +415,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://fanmeilin.github.io/2022/09/22/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E4%B8%AD%E7%AD%89/CodeTop48/';
-          this.page.identifier = '/2022/09/22/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E4%B8%AD%E7%AD%89/CodeTop48/';
+          this.page.url = 'https://fanmeilin.github.io/2022/09/23/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E4%B8%AD%E7%AD%89/CodeTop19/';
+          this.page.identifier = '/2022/09/23/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/CodeTop/%E4%B8%AD%E7%AD%89/CodeTop19/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
